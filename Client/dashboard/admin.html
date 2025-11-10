@@ -3,40 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeliveryApp - Panel Administrativo</title>
+    <title>RapiRush - Panel Administrativo</title>
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="../assets/css/admin.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
 <body>
      <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-warning" href="index.html">
-                <h3>🚚 DeliveryApp           Administrador</h3>
-                
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.html">Inicio</a>
-                    </li>
-                    <div class="nav-menu"></div>
-                <div class="nav-user">
-                    <button onclick="logout()" class="btn btn-secondary btn-small">Cerrar Sesión</button>
-                </div>
-            </div>
-                    
-                    
-                </ul>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-warning" href="index.html">
+            <h4>🚚 RapiRush Administrador</h4>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAdmin">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNavAdmin">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Inicio</a>
+                </li>
+                <li class="nav-item ms-2">
+                    <button onclick="logout()" class="btn btn-secondary btn-sm">Cerrar Sesión</button>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
    
     <div class="admin-container">
@@ -337,8 +332,9 @@
         </div>
     </div>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/admin.js"></script>
+    <script src="../assets/js/session.js"></script>
     <script>
          // Cerrar sesión
         function logout() {
@@ -349,7 +345,6 @@
             }
         }
     </script>
-    <script src="../assets/js/session.js"></script>
     
 </body>
 </html>

@@ -206,7 +206,7 @@ function renderRestaurantCard(r, showPopular = false) {
 
   if (showPopular) {
     return `
-      <div class="popular-item">
+      <div class="popular-item my-2">
         <div class="card restaurant-card shadow-sm h-100">
           <img src="${img}" class="card-img-top" alt="${name}" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
           <div class="card-body">
@@ -230,7 +230,7 @@ function renderRestaurantCard(r, showPopular = false) {
   }
 
   return `
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-4 my-2">
       <div class="card restaurant-card shadow-sm h-100">
         <img src="${img}" class="card-img-top" alt="${name}" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
         <div class="card-body">

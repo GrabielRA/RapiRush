@@ -13,17 +13,42 @@ document.addEventListener('DOMContentLoaded', function () {
         updateUserDisplay();
     }
 
-    /*// Si no hay usuario logueado, redirigir al login
-    const currentPage = window.location.pathname.split('/').pop();
-    if (currentPage === 'admin.html' && (!currentUser || currentUser.role !== 'admin')) {
-        alert('Acceso denegado. Inicia sesión como administrador.');
-        window.location.href = '..\Client\auth\login.html';
-        return;
-    }*/
-
     // Inicializar panel
     initializeAdmin();
+    
+    // Inicializar navbar mobile
+    initializeMobileNavbar();
 });
+
+// ==========================
+// Inicialización del navbar móvil
+// ==========================
+function initializeMobileNavbar() {
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+    
+    if (navbarToggler && navbarCollapse) {
+        // Cerrar menú al hacer click en un enlace (solo en móviles)
+        if (window.innerWidth < 992) {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                        toggle: false
+                    });
+                    bsCollapse.hide();
+                });
+            });
+        }
+        
+        // Actualizar comportamiento en cambio de tamaño de ventana
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 992) {
+                navbarCollapse.classList.remove('show');
+            }
+        });
+    }
+}
 
 // ==========================
 // Inicialización del panel
@@ -46,11 +71,28 @@ function showSection(sectionName) {
     // Actualizar el botón activo del menú lateral
     document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelector(`[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
+    
+    // Cerrar menú móvil después de seleccionar (si está abierto)
+    if (window.innerWidth < 992) {
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+            const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                toggle: false
+            });
+            bsCollapse.hide();
+        }
+    }
 }
 
-
-
-
+// ==========================
+// Función de logout
+// ==========================
+function logout() {
+    if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+        localStorage.removeItem('currentUser');
+        window.location.href = '../Client/auth/login.html';
+    }
+}
 
 // ==========================
 // Gestión de pedidos
@@ -105,4 +147,13 @@ function showNotification(message, type = 'info') {
     notification.textContent = message;
     document.body.appendChild(notification);
     setTimeout(() => notification.remove(), 3000);
+}
+
+// ==========================
+// Actualizar display del usuario
+// ==========================
+function updateUserDisplay() {
+    if (currentUser) {
+        console.log('Usuario admin logueado:', currentUser.name);
+    }
 }

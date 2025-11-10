@@ -28,7 +28,7 @@
             </ul>
         </div>
         <a class="navbar-brand fw-bold text-warning px-3" href="../index.html">
-          <h3>🚚 RapiRush</h3>
+        <h3>🚚 RapiRush</h3>
         </a>
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -56,7 +56,7 @@
                         <li><a class="dropdown-item" href="#" id="btnLogout">Cerrar sesión</a></li>
                     </ul>
                 </li>
-                 <li class="nav-item ">
+                <li class="nav-item ">
                         <a class="nav-link position-relative" href="../carrito.html">
                             <i class="bi bi-cart3 fs-4"></i>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
@@ -172,12 +172,14 @@
 
                 <!-- Historial de pedidos -->
                 <div class="card shadow-sm">
-                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0 fw-bold">
-                            <i class="bi bi-clock-history text-primary"></i> Historial de pedidos
-                        </h5>
-                        <div class="btn-group mb-3" role="group">
-                            <button class="btn btn-outline-secondary active" onclick="filtrarHistorial('all')">Todos</button>
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center row ">
+                        <div class="col-12 mb-2">
+                            <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-clock-history text-primar "></i> Historial de pedidos
+                            </h5>
+                        </div>
+                        <div class="btn-group mb-2 col-12" role="group">
+                            <button class="btn btn-outline-secondary active  " onclick="filtrarHistorial('all')">Todos</button>
                             <button class="btn btn-outline-secondary" onclick="filtrarHistorial('delivered')">Entregados</button>
                             <button class="btn btn-outline-secondary" onclick="filtrarHistorial('cancelled')">Cancelados</button>
                         </div>
@@ -244,7 +246,7 @@
         <!-- Aquí el JS inyectará los detalles -->
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button class="btn btn-secondary col-md-4" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
