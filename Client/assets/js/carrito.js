@@ -1,7 +1,31 @@
 /**
  * carrito.js - Manejo del carrito de compras
- * DeliveryApp
+ * DeliveryApp - Versión optimizada con eventos y cupones
  */
+
+// Sistema de eventos global para el carrito
+window.CartEvents = {
+    listeners: [],
+    
+    onUpdate(callback) {
+        this.listeners.push(callback);
+    },
+    
+    emitUpdate() {
+        const count = window.cart ? window.cart.getTotalItems() : 0;
+        this.listeners.forEach(callback => {
+            try {
+                callback(count);
+            } catch (error) {
+                console.error('Error en listener del carrito:', error);
+            }
+        });
+    },
+    
+    removeListener(callback) {
+        this.listeners = this.listeners.filter(listener => listener !== callback);
+    }
+};
 
 // Clase para manejar el carrito
 class ShoppingCart {
@@ -15,22 +39,10 @@ class ShoppingCart {
     initializeEventListeners() {
         document.addEventListener('DOMContentLoaded', () => {
             this.updateCartCount();
-            this.renderCart();
-        });
-    }
-
-    // Renderizar carrito en la página (wrapper seguro para la función global loadCart)
-    renderCart() {
-        try {
-            // Si existe la función loadCart (definida en este archivo para la página del carrito), llámala.
             if (typeof loadCart === 'function') {
                 loadCart();
-                return true;
             }
-        } catch (error) {
-            console.error('Error al renderizar el carrito:', error);
-        }
-        return false;
+        });
     }
 
     // Cargar carrito desde localStorage
@@ -49,11 +61,30 @@ class ShoppingCart {
         try {
             localStorage.setItem(this.storageKey, JSON.stringify(this.items));
             this.updateCartCount();
-            this.renderCart();
+            if (typeof loadCart === 'function') {
+                loadCart();
+            }
             this.updateOrderSummaryDirect();
+            
+            // ✅ EMITIR EVENTO GLOBAL DE ACTUALIZACIÓN
+            window.CartEvents.emitUpdate();
+            
         } catch (error) {
             console.error('Error al guardar el carrito:', error);
         }
+    }
+
+    // Forzar actualización global
+    forceGlobalUpdate() {
+        this.updateCartCount();
+        window.CartEvents.emitUpdate();
+    }
+
+    // Limpiar cupón después del pedido
+    clearPromoCode() {
+        localStorage.removeItem('promoCode');
+        this.updateOrderSummaryDirect();
+        console.log('✅ Cupón limpiado después del pedido');
     }
 
     // Agregar item al carrito
@@ -74,17 +105,12 @@ class ShoppingCart {
                 quantity: product.quantity || 1,
                 image: product.image || 'https://via.placeholder.com/100',
                 restaurant: typeof product.restaurant === 'string' ? product.restaurant : '',
-
                 notes: product.notes || ''
             });
         }
 
         this.saveCart();
-        this.updateCartCount();
-        // Si estamos en la página del carrito, actualizar la vista
-        if (document.getElementById('cart-items-container')) {
-            loadCart();
-        }
+        CartUtils.showToast('Producto agregado al carrito');
         return true;
     }
 
@@ -98,22 +124,7 @@ class ShoppingCart {
                 this.removeItem(index);
             } else {
                 item.quantity = newQuantity;
-                // Actualizar cantidad en la interfaz inmediatamente
-                const quantityElement = document.querySelector(`[data-index="${index}"] .quantity-control .fw-bold`);
-                if (quantityElement) {
-                    quantityElement.textContent = newQuantity;
-                    CartUtils.animateElement(quantityElement, 'animate-bounce');
-                }
-                // Actualizar subtotal inmediatamente
-                const subtotalElement = document.querySelector(`[data-index="${index}"] .text-primary`);
-                if (subtotalElement) {
-                    subtotalElement.textContent = CartUtils.formatPrice(item.price * newQuantity);
-                    CartUtils.animateElement(subtotalElement, 'animate-pulse');
-                }
-                
-                // Actualizar resumen inmediatamente
                 this.updateOrderSummaryDirect();
-                
                 this.saveCart();
             }
         }
@@ -122,32 +133,22 @@ class ShoppingCart {
     // Remover item del carrito
     removeItem(index) {
         if (index >= 0 && index < this.items.length) {
-            const itemElement = document.querySelector(`[data-index="${index}"]`);
-            if (itemElement) {
-                // Animación de desvanecimiento
-                itemElement.style.transition = 'all 0.3s ease';
-                itemElement.style.transform = 'translateX(100%)';
-                itemElement.style.opacity = '0';
-
-                setTimeout(() => {
-                    this.items.splice(index, 1);
-                    // Actualizar resumen inmediatamente
-                    this.updateOrderSummaryDirect();
-                    this.saveCart();
-                }, 300);
-            } else {
-                this.items.splice(index, 1);
-                // Actualizar resumen inmediatamente
-                this.updateOrderSummaryDirect();
-                this.saveCart();
-            }
+            this.items.splice(index, 1);
+            this.updateOrderSummaryDirect();
+            this.saveCart();
+            CartUtils.showToast('Producto eliminado', 'info');
         }
     }
 
     // Limpiar todo el carrito
     clearCart() {
         this.items = [];
-        this.saveCart();
+        localStorage.removeItem(this.storageKey);
+        this.updateCartCount();
+        if (typeof loadCart === 'function') {
+            loadCart();
+        }
+        window.CartEvents.emitUpdate();
     }
 
     // Obtener total de items
@@ -164,13 +165,22 @@ class ShoppingCart {
     getDeliveryFee() {
         const subtotal = this.getSubtotal();
         if (subtotal === 0) return 0;
-        if (subtotal >= 50) return 0; // Delivery gratis para pedidos mayores a S/.50
+        if (subtotal >= 50) return 0;
         return 5.00;
     }
 
     // Obtener descuento
     getDiscount() {
-        // Aquí puedes implementar lógica de descuentos
+        const promo = this.getActivePromo();
+        if (!promo) return 0;
+        
+        if (promo.type === 'percentage') {
+            return (this.getSubtotal() * promo.value) / 100;
+        } else if (promo.type === 'fixed') {
+            return promo.value;
+        } else if (promo.type === 'delivery') {
+            return this.getDeliveryFee();
+        }
         return 0;
     }
 
@@ -182,19 +192,16 @@ class ShoppingCart {
     // Actualizar contador en navbar
     updateCartCount() {
         const countElements = document.querySelectorAll('#cart-count, .cart-count');
-        const count = this.items.reduce((total, item) => total + item.quantity, 0);
+        const count = this.getTotalItems();
         
         countElements.forEach(element => {
             if (element) {
-                if (element.textContent !== String(count)) {
-                    element.textContent = count;
-                    CartUtils.animateElement(element, 'animate-bounce');
-                }
+                element.textContent = count;
             }
         });
     }
 
-    // Actualizar resumen del pedido directo (sin esperar saveCart)
+    // Actualizar resumen del pedido directo
     updateOrderSummaryDirect() {
         const elements = {
             subtotal: document.getElementById('subtotal'),
@@ -205,29 +212,16 @@ class ShoppingCart {
 
         if (!elements.subtotal) return;
 
-        const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const deliveryFee = subtotal > 50 ? 0 : 5.00; // Delivery gratis para pedidos mayores a S/50
-        const discount = this.getActivePromo()?.value || 0;
+        const subtotal = this.getSubtotal();
+        const deliveryFee = this.getDeliveryFee();
+        const discount = this.getDiscount();
         const total = subtotal + deliveryFee - discount;
 
-        // Animar y actualizar cambios en los precios inmediatamente
-        Object.entries({ 
-            subtotal: subtotal,
-            'delivery-fee': deliveryFee,
-            discount: discount,
-            total: total
-        }).forEach(([id, value]) => {
-            const element = document.getElementById(id);
-            if (element) {
-                const currentPrice = parseFloat(element.textContent.replace('S/. ', '')) || 0;
-                if (currentPrice !== value) {
-                    CartUtils.animateElement(element, 'animate-pulse');
-                    element.textContent = CartUtils.formatPrice(value);
-                }
-            }
-        });
+        if (elements.subtotal) elements.subtotal.textContent = CartUtils.formatPrice(subtotal);
+        if (elements.deliveryFee) elements.deliveryFee.textContent = CartUtils.formatPrice(deliveryFee);
+        if (elements.discount) elements.discount.textContent = `- ${CartUtils.formatPrice(discount)}`;
+        if (elements.total) elements.total.textContent = CartUtils.formatPrice(total);
 
-        // Si el carrito está vacío, mostrar mensaje de carrito vacío
         const emptyMessage = document.getElementById('empty-cart-message');
         const orderSummary = document.getElementById('order-summary');
         const continueShopping = document.getElementById('continue-shopping');
@@ -264,8 +258,12 @@ class ShoppingCart {
         const promo = validCodes[code.toUpperCase()];
         
         if (promo) {
-            // Guardar código promocional
-            localStorage.setItem('promoCode', JSON.stringify(promo));
+            localStorage.setItem('promoCode', JSON.stringify({
+                ...promo,
+                code: code.toUpperCase(),
+                appliedAt: new Date().toISOString()
+            }));
+            this.updateOrderSummaryDirect();
             return { success: true, promo };
         }
 
@@ -276,8 +274,22 @@ class ShoppingCart {
     getActivePromo() {
         try {
             const promo = localStorage.getItem('promoCode');
-            return promo ? JSON.parse(promo) : null;
+            if (!promo) return null;
+            
+            const promoData = JSON.parse(promo);
+            // Verificar si el cupón expiró (24 horas)
+            const appliedAt = new Date(promoData.appliedAt);
+            const now = new Date();
+            const hoursDiff = (now - appliedAt) / (1000 * 60 * 60);
+            
+            if (hoursDiff > 24) {
+                this.clearPromoCode();
+                return null;
+            }
+            
+            return promoData;
         } catch {
+            this.clearPromoCode();
             return null;
         }
     }
@@ -285,6 +297,7 @@ class ShoppingCart {
     // Remover código promocional
     removePromo() {
         localStorage.removeItem('promoCode');
+        this.updateOrderSummaryDirect();
     }
 }
 
@@ -292,7 +305,6 @@ class ShoppingCart {
 const CartUtils = {
     // Mostrar notificación toast
     showToast(message, type = 'success') {
-        // Crear toast si no existe
         let toastContainer = document.getElementById('toast-container');
         if (!toastContainer) {
             toastContainer = document.createElement('div');
@@ -306,16 +318,11 @@ const CartUtils = {
         const bgColor = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-info';
         const icon = type === 'success' ? 'check-circle-fill' : type === 'error' ? 'x-circle-fill' : 'info-circle-fill';
 
-        // Agregar badge de carrito al mensaje si es una operación de carrito
-        const cartBadge = `<span class="badge bg-light text-dark ms-2" id="toast-cart-count"></span>`;
-        const cartIcon = type === 'success' ? '<i class="bi bi-cart-plus-fill me-2"></i>' : '';
-
         const toastHTML = `
             <div id="${toastId}" class="toast" role="alert">
                 <div class="toast-header ${bgColor} text-white">
-                    ${cartIcon}<i class="bi bi-${icon} me-2"></i>
+                    <i class="bi bi-${icon} me-2"></i>
                     <strong class="me-auto">${type === 'success' ? '¡Éxito!' : type === 'error' ? 'Error' : 'Información'}</strong>
-                    ${type === 'success' ? cartBadge : ''}
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
                 </div>
                 <div class="toast-body">
@@ -330,7 +337,6 @@ const CartUtils = {
         const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
         toast.show();
 
-        // Remover del DOM después de ocultarse
         toastElement.addEventListener('hidden.bss.toast', () => {
             toastElement.remove();
         });
@@ -346,111 +352,136 @@ const CartUtils = {
     // Formatear precio
     formatPrice(price) {
         return `S/. ${parseFloat(price).toFixed(2)}`;
-    },
-
-    // Animar elemento
-    animateElement(element, animationClass) {
-        element.classList.add(animationClass);
-        setTimeout(() => {
-            element.classList.remove(animationClass);
-        }, 500);
     }
 };
 
-// Inicializar carrito global
-let cart = new ShoppingCart();
+// Inicializar carrito global y hacerlo disponible
+window.cart = new ShoppingCart();
 
-// Función global para agregar al carrito (compatible con onclick en HTML)
+// Función para verificar si el usuario está logueado
+function checkUserAuth() {
+    try {
+        const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || 'null');
+        return user && user.loggedIn === true;
+    } catch (error) {
+        return false;
+    }
+}
+
+// Función para mostrar modal de autenticación
+function showAuthModal() {
+    const modalHTML = `
+        <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="authModalLabel">Inicia sesión para continuar</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <i class="bi bi-person-check display-4 text-primary mb-3"></i>
+                        <p>Para realizar tu pedido necesitas tener una cuenta.</p>
+                        <p class="text-muted small">¿No tienes cuenta? El registro es rápido y fácil.</p>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <a href="auth/login.html" class="btn btn-primary me-2">
+                            <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                        </a>
+                        <a href="auth/register.html" class="btn btn-outline-primary">
+                            <i class="bi bi-person-plus"></i> Crear Cuenta
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const existingModal = document.getElementById('authModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    const authModal = new bootstrap.Modal(document.getElementById('authModal'));
+    authModal.show();
+
+    document.getElementById('authModal').addEventListener('hidden.bs.modal', function () {
+        this.remove();
+    });
+}
+
+// Función global para agregar al carrito
 function addToCart(name, price, image, restaurant = 'Restaurante') {
-    cart.addItem({
+    window.cart.addItem({
         name: name,
         price: price,
         image: image,
         restaurant: restaurant,
         quantity: 1
     });
-    CartUtils.showToast('Producto agregado al carrito');
 }
 
 // Función global para actualizar cantidad
 function updateQuantity(index, change) {
-    cart.updateQuantity(index, change);
-    
-    // Si estamos en la página del carrito, recargar vista
-    if (typeof loadCart === 'function') {
-        loadCart();
-    }
+    window.cart.updateQuantity(index, change);
 }
 
 // Función global para remover item
 function removeItem(index) {
     CartUtils.confirm('¿Estás seguro de eliminar este producto?', () => {
-        cart.removeItem(index);
-        CartUtils.showToast('Producto eliminado', 'info');
-        // No recargamos la vista aquí: el método removeItem de la clase llama a saveCart()
-        // que a su vez llama a renderCart() después de actualizar items (respeta la animación).
+        window.cart.removeItem(index);
     });
 }
 
-// Actualizar contador al cargar cualquier página
-document.addEventListener('DOMContentLoaded', () => {
-    cart.updateCartCount();
-});
+// Función para proceder al checkout
+function proceedToCheckout() {
+    if (window.cart.isEmpty()) {
+        CartUtils.showToast('Tu carrito está vacío', 'error');
+        return;
+    }
 
-// Exportar para uso en otros scripts
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { ShoppingCart, CartUtils };
+    if (!checkUserAuth()) {
+        CartUtils.showToast('Debes iniciar sesión para continuar con el pago', 'info');
+        
+        const currentUrl = window.location.href;
+        const loginUrl = `auth/login.html?fromCart=true&return=${encodeURIComponent(currentUrl)}`;
+        
+        window.location.href = loginUrl;
+        return;
+    }
+
+    window.location.href = 'checkout.html';
 }
 
-
-
-// Función para cargar y mostrar items del carrito en la página de carrito
+// Función para cargar y mostrar items del carrito
 function loadCart() {
     const cartItemsContainer = document.getElementById('cart-items-container');
-    const emptyMessage = document.getElementById('empty-cart-message');
-    const orderSummary = document.getElementById('order-summary');
-    const continueShopping = document.getElementById('continue-shopping');
-
-    // Si no estamos en la página del carrito, salir
     if (!cartItemsContainer) return;
 
-    const items = cart.getItems();
+    const items = window.cart.getItems();
 
-        // Si no hay items, reconstruir el contenido del contenedor con el mensaje de carrito vacío
-        if (items.length === 0) {
-            cartItemsContainer.innerHTML = `
-                <div class="text-center py-5" id="empty-cart-message">
-                    <i class="bi bi-cart-x display-1 text-muted"></i>
-                    <h4 class="mt-3">Tu carrito está vacío</h4>
-                    <p class="text-muted">Agrega productos de tus restaurantes favoritos</p>
-                    <a href="index.html" class="btn btn-primary mt-3">
-                        <i class="bi bi-shop"></i> Explorar restaurantes
-                    </a>
-                </div>
-            `;
+    if (items.length === 0) {
+        cartItemsContainer.innerHTML = `
+            <div class="text-center py-5" id="empty-cart-message">
+                <i class="bi bi-cart-x display-1 text-muted"></i>
+                <h4 class="mt-3">Tu carrito está vacío</h4>
+                <p class="text-muted">Agrega productos de tus restaurantes favoritos</p>
+                <a href="restaurantes.html" class="btn btn-primary mt-3">
+                    <i class="bi bi-shop"></i> Explorar restaurantes
+                </a>
+            </div>
+        `;
+        return;
+    }
 
-            if (orderSummary) orderSummary.style.display = 'none';
-            if (continueShopping) continueShopping.style.display = 'none';
-
-            // Actualizar resumen y contador aunque el carrito esté vacío
-            cart.updateCartCount();
-            cart.updateOrderSummaryDirect();
-
-            return;
-        }
-
-    if (emptyMessage) emptyMessage.style.display = 'none';
-    if (orderSummary) orderSummary.style.display = 'block';
-    if (continueShopping) continueShopping.style.display = 'block';
-
-    // Generar HTML de items
     let itemsHTML = '';
     items.forEach((item, index) => {
         itemsHTML += `
             <div class="cart-item" data-index="${index}">
                 <div class="row align-items-center">
                     <div class="col-md-2">
-                        <img src="${item.image || 'https://via.placeholder.com/100'}" 
+                        <img src="${item.image || 'https://tse2.mm.bing.net/th/id/OIP.bOHXXwMeoH4f0ur86eCL3AHaEK?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3'}" 
                              class="img-fluid rounded" alt="${item.name}">
                     </div>
                     <div class="col-md-4">
@@ -485,7 +516,7 @@ function loadCart() {
     });
 
     cartItemsContainer.innerHTML = itemsHTML;
-    cart.updateOrderSummaryDirect();
+    window.cart.updateOrderSummaryDirect();
 }
 
 // Función para aplicar código promocional
@@ -495,13 +526,13 @@ function applyPromoCode() {
     
     if (!promoCode) return;
 
-    const result = cart.applyPromoCode(promoCode);
+    const result = window.cart.applyPromoCode(promoCode);
     
     if (result.success) {
         promoMessage.textContent = `¡Código aplicado! ${result.promo.description}`;
         promoMessage.className = 'text-success';
         CartUtils.showToast('Código promocional aplicado correctamente', 'success');
-        cart.updateOrderSummaryDirect();
+        window.cart.updateOrderSummaryDirect();
     } else {
         promoMessage.textContent = result.message;
         promoMessage.className = 'text-danger';
@@ -510,17 +541,10 @@ function applyPromoCode() {
     promoMessage.style.display = 'block';
 }
 
-// Función para proceder al checkout
-function proceedToCheckout() {
-    if (cart.isEmpty()) {
-        CartUtils.showToast('Tu carrito está vacío', 'error');
-        return;
-    }
-    window.location.href = 'checkout.html';
-}
-
 // Cargar carrito al iniciar
 document.addEventListener('DOMContentLoaded', () => {
-    loadCart();
-    cart.updateCartCount();
+    if (typeof loadCart === 'function') {
+        loadCart();
+    }
+    window.cart.updateCartCount();
 });

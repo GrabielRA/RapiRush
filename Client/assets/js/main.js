@@ -1,16 +1,17 @@
-// assets/js/main.js
+// assets/js/main.js - VERSIÓN OPTIMIZADA
 
-// Actualizar contador del carrito
-function updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  const count = cart.reduce((total, item) => total + (item.quantity || 0), 0);
-  const cartBadge = document.getElementById('cart-count');
-  if (cartBadge) cartBadge.textContent = count;
+if (!window.AuthSystem) {
+    console.warn('AuthSystem no está disponible');
 }
+// ❌ ELIMINADO: función updateCartCount() duplicada
+// ✅ AHORA usa window.cart.updateCartCount()
 
 // Inicialización cuando carga el DOM
 document.addEventListener('DOMContentLoaded', () => {
-  updateCartCount();
+  // ✅ USAR window.cart en lugar de función duplicada
+  if (window.cart && typeof window.cart.updateCartCount === 'function') {
+    window.cart.updateCartCount();
+  }
 
   // Solo ejecutar el código de detalle si estamos en la página de restaurante
   const categoriesContainer = document.getElementById('categories-container');
@@ -231,67 +232,44 @@ function updateModalTotal() {
 
 // --- Agregar al carrito ---
 function addFromModal() {
-  if (!currentProduct) return;
+    if (!currentProduct) return;
 
-  const notes = document.getElementById('product-notes').value.trim();
-  const sizeRadio = document.querySelector('input[name="size"]:checked');
-  const sizeLabel = sizeRadio ? sizeRadio.nextElementSibling.textContent.split(' - ')[0].trim() : 'Personal';
-  const total = currentProduct.basePrice * currentQty;
+    const notes = document.getElementById('product-notes').value.trim();
+    const sizeRadio = document.querySelector('input[name="size"]:checked');
+    const sizeLabel = sizeRadio ? sizeRadio.nextElementSibling.textContent.split(' - ')[0].trim() : 'Personal';
+    const total = currentProduct.basePrice * currentQty;
 
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    // ✅ USAR window.cart EN LUGAR DE localStorage DIRECTO
+    if (window.cart && typeof window.cart.addItem === 'function') {
+        window.cart.addItem({
+            name: currentProduct.name,
+            price: currentProduct.basePrice,
+            size: sizeLabel,
+            quantity: currentQty,
+            total: total,
+            notes: notes,
+            image: currentProduct.image,
+            restaurant: currentProduct.restaurant || 'Restaurante'
+        });
+    } else {
+        console.error('carrito.js no está cargado correctamente');
+        // ❌ ELIMINADO: alert molesto
+        return;
+    }
 
-  // Crear nuevo producto con opciones
-  const item = {
-    name: currentProduct.name,
-    price: currentProduct.basePrice,
-    size: sizeLabel,
-    quantity: currentQty,
-    total: total,
-    notes: notes,
-    image: currentProduct.image,
-    restaurant: currentProduct.restaurant || 'Restaurante'
-  };
+    // ✅ USAR CartUtils.showToast EN LUGAR DE CÓDIGO DUPLICADO
+    if (window.CartUtils && typeof window.CartUtils.showToast === 'function') {
+        window.CartUtils.showToast('Producto agregado al carrito');
+    } else {
+        // ❌ ELIMINADO: alert de fallback
+        // Solo mostrar en consola
+        console.log('Producto agregado al carrito');
+    }
 
-  cart.push(item);
-  localStorage.setItem('cart', JSON.stringify(cart));
-
-  updateCartCount();
-
-  // Crear y mostrar notificación toast
-  const toastContainer = document.getElementById('toast-container');
-  if (!toastContainer) {
-    const container = document.createElement('div');
-    container.id = 'toast-container';
-    container.className = 'position-fixed bottom-0 end-0 p-3';
-    container.style.zIndex = '1070';
-    document.body.appendChild(container);
-  }
-
-  const toastElement = document.createElement('div');
-  toastElement.className = 'toast align-items-center bg-success text-white border-0';
-  toastElement.setAttribute('role', 'alert');
-  toastElement.setAttribute('aria-live', 'assertive');
-  toastElement.setAttribute('aria-atomic', 'true');
-  toastElement.innerHTML = `
-    <div class="d-flex">
-      <div class="toast-body">
-        <i class="bi bi-check-circle me-2"></i>
-        Producto agregado al carrito
-      </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-    </div>
-  `;
-
-  document.getElementById('toast-container').appendChild(toastElement);
-  const toast = new bootstrap.Toast(toastElement, { delay: 2000 });
-  toast.show();
-
-  // Cerrar modal
-  const modalEl = document.getElementById('productModal');
-  if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide();
+    // Cerrar modal
+    const modalEl = document.getElementById('productModal');
+    if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide();
 }
-
-
 
 // Utilidad para escapar strings antes de inyectarlos en onclick (evita comillas sin escapar)
 function escapeForOnclick(str) {
@@ -305,14 +283,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnLogout = document.getElementById("btnLogout");
   if (btnLogout) {
     btnLogout.addEventListener("click", () => {
-      // Limpiar datos del usuario y carrito
+      // Limpiar datos del usuario
       localStorage.removeItem("usuarioActivo");
       localStorage.removeItem("pedidosCliente");
-      localStorage.removeItem("cart");
+      
+      // ✅ USAR window.cart.clearCart() EN LUGAR DE localStorage DIRECTO
+      if (window.cart && typeof window.cart.clearCart === 'function') {
+        window.cart.clearCart();
+      } else {
+        localStorage.removeItem("cart");
+      }
 
       // Redirigir a la página de inicio o login
       window.location.href = "index.html";
     });
   }
 });
-

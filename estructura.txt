@@ -24,6 +24,9 @@ deliveryApp/
 │       │   └── styles.css                # Estilos principales (Bootstrap + personalizados)
 │       ├── js/
 │       │   ├── admin.js                 # 
+│       │   ├── admin.js                 # LOGIVA DE autenticacion
+│       │   ├── login.js                 # LOGICA DE LOGIN
+│       │   ├── register.js                 # LOGICA DE REGISTRO
 │       │   ├── carrito.js                # Manejo del carrito (add/remove/update)
 │       │   ├── checkout.js               # Lógica del proceso de compra/pago
 │       │   ├── cliente.js                  # Lógica del cliente.html
