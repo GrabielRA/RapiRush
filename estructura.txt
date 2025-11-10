@@ -1,4 +1,4 @@
-deliveryApp/
+RapiRush/
 │
 ├── client/                               # Frontend (HTML, CSS, JS)
 │   ├── index.html                        # Página principal (inicio / catálogo)

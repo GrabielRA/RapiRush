@@ -1,6 +1,6 @@
 /**
  * carrito.js - Manejo del carrito de compras
- * DeliveryApp - Versión optimizada con eventos y cupones
+ * RapiRush - Versión optimizada con eventos y cupones
  */
 
 // Sistema de eventos global para el carrito

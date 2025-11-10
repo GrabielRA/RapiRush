@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS deliveryapp;
-USE deliveryapp;
+CREATE DATABASE IF NOT EXISTS RapiRush;
+USE RapiRush;
 
 -- Tabla de Usuarios (todos los tipos de usuarios)
 CREATE TABLE users (

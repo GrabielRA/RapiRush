@@ -2,7 +2,7 @@
 class AuthSystem {
     constructor() {
         this.currentUser = null;
-        this.users = JSON.parse(localStorage.getItem('deliveryAppUsers')) || [];
+        this.users = JSON.parse(localStorage.getItem('RapiRushUsers')) || [];
         this.testAccounts = this.initializeTestAccounts();
         this.init();
     }
@@ -116,7 +116,7 @@ class AuthSystem {
 
             // Guardar en sistema de usuarios
             this.users.push(newUser);
-            localStorage.setItem('deliveryAppUsers', JSON.stringify(this.users));
+            localStorage.setItem('RapiRushUsers', JSON.stringify(this.users));
 
             // Guardar sesión (compatible con tu sistema actual)
             this.currentUser = newUser;
@@ -302,7 +302,7 @@ showLogoutToast() {
         const userIndex = this.users.findIndex(user => user.id === userId);
         if (userIndex !== -1) {
             this.users[userIndex] = { ...this.users[userIndex], ...updates };
-            localStorage.setItem('deliveryAppUsers', JSON.stringify(this.users));
+            localStorage.setItem('RapiRushUsers', JSON.stringify(this.users));
             
             // Si es el usuario actual, actualizar también
             if (this.currentUser && this.currentUser.id === userId) {

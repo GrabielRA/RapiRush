@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',  // Reemplaza con tu usuario de MySQL si es diferente
   password: 'G5791',  // Reemplaza con tu contraseña de MySQL
-  database: 'deliveryapp'
+  database: 'RapiRush'
 });
 
 // Probar la conexión

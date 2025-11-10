@@ -1,4 +1,4 @@
-USE deliveryapp;
+USE RapiRush;
 
 -- Insertar zonas de delivery
 INSERT INTO delivery_zones (name, description) VALUES

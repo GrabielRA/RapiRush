@@ -3,7 +3,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'G5791',
-    database: 'deliveryapp'
+    database: 'RapiRush'
 });
 
 // Función para mostrar todas las órdenes con detalles

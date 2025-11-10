@@ -1,5 +1,5 @@
 // ==========================
-// DeliveryApp Admin Script
+// RapiRush Admin Script
 // ==========================
 
 // Variables globales
