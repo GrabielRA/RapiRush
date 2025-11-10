@@ -6,51 +6,69 @@
     <title>Mi Cuenta - DeliveryApp</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body class="bg-light">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-warning" href="index.html">
-                <h3>🚚 DeliveryApp</h3>
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.html">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../restaurantes.html">Restaurantes</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle fs-5"></i>
-                            <span id="userName">Usuario</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item active" href="cliente.html">Mi cuenta</a></li>
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Editar perfil</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" onclick="logout()">Cerrar sesión</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link position-relative" href="../carrito.html">
-                            <i class="bi bi-cart3 fs-5"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
-                                0
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <div class="nav-item dropdown ms-start me-auto m-3">
+            <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown">☰</a>
+            <ul class="dropdown-menu" style="min-width: 260px;">
+                <li class="dropdown-item px-3">
+                    <div class="d-flex justify-content-start gap-2 ">
+                        <a href="../auth/register.html" class="btn btn-outline-primary btn-sm">Registrarse</a>
+                        <a href="../auth/login.html" class="btn btn-outline-primary btn-sm">Iniciar Sesion</a>
+                    </div>
+                </li>
+                <li><a class="dropdown-item" href="../restaurantes.html"><i class="bi bi-shop-window"></i> Restaurantes</a></li>
+                <li><a class="dropdown-item" href="../agregarestaurante.html"><i class="bi bi-shop-window"></i> Registra tu restaurante</a></li>
+                <li><a class="dropdown-item" href="../serepartidor.html"><i class="bi bi-bicycle"></i> Sé repartidor</a></li>
+            </ul>
         </div>
-    </nav>
+        <a class="navbar-brand fw-bold text-warning px-3" href="../index.html">
+          <h3>🚚 DeliveryApp</h3>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Inicio</a>
+                </li>
+                <li class="nav-item px-2">
+                    <a class="nav-link" href="../restaurantes.html">Restaurantes</a>
+                </li>
+                <li class="nav-item dropdown px-2">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle fs-5"></i>
+                        <span id="userName">Usuario</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item active" href="cliente.html">Mi cuenta</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Editar perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <!-- Cambiado el enlace para logout -->
+                        <li><a class="dropdown-item" href="#" id="btnLogout">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+                 <li class="nav-item ">
+                        <a class="nav-link position-relative" href="../carrito.html">
+                            <i class="bi bi-cart3 fs-4"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
 
     <!-- Contenido Principal -->
     <div class="container my-5">
@@ -69,7 +87,7 @@
                 </div>
 
                 <div class="list-group mt-3">
-                    <a href="orden.html" class="list-group-item list-group-item-action active">
+                    <a href="#pedidos" class="list-group-item list-group-item-action active">
                         <i class="bi bi-bag-check"></i> Mis pedidos
                     </a>
                     <a href="#favorites" class="list-group-item list-group-item-action">
@@ -97,7 +115,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="text-muted mb-1 small">Total pedidos</p>
-                                        <h3 class="fw-bold mb-0">24</h3>
+                                            <h3 class="fw-bold mb-0"><span id="totalOrdersCount">0</span></h3>
                                     </div>
                                     <div class="bg-primary bg-opacity-10 rounded-circle p-3">
                                         <i class="bi bi-bag-check fs-3 text-primary"></i>
@@ -112,7 +130,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="text-muted mb-1 small">Gastado este mes</p>
-                                        <h3 class="fw-bold mb-0">S/. 345</h3>
+                                        <h3 class="fw-bold mb-0">S/. <span id="spentThisMonth">0.00</span></h3>
                                     </div>
                                     <div class="bg-success bg-opacity-10 rounded-circle p-3">
                                         <i class="bi bi-wallet2 fs-3 text-success"></i>
@@ -127,7 +145,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="text-muted mb-1 small">Puntos</p>
-                                        <h3 class="fw-bold mb-0">1,240</h3>
+                                        <h3 class="fw-bold mb-0"><span id="userPoints">0</span></h3>
                                     </div>
                                     <div class="bg-warning bg-opacity-10 rounded-circle p-3">
                                         <i class="bi bi-star fs-3 text-warning"></i>
@@ -146,44 +164,9 @@
                         </h5>
                     </div>
                     <div class="card-body" id="activeOrders">
-                        <!-- Pedido activo -->
-                        <div class="order-card card mb-3">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <h6 class="fw-bold mb-1">Pedido #125847</h6>
-                                        <p class="text-muted small mb-0">
-                                            <i class="bi bi-shop"></i> La Pizzería Italiana
-                                        </p>
-                                    </div>
-                                    <span class="order-status status-delivering">En camino</span>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <small class="text-muted d-block">2x Pizza Margarita</small>
-                                    <small class="text-muted d-block">1x Bebida 1.5L</small>
-                                </div>
-
-                                <div class="progress mb-2" style="height: 6px;">
-                                    <div class="progress-bar bg-success" role="progressbar" 
-                                         style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <small class="text-muted">
-                                            <i class="bi bi-clock"></i> Llegará en 10-15 min
-                                        </small>
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="bi bi-geo-alt"></i> Rastrear
-                                        </button>
-                                        <button class="btn btn-sm btn-primary">Ver detalles</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="pedidosActivosList" class="list-group mt-3">
+                                    <!-- JS insertará aquí los pedidos activos -->
+                        </div>                     
                     </div>
                 </div>
 
@@ -193,116 +176,17 @@
                         <h5 class="mb-0 fw-bold">
                             <i class="bi bi-clock-history text-primary"></i> Historial de pedidos
                         </h5>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-secondary active">Todos</button>
-                            <button class="btn btn-outline-secondary">Completados</button>
-                            <button class="btn btn-outline-secondary">Cancelados</button>
+                        <div class="btn-group mb-3" role="group">
+                            <button class="btn btn-outline-secondary active" onclick="filtrarHistorial('all')">Todos</button>
+                            <button class="btn btn-outline-secondary" onclick="filtrarHistorial('delivered')">Entregados</button>
+                            <button class="btn btn-outline-secondary" onclick="filtrarHistorial('cancelled')">Cancelados</button>
                         </div>
                     </div>
                     <div class="card-body" id="orderHistory">
-                        <!-- Pedido completado -->
-                        <div class="order-card card mb-3">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <h6 class="fw-bold mb-1">Pedido #125846</h6>
-                                                <p class="text-muted small mb-1">
-                                                    <i class="bi bi-shop"></i> Burger House
-                                                </p>
-                                                <small class="text-muted">
-                                                    <i class="bi bi-calendar"></i> 28 Oct 2024, 20:30
-                                                </small>
-                                            </div>
-                                            <span class="order-status status-completed">Completado</span>
-                                        </div>
-                                        <div class="mt-2">
-                                            <small class="text-muted d-block">1x Hamburguesa Premium</small>
-                                            <small class="text-muted d-block">1x Papas fritas grandes</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                        <p class="fw-bold text-primary mb-2">S/. 45.00</p>
-                                        <button class="btn btn-sm btn-outline-primary me-1">
-                                            <i class="bi bi-arrow-clockwise"></i> Repetir
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            <i class="bi bi-star"></i> Calificar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                        <div id="historialPedidosList" class="list-group mt-3">
+                                        <!-- JS insertará aquí el historial -->
                         </div>
 
-                        <!-- Más pedidos -->
-                        <div class="order-card card mb-3">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <h6 class="fw-bold mb-1">Pedido #125845</h6>
-                                                <p class="text-muted small mb-1">
-                                                    <i class="bi bi-shop"></i> Sushi Master
-                                                </p>
-                                                <small class="text-muted">
-                                                    <i class="bi bi-calendar"></i> 27 Oct 2024, 19:15
-                                                </small>
-                                            </div>
-                                            <span class="order-status status-completed">Completado</span>
-                                        </div>
-                                        <div class="mt-2">
-                                            <small class="text-muted d-block">20x Roll California</small>
-                                            <small class="text-muted d-block">10x Roll Philadelphia</small>
-                                            <small class="text-muted d-block">2x Bebidas</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                        <p class="fw-bold text-primary mb-2">S/. 89.00</p>
-                                        <button class="btn btn-sm btn-outline-primary me-1">
-                                            <i class="bi bi-arrow-clockwise"></i> Repetir
-                                        </button>
-                                        <button class="btn btn-sm btn-success" disabled>
-                                            <i class="bi bi-star-fill"></i> 5.0
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="order-card card mb-3">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <h6 class="fw-bold mb-1">Pedido #125844</h6>
-                                                <p class="text-muted small mb-1">
-                                                    <i class="bi bi-shop"></i> Taco Loco
-                                                </p>
-                                                <small class="text-muted">
-                                                    <i class="bi bi-calendar"></i> 26 Oct 2024, 21:00
-                                                </small>
-                                            </div>
-                                            <span class="order-status status-cancelled">Cancelado</span>
-                                        </div>
-                                        <div class="mt-2">
-                                            <small class="text-muted d-block">3x Tacos al pastor</small>
-                                            <small class="text-danger d-block">
-                                                <i class="bi bi-info-circle"></i> Cancelado por el restaurante
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                        <p class="fw-bold text-muted mb-2">S/. 25.00</p>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            Ver detalles
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- Ver más -->
                         <div class="text-center mt-3">
@@ -325,65 +209,360 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="profileForm">
                         <div class="mb-3">
                             <label class="form-label">Nombre completo</label>
-                            <input type="text" class="form-control" value="Juan Pérez">
+                            <input type="text" id="profileFullName" class="form-control" value="">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="email" class="form-control" value="juan@email.com">
+                            <input type="email" id="profileEmail" class="form-control" value="" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Teléfono</label>
-                            <input type="tel" class="form-control" value="+51 999 999 999">
+                            <input type="tel" id="profilePhone" class="form-control" value="">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar cambios</button>
+                    <button type="button" id="btnSaveProfile" class="btn btn-primary">Guardar cambios</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modal DETALLES -->
+<div class="modal fade" id="detallePedidoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-warning text-white">
+        <h5 class="modal-title">Detalle del Pedido</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="detallePedidoBody">
+        <!-- Aquí el JS inyectará los detalles -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal RASTREO -->
+<div class="modal fade" id="rastrearPedidoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Rastreo del Pedido</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="rastrearPedidoBody">
+        <!-- JS insertará el timeline aquí -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/cliente.js"></script>
+    <script src="../assets/js/session.js"></script>
     <script>
-        // Cargar información del usuario
-        function loadUserInfo() {
-            const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || 'null');
-            
-            if (!user || !user.loggedIn) {
+        // Código para cargar perfil real y pedidos del usuario
+        document.addEventListener('DOMContentLoaded', function(){
+            // cargar user
+            const user = window.Session && window.Session.getUser ? window.Session.getUser() : null;
+            if(!user || !user.loggedIn){
+                // si no está logueado, redirigir al login
                 window.location.href = '../auth/login.html';
                 return;
             }
 
-            // Mostrar nombre del usuario
-            document.getElementById('userName').textContent = user.name || 'Usuario';
-            document.getElementById('userNameSidebar').textContent = user.name || 'Usuario';
-            document.getElementById('userEmail').textContent = user.email || 'usuario@email.com';
-        }
+            // Llenar UI con datos reales
+            const name = user.name || '';
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userNameSidebar').textContent = name;
+            document.getElementById('userEmail').textContent = user.email || '';
 
-        // Actualizar contador del carrito
-        function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            const count = cart.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById('cart-count').textContent = count;
-        }
+            // Prefill del modal
+            document.getElementById('profileFullName').value = user.name || '';
+            document.getElementById('profileEmail').value = user.email || '';
+            document.getElementById('profilePhone').value = user.phone || '';
 
-        // Cerrar sesión
-        function logout() {
-            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                localStorage.removeItem('user');
-                sessionStorage.removeItem('user');
-                window.location.href = '../auth/login.html';
+            // Render pedidos
+            function renderOrders(){
+                const orders = window.Session && window.Session.getOrders ? window.Session.getOrders(user.email) : [];
+                const activosContainer = document.getElementById('pedidosActivosList');
+                const historialContainer = document.getElementById('historialPedidosList');
+                activosContainer.innerHTML = '';
+                historialContainer.innerHTML = '';
+
+                if(!orders || orders.length === 0){
+                    activosContainer.innerHTML = '<div class="text-muted">No hay pedidos activos</div>';
+                    historialContainer.innerHTML = '<div class="text-muted">Todavía no tienes historial de pedidos</div>';
+                    return;
+                }
+
+                orders.forEach(function(o){
+                    const item = document.createElement('a');
+                    item.className = 'list-group-item list-group-item-action';
+                    item.href = '#';
+                    item.dataset.orderId = o.id;
+                    item.innerHTML = `
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Pedido #${o.id} - S/. ${o.total.toFixed ? o.total.toFixed(2) : o.total}</h6>
+                            <small>${new Date(o.date).toLocaleString()}</small>
+                        </div>
+                        <p class="mb-1 small text-muted">Estado: ${o.status}</p>
+                    `;
+                    item.addEventListener('click', function(e){
+                        e.preventDefault();
+                        // mostrar detalle
+                        const detalleBody = document.getElementById('detallePedidoBody');
+                        detalleBody.innerHTML = '';
+                        let html = `<h5>Pedido #${o.id}</h5>`;
+                        html += `<p><strong>Fecha:</strong> ${new Date(o.date).toLocaleString()}</p>`;
+                        html += `<p><strong>Total:</strong> S/. ${o.total.toFixed ? o.total.toFixed(2) : o.total}</p>`;
+                        html += '<hr><h6>Items</h6>';
+                        html += '<ul>';
+                        (o.items||[]).forEach(it => {
+                            html += `<li>${it.quantity}x ${it.name} — S/. ${(it.price*it.quantity).toFixed(2)}</li>`;
+                        });
+                        html += '</ul>';
+                        detalleBody.innerHTML = html;
+
+                        // ajustar footer del modal para acciones (cancelar / marcar entregado) si está activo
+                        const detalleModalEl = document.getElementById('detallePedidoModal');
+                        const detalleFooter = detalleModalEl.querySelector('.modal-footer');
+                        // limpiar acciones previas
+                        Array.from(detalleFooter.querySelectorAll('.btn-custom')).forEach(b=>b.remove());
+
+                        const isActive = ['pendiente','preparando','en camino','delivering','preparing'].includes(String(o.status).toLowerCase());
+                        if(isActive){
+                            const btnCancel = document.createElement('button');
+                            btnCancel.className = 'btn btn-danger btn-custom';
+                            btnCancel.textContent = 'Cancelar pedido';
+                            btnCancel.addEventListener('click', function(){
+                                if(!confirm('¿Deseas cancelar este pedido?')) return;
+                                // agregar tracking
+                                o.tracking = o.tracking || [];
+                                o.tracking.push({ step: 'Pedido cancelado', key: 'cancelled', description: 'El usuario canceló el pedido', time: new Date().toISOString() });
+                                o.status = 'cancelado';
+                                delete o.nextStepAt;
+                                if(window.Session && window.Session.updateOrder) window.Session.updateOrder(o);
+                                renderOrders();
+                                computeStats();
+                                const modalInst = bootstrap.Modal.getInstance(detalleModalEl) || new bootstrap.Modal(detalleModalEl);
+                                modalInst.hide();
+                            });
+
+                            const btnMarkDelivered = document.createElement('button');
+                            btnMarkDelivered.className = 'btn btn-success btn-custom';
+                            btnMarkDelivered.textContent = 'Marcar como entregado';
+                            btnMarkDelivered.addEventListener('click', function(){
+                                if(!confirm('Marcar este pedido como entregado?')) return;
+                                o.tracking = o.tracking || [];
+                                o.tracking.push({ step: 'Pedido entregado', key: 'delivered', description: 'Pedido marcado como entregado', time: new Date().toISOString() });
+                                o.status = 'entregado';
+                                delete o.nextStepAt;
+                                if(window.Session && window.Session.updateOrder) window.Session.updateOrder(o);
+                                renderOrders();
+                                computeStats();
+                                const modalInst = bootstrap.Modal.getInstance(detalleModalEl) || new bootstrap.Modal(detalleModalEl);
+                                modalInst.hide();
+                            });
+
+                            detalleFooter.insertBefore(btnMarkDelivered, detalleFooter.firstChild);
+                            detalleFooter.insertBefore(btnCancel, detalleFooter.firstChild);
+                        }
+
+                        const modal = new bootstrap.Modal(detalleModalEl);
+                        modal.show();
+                    });
+
+                    // botón rastrear (separado de abrir detalles)
+                    const isActive = ACTIVE_STATES.includes(String(o.status).toLowerCase());
+                    const trackBtn = document.createElement('button');
+                    trackBtn.className = 'btn btn-sm btn-outline-primary ms-2';
+                    trackBtn.textContent = isActive ? 'Rastrear' : 'Verificar pedido';
+                    trackBtn.addEventListener('click', function(e){
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showTracking(o);
+                    });
+
+                    // agregar botón al item (derecha)
+                    const btnWrap = document.createElement('div');
+                    btnWrap.className = 'mt-2';
+                    btnWrap.appendChild(trackBtn);
+                    item.appendChild(btnWrap);
+
+                    // separar por estado: activos vs historial (pendiente/en camino = activo)
+                    if(ACTIVE_STATES.includes(String(o.status).toLowerCase())){
+                        activosContainer.appendChild(item);
+                    } else {
+                        historialContainer.appendChild(item);
+                    }
+                });
             }
-        }
 
-        // Cargar al iniciar
-        loadUserInfo();
-        updateCartCount();
+            // Estados considerados "activos"
+            const ACTIVE_STATES = ['pendiente','preparando','en camino','delivering','preparing'];
+
+            renderOrders();
+
+            // Mostrar timeline de rastreo en el modal
+            function showTracking(order){
+                const rastrearBody = document.getElementById('rastrearPedidoBody');
+                rastrearBody.innerHTML = '';
+                const steps = order.tracking || [];
+                if(steps.length === 0){
+                    rastrearBody.innerHTML = '<div class="text-muted">No hay información de rastreo para este pedido</div>';
+                } else {
+                    let html = '<div class="timeline">';
+                    steps.forEach(function(s, idx){
+                        html += `
+                            <div class="d-flex align-items-start mb-3">
+                                <div style="width:40px; text-align:center;">
+                                    <i class="bi bi-circle-fill text-primary"></i>
+                                </div>
+                                <div>
+                                    <div><strong>${s.step}</strong> <small class="text-muted">${new Date(s.time).toLocaleString()}</small></div>
+                                    <div class="small text-muted">${s.description || ''}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    rastrearBody.innerHTML = html;
+                }
+
+                const modal = new bootstrap.Modal(document.getElementById('rastrearPedidoModal'));
+                modal.show();
+            }
+
+            // Estado siguiente (secuencia simple)
+            function nextStatus(current){
+                const seq = [
+                    {key:'received', status:'pendiente', label:'Pedido recibido'},
+                    {key:'accepted', status:'aceptado', label:'Aceptado por el restaurante'},
+                    {key:'preparing', status:'preparando', label:'En preparación'},
+                    {key:'out_for_delivery', status:'en camino', label:'En camino'},
+                    {key:'delivered', status:'entregado', label:'Entregado'}
+                ];
+                // find current index by status or last tracking key
+                let idx = seq.findIndex(s => String(s.status).toLowerCase() === String(current).toLowerCase());
+                if(idx === -1) {
+                    // try find by last tracking key
+                    idx = 0;
+                }
+                if(idx < seq.length - 1) return seq[idx+1];
+                return null;
+            }
+
+            function simulateAdvance(order){
+                const current = order.status || (order.tracking && order.tracking[order.tracking.length-1] && order.tracking[order.tracking.length-1].key) || 'received';
+                const next = nextStatus(current);
+                if(!next){
+                    alert('El pedido ya está finalizado');
+                    return;
+                }
+                const stepObj = { step: next.label, key: next.key, description: next.label, time: new Date().toISOString() };
+                order.tracking = order.tracking || [];
+                order.tracking.push(stepObj);
+                order.status = next.status;
+                // persistir
+                if(window.Session && window.Session.updateOrder){
+                    window.Session.updateOrder(order);
+                }
+                // volver a renderizar lista y stats
+                renderOrders();
+                computeStats();
+                // volver a mostrar tracking actualizado
+                showTracking(order);
+            }
+
+            // Estadísticas relacionadas (total pedidos, gastado este mes, puntos)
+            function computeStats(){
+                const orders = window.Session && window.Session.getOrders ? window.Session.getOrders(user.email) : [];
+                // total pedidos
+                const total = orders.length;
+
+                // gastado este mes (mes actual, año actual)
+                const now = new Date();
+                const month = now.getMonth();
+                const year = now.getFullYear();
+                let spentThisMonth = 0;
+                let totalSpentAllTime = 0;
+                orders.forEach(o => {
+                    const d = new Date(o.date);
+                    const amt = Number(o.total) || 0;
+                    totalSpentAllTime += amt;
+                    if(d.getMonth() === month && d.getFullYear() === year){
+                        spentThisMonth += amt;
+                    }
+                });
+
+                // puntos: regla simple -> 1 punto por cada S/.1 gastado (redondeado)
+                const points = Math.floor(totalSpentAllTime);
+
+                // actualizar la UI
+                const totalEl = document.getElementById('totalOrdersCount');
+                const spentEl = document.getElementById('spentThisMonth');
+                const pointsEl = document.getElementById('userPoints');
+                if(totalEl) totalEl.textContent = total;
+                if(spentEl) spentEl.textContent = spentThisMonth.toFixed(2);
+                if(pointsEl) pointsEl.textContent = points;
+            }
+
+            // calcular inicialmente y cuando se actualicen pedidos
+            computeStats();
+
+            // The global order scheduler runs in `assets/js/session.js`.
+            // Here we refresh the UI periodically so the dashboard reflects updates made by the global scheduler.
+            (function startUiRefresh(){
+                var refreshInterval = 30000; // default 30s
+                try{
+                    if(window.Session && window.Session.ORDER_PROGRESS_CONFIG && window.Session.ORDER_PROGRESS_CONFIG.checkInterval){
+                        refreshInterval = Math.max(5000, window.Session.ORDER_PROGRESS_CONFIG.checkInterval);
+                    }
+                }catch(e){ }
+                setInterval(function(){
+                    renderOrders();
+                    computeStats();
+                }, refreshInterval);
+            })();
+
+            // Guardar cambios del perfil
+            document.getElementById('btnSaveProfile').addEventListener('click', function(){
+                const newName = document.getElementById('profileFullName').value.trim();
+                const newPhone = document.getElementById('profilePhone').value.trim();
+                if(!newName){
+                    alert('El nombre no puede estar vacío');
+                    return;
+                }
+                // actualizar objeto user y persistir
+                const userObj = window.Session.getUser();
+                userObj.name = newName;
+                userObj.phone = newPhone;
+                window.Session.saveUser(userObj);
+
+                // actualizar UI
+                document.getElementById('userName').textContent = newName;
+                document.getElementById('userNameSidebar').textContent = newName;
+                // cerrar modal
+                const modalEl = document.getElementById('profileModal');
+                const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modal.hide();
+                alert('Perfil actualizado correctamente');
+            });
+        });
     </script>
 </body>
+
 </html>

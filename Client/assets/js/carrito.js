@@ -73,7 +73,8 @@ class ShoppingCart {
                 price: parseFloat(product.price),
                 quantity: product.quantity || 1,
                 image: product.image || 'https://via.placeholder.com/100',
-                restaurant: product.restaurant,
+                restaurant: typeof product.restaurant === 'string' ? product.restaurant : '',
+
                 notes: product.notes || ''
             });
         }
@@ -330,7 +331,7 @@ const CartUtils = {
         toast.show();
 
         // Remover del DOM después de ocultarse
-        toastElement.addEventListener('hidden.bs.toast', () => {
+        toastElement.addEventListener('hidden.bss.toast', () => {
             toastElement.remove();
         });
     },
@@ -454,7 +455,7 @@ function loadCart() {
                     </div>
                     <div class="col-md-4">
                         <h6 class="mb-1">${item.name}</h6>
-                        <small class="text-muted">${item.restaurant}</small>
+                        <small class="text-muted">${item.restaurant || ''}</small>
                         ${item.notes ? `<p class="text-muted small mt-1"><i class="bi bi-card-text"></i> ${item.notes}</p>` : ''}
                     </div>
                     <div class="col-md-2 text-center">

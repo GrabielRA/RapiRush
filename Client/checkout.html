@@ -327,8 +327,31 @@
             itemsList.innerHTML = itemsHTML;
 
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const delivery = 5.00;
-            const discount = 0;
+            // delivery fee
+            let delivery = 5.00;
+            if (subtotal === 0) delivery = 0;
+            if (subtotal >= 50) delivery = 0; // Delivery gratis para pedidos mayores a S/.50
+
+            // Leer promo desde localStorage (aplicado desde carrito)
+            let discount = 0;
+            try{
+                const promoRaw = localStorage.getItem('promoCode');
+                if(promoRaw){
+                    const promo = JSON.parse(promoRaw);
+                    if(promo){
+                        if(promo.type === 'percentage'){
+                            discount = +(subtotal * (promo.value/100));
+                        } else if(promo.type === 'fixed'){
+                            discount = +(promo.value);
+                        } else if(promo.type === 'delivery'){
+                            // delivery free
+                            delivery = 0;
+                            discount = 0;
+                        }
+                    }
+                }
+            }catch(e){ console.warn('Error reading promo', e); }
+
             const total = subtotal + delivery - discount;
 
             document.getElementById('summary-subtotal').textContent = `S/. ${subtotal.toFixed(2)}`;
@@ -361,20 +384,100 @@
                 }
             }
 
-            // Generar número de pedido
-            const orderNumber = Math.floor(100000 + Math.random() * 900000);
-            document.getElementById('order-number').textContent = orderNumber;
+                // Generar número de pedido
+                const orderNumber = Math.floor(100000 + Math.random() * 900000);
+                document.getElementById('order-number').textContent = orderNumber;
 
-            // Limpiar carrito
-            localStorage.removeItem('cart');
+                // Crear objeto order y guardarlo en la sesión del usuario
+                (function(){
+                    try{
+                        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                        // compute delivery
+                        let delivery = 5.00;
+                        if (subtotal === 0) delivery = 0;
+                        if (subtotal >= 50) delivery = 0;
 
-            // Mostrar modal de confirmación
-            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
-            modal.show();
+                        // compute discount from promo (same logic as summary)
+                        let discount = 0;
+                        try{
+                            const promoRaw = localStorage.getItem('promoCode');
+                            if(promoRaw){
+                                const promo = JSON.parse(promoRaw);
+                                if(promo){
+                                    if(promo.type === 'percentage'){
+                                        discount = +(subtotal * (promo.value/100));
+                                    } else if(promo.type === 'fixed'){
+                                        discount = +(promo.value);
+                                    } else if(promo.type === 'delivery'){
+                                        delivery = 0;
+                                        discount = 0;
+                                    }
+                                }
+                            }
+                        }catch(e){ console.warn('Error reading promo', e); }
+
+                        const total = subtotal + delivery - discount;
+
+                        const user = window.Session && window.Session.getUser ? window.Session.getUser() : null;
+                        const nowTs = Date.now();
+                        const isoNow = new Date(nowTs).toISOString();
+
+                        // Determine first interval from Session config if available (fallback 2 minutes)
+                        var firstInterval = 2 * 60 * 1000;
+                        try{
+                            if(window.Session && window.Session.ORDER_PROGRESS_CONFIG && Array.isArray(window.Session.ORDER_PROGRESS_CONFIG.intervals)){
+                                firstInterval = window.Session.ORDER_PROGRESS_CONFIG.intervals[0] || firstInterval;
+                            }
+                        }catch(e){ }
+
+                        const order = {
+                            id: orderNumber,
+                            date: isoNow,
+                            items: cart,
+                            subtotal: subtotal,
+                            delivery: delivery,
+                            discount: discount,
+                            total: total,
+                            status: 'pendiente',
+                            email: (user && user.email) ? user.email : document.getElementById('email').value || null,
+                            name: (user && user.name) ? user.name : (document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value),
+                            // Tracking timeline: inicial step uses order.date
+                            tracking: [
+                                { step: 'Pedido recibido', key: 'received', description: 'Hemos recibido tu pedido', time: isoNow }
+                            ],
+                            // programar el siguiente avance automático at date + firstInterval
+                            nextStepAt: nowTs + firstInterval
+                        };
+
+                        if(window.Session && window.Session.addOrder){
+                            window.Session.addOrder(order);
+                        } else {
+                            // fallback: store under orders_<email>
+                            if(order.email){
+                                const key = 'orders_' + order.email.toLowerCase();
+                                const existing = JSON.parse(localStorage.getItem(key) || '[]');
+                                existing.unshift(order);
+                                localStorage.setItem(key, JSON.stringify(existing));
+                            }
+                        }
+
+                        // Limpiar carrito
+                        localStorage.removeItem('cart');
+
+                    }catch(e){
+                        console.warn('Error saving order', e);
+                    }
+                })();
+
+                // Mostrar modal de confirmación
+                const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+                modal.show();
         }
 
         // Cargar al iniciar
         loadOrderSummary();
     </script>
+    <script src="assets/js/session.js"></script>
 </body>
 </html>

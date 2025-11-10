@@ -14,17 +14,17 @@
 </head>
 <body>
 
-<header>
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
-            <div class="nav-item dropdown ms-start me-auto">
+            <div class="nav-item dropdown ms-start me-auto m-3">
                 <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown">☰</a>
                 <ul class="dropdown-menu" style="min-width: 260px;">
                     <li class="dropdown-item px-3">
-                        <div class="d-flex justify-content-start gap-2">
+                        <div class="d-flex justify-content-start gap-2 ">
                             <a href="auth/register.html" class="btn btn-outline-primary btn-sm">Registrarse</a>
-                            <a href="auth/login.html" class="btn btn-primary btn-sm px-3 mx-2">Iniciar Sesion</a>
+                            <a href="auth/login.html" class="btn btn-outline-primary btn-sm">Iniciar Sesion</a>
                         </div>
                     </li>
                     <li><a class="dropdown-item" href="restaurantes.html"><i class="bi bi-shop-window"></i> Restaurantes</a></li>
@@ -33,7 +33,7 @@
                 </ul>
             </div>
 
-            <a class="navbar-brand fw-bold text-warning" href="index.html">
+            <a class="navbar-brand fw-bold text-warning px-3" href="index.html">
                 <h3>🚚 DeliveryApp</h3>
             </a>
 
@@ -41,18 +41,18 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse " id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle fs-4 mx-2"></i>Ingreso
-                        </a>
+          <li class="nav-item dropdown  ">
+            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle fs-4 mx-2 "></i><span id="nav-username">Ingreso</span>
+            </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="auth/login.html">Ingresar</a></li>
                             <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item px-5">
                         <a class="nav-link position-relative" href="carrito.html">
                             <i class="bi bi-cart3 fs-4"></i>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
@@ -62,12 +62,12 @@
             </div>
         </div>
     </nav>
-</header>
+
 
 <main>
    <main>
   <!-- Hero Section con Buscador -->
-  <section class="hero-section bg-light">
+  <section class="hero-section bg-light" id="categorias">
     <div class="container text-center">
       <h1 class="display-4 fw-bold mb-3">¿Qué se te antoja hoy?</h1>
       <p class="hero-subtitle mb-4">Descubre sabores increíbles y recibe tu pedido en la puerta de tu casa</p>
@@ -239,5 +239,6 @@
 <script src="assets/js/restaurantes.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/index.js"></script>
+<script src="assets/js/session.js"></script>
 </body>
 </html>

@@ -111,6 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const escapedName = escapeForOnclick(product.name || '');
     const escapedDesc = escapeForOnclick(product.description || '');
     const escapedImage = escapeForOnclick(product.image || '');
+    const escapedRestaurant = escapeForOnclick(restaurant.name || '');
+
 
     col.innerHTML = `
     <div class="restaurant-card shadow-sm h-100">
@@ -127,9 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="fw-bold">Desde S/ ${Number(basePrice).toFixed(2)}</div>
             <div class="text-small text-muted">Envío S/ ${restaurant.deliveryCost || '0'}.00</div>
           </div>
-          <button class="btn btn-primary btn-sm" onclick="openProductModal('${escapedName}', ${basePrice}, '${escapedDesc}', '${escapedImage}', ${sizesSafe})">
-            <i class="bi bi-cart-plus"></i> Agregar
-          </button>
+          <button class="btn btn-primary btn-sm"
+  onclick="openProductModal('${escapedName}', ${basePrice}, '${escapedDesc}', '${escapedImage}', ${sizesSafe}, '${escapedRestaurant}')">
+  <i class="bi bi-cart-plus"></i> Agregar
+</button>
+
         </div>
       </div>
     </div>
@@ -144,13 +148,14 @@ let currentProduct = null;
 let currentQty = 1;
 let currentSizeExtra = 0;
 
-function openProductModal(name, price, description, image, sizes) {
+function openProductModal(name, price, description, image, sizes, restaurant) {
   currentProduct = { 
     name, 
     description, 
     image, 
     basePrice: Number(price),
-    sizes: sizes
+    sizes: sizes,
+    restaurant: restaurant
   };
   currentQty = 1;
   currentSizeExtra = 0;
@@ -243,7 +248,8 @@ function addFromModal() {
     quantity: currentQty,
     total: total,
     notes: notes,
-    image: currentProduct.image
+    image: currentProduct.image,
+    restaurant: currentProduct.restaurant || 'Restaurante'
   };
 
   cart.push(item);
@@ -291,3 +297,22 @@ function addFromModal() {
 function escapeForOnclick(str) {
   return String(str).replace(/'/g, "\\'").replace(/"/g, '\\"');
 }
+
+// ===================================================
+// 🔹 Cerrar sesión (válido para cualquier página)
+// ===================================================
+document.addEventListener("DOMContentLoaded", () => {
+  const btnLogout = document.getElementById("btnLogout");
+  if (btnLogout) {
+    btnLogout.addEventListener("click", () => {
+      // Limpiar datos del usuario y carrito
+      localStorage.removeItem("usuarioActivo");
+      localStorage.removeItem("pedidosCliente");
+      localStorage.removeItem("cart");
+
+      // Redirigir a la página de inicio o login
+      window.location.href = "index.html";
+    });
+  }
+});
+
