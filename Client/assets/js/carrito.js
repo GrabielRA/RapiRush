@@ -287,3 +287,135 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { ShoppingCart, CartUtils };
 }
+
+
+
+        // Cargar y mostrar items del carrito
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const emptyMessage = document.getElementById('empty-cart-message');
+            const orderSummary = document.getElementById('order-summary');
+            const continueShopping = document.getElementById('continue-shopping');
+
+            if (cart.length === 0) {
+                emptyMessage.style.display = 'block';
+                orderSummary.style.display = 'none';
+                continueShopping.style.display = 'none';
+                return;
+            }
+
+            emptyMessage.style.display = 'none';
+            orderSummary.style.display = 'block';
+            continueShopping.style.display = 'block';
+
+            // Generar HTML de items
+            let itemsHTML = '';
+            cart.forEach((item, index) => {
+                itemsHTML += `
+                    <div class="cart-item" data-index="${index}">
+                        <div class="row align-items-center">
+                            <div class="col-md-2">
+                                <img src="${item.image || 'https://via.placeholder.com/100'}" 
+                                     class="img-fluid rounded" alt="${item.name}">
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="mb-1">${item.name}</h6>
+                                <small class="text-muted">${item.restaurant}</small>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <p class="mb-0 fw-bold">S/. ${item.price.toFixed(2)}</p>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="quantity-control">
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, -1)">
+                                        <i class="bi bi-dash"></i>
+                                    </button>
+                                    <span class="fw-bold">${item.quantity}</span>
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, 1)">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <p class="mb-0 fw-bold text-primary">S/. ${(item.price * item.quantity).toFixed(2)}</p>
+                                <button class="btn btn-sm btn-link text-danger p-0" onclick="removeItem(${index})">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartItemsContainer.innerHTML = itemsHTML;
+            updateOrderSummary();
+            updateCartCount();
+        }
+
+        function updateQuantity(index, change) {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function removeItem(index) {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function updateOrderSummary() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const deliveryFee = subtotal > 0 ? 5.00 : 0;
+            const discount = 0;
+            const total = subtotal + deliveryFee - discount;
+
+            document.getElementById('subtotal').textContent = `S/. ${subtotal.toFixed(2)}`;
+            document.getElementById('delivery-fee').textContent = `S/. ${deliveryFee.toFixed(2)}`;
+            document.getElementById('discount').textContent = `- S/. ${discount.toFixed(2)}`;
+            document.getElementById('total').textContent = `S/. ${total.toFixed(2)}`;
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        function applyPromoCode() {
+            const promoCode = document.getElementById('promo-code').value;
+            const promoMessage = document.getElementById('promo-message');
+            
+            // Simulación de validación de código
+            if (promoCode.toUpperCase() === 'DESCUENTO10') {
+                promoMessage.textContent = '¡Código aplicado! 10% de descuento';
+                promoMessage.style.display = 'block';
+                // Aquí aplicarías el descuento real
+            } else if (promoCode) {
+                promoMessage.textContent = 'Código inválido';
+                promoMessage.className = 'text-danger';
+                promoMessage.style.display = 'block';
+            }
+        }
+
+        function proceedToCheckout() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        }
+
+        // Cargar carrito al iniciar
+        loadCart();
+   

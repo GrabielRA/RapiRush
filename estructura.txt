@@ -90,5 +90,6 @@ cd server
 npm run dev
 -CLIENTE:
 cd client
-http-server -p 5000
+http-server -p 5000                       o usar live-server   o npx live-server
+
 
