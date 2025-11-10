@@ -173,14 +173,16 @@
   });
 
   // Exponer API para otras páginas
-  // Configuration for order progression intervals (realistic defaults, in milliseconds)
-  // Sequence: received -> accepted -> preparing -> out_for_delivery -> delivered
+  // Secuencia: recibido -> aceptado -> preparando -> en camino ->llegado -> entregado   (valores predeterminados realistas, en milisegundos)
   var ORDER_PROGRESS_CONFIG = {
-    // time between transitions: received->accepted, accepted->preparing, preparing->out_for_delivery, out_for_delivery->delivered
-    intervals: [2 * 60 * 1000, 5 * 60 * 1000, 15 * 60 * 1000, 20 * 60 * 1000],
-    // How often the scheduler checks all orders (ms)
+// tiempo entre transiciones: recibido->aceptado, aceptado->preparando, preparando->en_entrega, en_entrega->entregado, llegado->>entregado 
+//   formato de tiempo 5 × 60 × 1000 = 300,000 milisegundos
+
+    intervals: [2 * 60 * 1000, 1 * 60 * 1000, 1 * 60 * 1000, 1 * 60 * 1000, 2 * 60 * 1000],
+
+    // Con qué frecuencia el planificador verifica todos los pedidos (ms)
     checkInterval: 30 * 1000,
-    // Debug multiplier (if >0 and debug true will scale intervals down)
+    // Multiplicador de depuración (si >0 y depuración es true reducirá los intervalos)
     debugMultiplier: 0.02
   };
 
@@ -203,8 +205,10 @@
       {key:'accepted', status:'aceptado', label:'Aceptado por el restaurante'},
       {key:'preparing', status:'preparando', label:'En preparación'},
       {key:'out_for_delivery', status:'en camino', label:'En camino'},
+      {key:'arrived', status:'llegado', label:'Pedido llegado al destino'},
       {key:'delivered', status:'entregado', label:'Entregado'}
     ];
+
     var idx = seq.findIndex(function(s){ return String(s.status).toLowerCase() === String(current).toLowerCase() || String(s.key).toLowerCase() === String(current).toLowerCase(); });
     if(idx === -1) idx = 0;
     if(idx < seq.length - 1) return { next: seq[idx+1], nextIndex: idx };
@@ -226,6 +230,16 @@
     order.tracking = order.tracking || [];
     order.tracking.push({ step: info.next.label, key: info.next.key, description: info.next.label, time: new Date(scheduledTime).toISOString() });
     order.status = info.next.status;
+    // 🔊 Si el pedido llegó al destino, reproducir sonido
+    if (info.next.status.toLowerCase() === 'llegado') {
+      try {
+        const audio = new Audio('../assets/sounds/arrived.mp3'); // ruta del sonido
+        audio.play().catch(() => console.warn('No se pudo reproducir sonido'));
+      } catch(e) {
+        console.warn('Error al reproducir sonido', e);
+      }
+    }
+
 
     // compute nextStepAt from the configured interval for this transition (info.nextIndex gives previous index)
     var interval = getConfiguredInterval(info.nextIndex);

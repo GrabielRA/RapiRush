@@ -1,331 +1,309 @@
-/**
- * cliente.js – Lógica del panel del cliente
- * DeliveryApp
- */
-
-document.addEventListener("DOMContentLoaded", () => {
-  const activeOrdersContainer = document.getElementById("pedidosActivosList");
-  const historyContainer = document.getElementById("historialPedidosList");
-
-  const storageKey = "pedidosCliente";
-
-  const defaultPedidos = {
-    activos: [
-      {
-        id: 1,
-        negocio: "Pizzería Don Carlo",
-        fecha: "2025-11-06 15:10",
-        total: 45.9,
-        estado: "En camino",
-        items: [
-          { producto: "Pizza Pepperoni", cantidad: 1, precio: 25.9 },
-          { producto: "Gaseosa 1L", cantidad: 1, precio: 6 },
-          { producto: "Helado", cantidad: 1, precio: 14 },
-        ],
-        timeline: [
-          { hora: "14:45", estado: "Pedido Confirmado" },
-          { hora: "14:50", estado: "Preparando" },
-          { hora: "15:10", estado: "En camino" },
-        ],
-      },
-      {
-        id: 6,
-        negocio: "Pizzería Don Carlo",
-        fecha: "2025-11-06 15:10",
-        total: 45.9,
-        estado: "Preparando",
-        items: [
-          { producto: "Pizza Pepperoni", cantidad: 1, precio: 25.9 },
-          { producto: "Gaseosa 1L", cantidad: 1, precio: 6 },
-          { producto: "Helado", cantidad: 1, precio: 14 },
-        ],
-        timeline: [
-          { hora: "14:45", estado: "Pedido Confirmado" },
-          { hora: "14:50", estado: "Preparando" },
-        ],
-      },
-    ],
-    historial: [
-      {
-        id: 2,
-        negocio: "SushiRoll Express",
-        fecha: "2025-10-28 19:40",
-        total: 62.5,
-        estado: "Entregado",
-        items: [
-          { producto: "Combo Sushi 20 piezas", cantidad: 1, precio: 52.5 },
-          { producto: "Agua mineral", cantidad: 1, precio: 10 },
-        ],
-        timeline: [
-          { hora: "19:10", estado: "Pedido Confirmado" },
-          { hora: "19:20", estado: "Preparando" },
-          { hora: "19:30", estado: "En camino" },
-          { hora: "19:40", estado: "Entregado" },
-        ],
-      },
-      {
-        id: 3,
-        negocio: "SushiRoll Express",
-        fecha: "2025-10-28 19:40",
-        total: 62.5,
-        estado: "Entregado",
-        items: [
-          { producto: "Combo Sushi 20 piezas", cantidad: 1, precio: 52.5 },
-          { producto: "Agua mineral", cantidad: 1, precio: 10 },
-        ],
-        timeline: [
-          { hora: "19:10", estado: "Pedido Confirmado" },
-          { hora: "19:20", estado: "Preparando" },
-          { hora: "19:30", estado: "En camino" },
-          { hora: "19:40", estado: "Entregado" },
-        ],
-      },
-      {
-        id: 4,
-        negocio: "SushiRoll Express",
-        fecha: "2025-10-28 19:40",
-        total: 62.5,
-        estado: "Cancelado",
-        items: [
-          { producto: "Combo Sushi 20 piezas", cantidad: 1, precio: 52.5 },
-          { producto: "Agua mineral", cantidad: 1, precio: 10 },
-        ],
-        timeline: [
-          { hora: "19:10", estado: "Pedido Confirmado" },
-          { hora: "19:20", estado: "Preparando" },
-          { hora: "19:30", estado: "En camino" },
-          { hora: "19:40", estado: "Entregado" },
-        ],
-      },
-    ],
-  };
-
-  // ----------------------------
-  // 🔹 Cargar desde localStorage o usar por defecto
-  // ----------------------------
-  function loadPedidos() {
-    const saved = localStorage.getItem(storageKey);
-    return saved ? JSON.parse(saved) : defaultPedidos;
+// ==============================
+// cliente.js – Panel del cliente (con TOAST de llegada)
+// ==============================
+document.addEventListener('DOMContentLoaded', function() {
+  // 🔹 Cargar usuario logueado
+  const user = window.Session && window.Session.getUser ? window.Session.getUser() : null;
+  if (!user || !user.loggedIn) {
+    window.location.href = '../auth/login.html';
+    return;
   }
 
-  function savePedidos(data) {
-    localStorage.setItem(storageKey, JSON.stringify(data));
-  }
+  // Llenar datos del perfil
+  document.getElementById('userName').textContent = user.name || '';
+  document.getElementById('userNameSidebar').textContent = user.name || '';
+  document.getElementById('userEmail').textContent = user.email || '';
 
-  let pedidos = loadPedidos();
+  document.getElementById('profileFullName').value = user.name || '';
+  document.getElementById('profileEmail').value = user.email || '';
+  document.getElementById('profilePhone').value = user.phone || '';
 
-  // ----------------------------
-  // 🔹 Renderizar pedidos activos
-  // ----------------------------
-  function renderPedidosActivos() {
-    activeOrdersContainer.innerHTML = "";
+  // ==============================
+  // 🔸 Estados considerados activos
+  // ==============================
+  const ACTIVE_STATES = ['pendiente','preparando','en camino','llegado','delivering','preparing'];
 
-    if (pedidos.activos.length === 0) {
-      activeOrdersContainer.innerHTML = `<p class="text-muted">No tienes pedidos activos.</p>`;
-      return;
-    }
-
-    pedidos.activos.forEach((pedido) => {
-      const div = document.createElement("div");
-      div.classList.add("list-group-item", "mb-2");
-      div.innerHTML = `
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h5>${pedido.negocio}</h5>
-            <small>${pedido.fecha}</small><br>
-            <span class="badge bg-primary">${pedido.estado}</span>
-          </div>
-          <div class="text-end">
-            <p class="fw-bold mb-1">S/ ${pedido.total.toFixed(2)}</p>
-            <button class="btn btn-outline-primary btn-sm btn-detalle" data-id="${pedido.id}">Ver detalles</button>
-            <button class="btn btn-outline-success btn-sm btn-rastrear" data-id="${pedido.id}"><i class="bi bi-geo-alt"></i> Rastrear pedido</button>
-          </div>
-        </div>
-      `;
-      activeOrdersContainer.appendChild(div);
+  // ==============================
+  // 🔹 Sonido de llegada
+  // ==============================
+  function playArrivalSound() {
+    const audio = new Audio('../assets/sounds/arrival.mp3');
+    audio.play().catch(() => {
+      console.log('🔇 El navegador bloqueó la reproducción automática de sonido.');
     });
   }
 
-  // ----------------------------
-  // 🔹 Renderizar historial
-  // ----------------------------
-  function renderHistorial() {
-    historyContainer.innerHTML = "";
+  // ==============================
+  // 🔹 Mostrar Toast (notificación)
+  // ==============================
+  function showToast(message, type = 'info') {
+    let container = document.getElementById('toastContainer');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'toastContainer';
+      document.body.appendChild(container);
+    }
 
-    if (pedidos.historial.length === 0) {
-      historyContainer.innerHTML = `<p class="text-muted">Aún no tienes pedidos anteriores.</p>`;
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+      <span>${message}</span>
+      <button class="toast-close">&times;</button>
+    `;
+
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 100);
+
+    toast.querySelector('.toast-close').addEventListener('click', () => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    });
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+
+  // ==============================
+  // 🔹 Renderizar pedidos
+  // ==============================
+  function renderOrders() {
+    const orders = window.Session && window.Session.getOrders ? window.Session.getOrders(user.email) : [];
+    const activosContainer = document.getElementById('pedidosActivosList');
+    const historialContainer = document.getElementById('historialPedidosList');
+    activosContainer.innerHTML = '';
+    historialContainer.innerHTML = '';
+
+    if (!orders || orders.length === 0) {
+      activosContainer.innerHTML = '<div class="text-muted">No hay pedidos activos</div>';
+      historialContainer.innerHTML = '<div class="text-muted">Todavía no tienes historial de pedidos</div>';
       return;
     }
 
-    pedidos.historial.forEach((pedido) => {
-      const div = document.createElement("div");
-      div.classList.add("list-group-item", "mb-2");
-      div.innerHTML = `
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h5>${pedido.negocio}</h5>
-            <small>${pedido.fecha}</small><br>
-            <span class="badge bg-secondary">${pedido.estado}</span>
-          </div>
-          <div class="text-end">
-            <p class="fw-bold mb-1">S/ ${pedido.total.toFixed(2)}</p>
-            <button class="btn btn-outline-primary btn-sm btn-detalle" data-id="${pedido.id}">Ver detalles</button>
-          </div>
+    orders.forEach(function(o) {
+      const item = document.createElement('a');
+      item.className = 'list-group-item list-group-item-action';
+      item.href = '#';
+      item.dataset.orderId = o.id;
+      item.innerHTML = `
+        <div class="d-flex w-100 justify-content-between">
+          <h6 class="mb-1">Pedido #${o.id} - S/. ${o.total.toFixed ? o.total.toFixed(2) : o.total}</h6>
+          <small>${new Date(o.date).toLocaleString()}</small>
         </div>
+        <p class="mb-1 small text-muted">Estado: ${o.status}</p>
       `;
-      historyContainer.appendChild(div);
+
+      // 🔸 Detalle completo del pedido
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        const detalleBody = document.getElementById('detallePedidoBody');
+        detalleBody.innerHTML = '';
+        let html = `<h5>Pedido #${o.id}</h5>`;
+        html += `<p><strong>Fecha:</strong> ${new Date(o.date).toLocaleString()}</p>`;
+        html += `<p><strong>Total:</strong> S/. ${o.total.toFixed ? o.total.toFixed(2) : o.total}</p>`;
+        html += '<hr><h6>Items</h6><ul>';
+        (o.items || []).forEach(it => {
+          html += `<li>${it.quantity}x ${it.name} — S/. ${(it.price * it.quantity).toFixed(2)}</li>`;
+        });
+        html += '</ul>';
+        detalleBody.innerHTML = html;
+
+        const detalleModalEl = document.getElementById('detallePedidoModal');
+        const detalleFooter = detalleModalEl.querySelector('.modal-footer');
+        Array.from(detalleFooter.querySelectorAll('.btn-custom')).forEach(b => b.remove());
+
+        const isActive = ACTIVE_STATES.includes(String(o.status).toLowerCase());
+        if (isActive) {
+          const btnCancel = document.createElement('button');
+          btnCancel.className = 'btn btn-danger btn-custom';
+          btnCancel.textContent = 'Cancelar pedido';
+          btnCancel.addEventListener('click', function() {
+            if (!confirm('¿Deseas cancelar este pedido?')) return;
+            o.tracking = o.tracking || [];
+            o.tracking.push({ step: 'Pedido cancelado', key: 'cancelled', description: 'El usuario canceló el pedido', time: new Date().toISOString() });
+            o.status = 'cancelado';
+            delete o.nextStepAt;
+            if (window.Session && window.Session.updateOrder) window.Session.updateOrder(o);
+            renderOrders();
+            computeStats();
+            bootstrap.Modal.getInstance(detalleModalEl)?.hide();
+          });
+
+          const btnMarkDelivered = document.createElement('button');
+          btnMarkDelivered.className = 'btn btn-success btn-custom';
+          btnMarkDelivered.textContent = 'Marcar como entregado';
+          btnMarkDelivered.addEventListener('click', function() {
+            if (!confirm('¿Marcar este pedido como entregado?')) return;
+            o.tracking = o.tracking || [];
+            o.tracking.push({ step: 'Pedido entregado', key: 'delivered', description: 'Pedido marcado como entregado', time: new Date().toISOString() });
+            o.status = 'entregado';
+            delete o.nextStepAt;
+            if (window.Session && window.Session.updateOrder) window.Session.updateOrder(o);
+            renderOrders();
+            computeStats();
+            bootstrap.Modal.getInstance(detalleModalEl)?.hide();
+          });
+
+          detalleFooter.insertBefore(btnMarkDelivered, detalleFooter.firstChild);
+          detalleFooter.insertBefore(btnCancel, detalleFooter.firstChild);
+        }
+
+        new bootstrap.Modal(detalleModalEl).show();
+      });
+
+      // 🔹 Botones rápidos (ver detalle / rastrear)
+      const isActive = ACTIVE_STATES.includes(String(o.status).toLowerCase());
+      const detailBtn = document.createElement('button');
+      detailBtn.className = 'btn btn-sm btn-outline-primary me-2';
+      detailBtn.textContent = '📋 Ver detalles';
+      detailBtn.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        const detalleBody = document.getElementById('detallePedidoBody');
+        detalleBody.innerHTML = `
+          <h5>${o.negocio || 'Pedido #' + o.id}</h5>
+          <p><strong>Fecha:</strong> ${new Date(o.date).toLocaleString()}</p>
+          <hr>
+          <ul class="list-unstyled">
+            ${(o.items || [])
+              .map(it => `<li>${it.quantity} × ${it.name || it.producto} — <strong>S/ ${(it.price * it.quantity).toFixed(2)}</strong></li>`)
+              .join('')}
+          </ul>
+          <p class="mt-2 fw-bold text-end">Total: S/ ${Number(o.total).toFixed(2)}</p>
+        `;
+        new bootstrap.Modal(document.getElementById('detallePedidoModal')).show();
+      });
+
+      const trackBtn = document.createElement('button');
+      trackBtn.className = 'btn btn-sm btn-outline-success';
+      trackBtn.textContent = isActive ? '🚚 Rastrear' : 'Verificar pedido';
+      trackBtn.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        showTracking(o);
+      });
+
+      const btnWrap = document.createElement('div');
+      btnWrap.className = 'mt-2 d-flex justify-content-end';
+      btnWrap.appendChild(detailBtn);
+      btnWrap.appendChild(trackBtn);
+      item.appendChild(btnWrap);
+
+      // Separar pedidos activos e historial
+      if (isActive) {
+        activosContainer.appendChild(item);
+      } else {
+        historialContainer.appendChild(item);
+      }
     });
   }
 
-  // ----------------------------
-  // 🔹 Modales con Bootstrap
-  // ----------------------------
-  function abrirModalDetalles(pedidoId) {
-    const pedido =
-      pedidos.activos.find((p) => p.id == pedidoId) ||
-      pedidos.historial.find((p) => p.id == pedidoId);
+  // ==============================
+  // 🔹 Rastreo (timeline)
+  // ==============================
+  function showTracking(order) {
+    const rastrearBody = document.getElementById('rastrearPedidoBody');
+    rastrearBody.innerHTML = '';
+    const steps = order.tracking || [];
+    let html = '';
 
-    if (!pedido) return;
+    if (String(order.status).toLowerCase() === 'llegado') {
+      html += `<div class="alert alert-info text-center fw-bold">🚚 Tu pedido ha llegado al destino. Confirma cuando lo recibas.</div>`;
+    } else if (String(order.status).toLowerCase() === 'entregado') {
+      html += `<div class="alert alert-success text-center fw-bold">✅ Tu pedido fue entregado correctamente.</div>`;
+    }
 
-    const modalBody = document.getElementById("detallePedidoBody");
-    modalBody.innerHTML = `
-      <h4>${pedido.negocio}</h4>
-      <p><strong>Fecha:</strong> ${pedido.fecha}</p>
-      <hr>
-      <ul class="list-unstyled">
-        ${pedido.items
-          .map(
-            (item) =>
-              `<li>${item.cantidad} × ${item.producto} — <strong>S/ ${item.precio.toFixed(
-                2
-              )}</strong></li>`
-          )
-          .join("")}
-      </ul>
-      <p class="mt-2 fw-bold text-end">Total: S/ ${pedido.total.toFixed(2)}</p>
-    `;
+    if (steps.length === 0) {
+      html += '<div class="text-muted">No hay información de rastreo para este pedido</div>';
+    } else {
+      html += '<div class="timeline">';
+      steps.forEach(s => {
+        const isDelivered = s.key === 'delivered';
+        html += `
+          <div class="d-flex align-items-start mb-3">
+            <div style="width:40px; text-align:center;">
+              <i class="bi ${isDelivered ? 'bi-check-circle-fill text-success' : 'bi-circle-fill text-primary'}"></i>
+            </div>
+            <div>
+              <div><strong>${s.step}</strong> <small class="text-muted">${new Date(s.time).toLocaleString()}</small></div>
+              <div class="small text-muted">${s.description || ''}</div>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+    }
 
-    const modal = new bootstrap.Modal(
-      document.getElementById("detallePedidoModal")
-    );
-    modal.show();
+    rastrearBody.innerHTML = html;
+    new bootstrap.Modal(document.getElementById('rastrearPedidoModal')).show();
   }
 
-  function abrirModalRastreo(pedidoId) {
-  const pedido = pedidos.activos.find((p) => p.id == pedidoId);
-  if (!pedido) return;
-
-  const estados = ["Pedido Confirmado", "Preparando", "En camino", "Entregado"];
-  const estadoActual = pedido.estado;
-  const progreso = {
-    "Pedido Confirmado": 25,
-    "Preparando": 50,
-    "En camino": 75,
-    "Entregado": 100,
-  };
-
-  let stepsHTML = "";
-  estados.forEach((estado, i) => {
-    let clase = "";
-    if (estados.indexOf(estadoActual) > i) clase = "completed";
-    else if (estado === estadoActual) clase = "active";
-    stepsHTML += `
-      <div class="tracking-step ${clase}">
-        <div class="step-icon">${
-          clase === "completed" ? "✓" : estado === "En camino" ? "🚚" : "📍"
-        }</div>
-        <div class="step-info">
-          <p>${estado}</p>
-          <small>${
-            pedido.timeline[i] ? pedido.timeline[i].hora : ""
-          }</small>
-        </div>
-      </div>
-    `;
-  });
-
-  const modalBody = document.getElementById("rastrearPedidoBody");
-  modalBody.innerHTML = `
-    <h5 class="text-center mb-3">${pedido.negocio}</h5>
-    <div class="order-tracking">${stepsHTML}</div>
-    <div class="progress mt-3">
-      <div class="progress-bar bg-success" role="progressbar" style="width: ${
-        progreso[estadoActual]
-      }%;"></div>
-    </div>
-    <div class="mapa-placeholder mt-4 text-center text-muted">
-      [Mapa o chat con repartidor próximamente]
-    </div>
-  `;
-
-  const modal = new bootstrap.Modal(
-    document.getElementById("rastrearPedidoModal")
-  );
-  modal.show();
-}
-
-
-  // ----------------------------
-  // 🔹 Eventos
-  // ----------------------------
-  document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("btn-detalle")) {
-      abrirModalDetalles(e.target.dataset.id);
+  // ==============================
+  // 🔹 Avance de estado (simulación)
+  // ==============================
+    function nextStatus(current) {
+      const seq = [
+        { key: 'received', status: 'pendiente', label: 'Pedido recibido' },
+        { key: 'accepted', status: 'aceptado', label: 'Aceptado por el restaurante' },
+        { key: 'preparing', status: 'preparando', label: 'En preparación' },
+        { key: 'out_for_delivery', status: 'en camino', label: 'En camino' },
+        { key: 'arrived', status: 'llegado', label: 'Pedido llegado al destino' },
+        { key: 'delivered', status: 'entregado', label: 'Entregado' }
+      ];
+      let idx = seq.findIndex(s => String(s.status).toLowerCase() === String(current).toLowerCase());
+      if (idx === -1) idx = 0;
+      if (idx < seq.length - 1) return seq[idx + 1];
+      return null;
     }
-    if (e.target.classList.contains("btn-rastrear")) {
-      abrirModalRastreo(e.target.dataset.id);
+
+    function simulateAdvance(order) {
+      const current = order.status || (order.tracking && order.tracking[order.tracking.length - 1]?.key) || 'received';
+      const next = nextStatus(current);
+      if (!next) {
+        alert('El pedido ya está finalizado');
+        return;
+      }
+      const stepObj = { step: next.label, key: next.key, description: next.label, time: new Date().toISOString() };
+      order.tracking = order.tracking || [];
+      order.tracking.push(stepObj);
+      order.status = next.status;
+
+      if (next.status === 'llegado') {
+        playArrivalSound();
+        showToast(`🚚 Tu pedido #${order.id} ha llegado. Confirma cuando lo recibas.`, 'info');
+      }
+
+      if (window.Session && window.Session.updateOrder) {
+        window.Session.updateOrder(order);
+      }
+      renderOrders();
+      computeStats();
+      showTracking(order);
     }
-  });
 
-  // cliente.js o un JS global incluido en todas las páginas
-  document.getElementById("btnLogout").addEventListener("click", logout);
+  // ==============================
+  // 🔹 Estadísticas
+  // ==============================
+  function computeStats() {
+    const orders = window.Session && window.Session.getOrders ? window.Session.getOrders(user.email) : [];
+    const total = orders.length;
+    const now = new Date();
+    const month = now.getMonth();
+    const year = now.getFullYear();
+    let spentThisMonth = 0, totalSpentAllTime = 0;
 
+    orders.forEach(o => {
+      const d = new Date(o.date);
+      const amt = Number(o.total) || 0;
+      totalSpentAllTime += amt;
+      if (d.getMonth() === month && d.getFullYear() === year) spentThisMonth += amt;
+    });
 
+    const points = Math.floor(totalSpentAllTime);
+    document.getElementById('totalOrdersCount').textContent = total;
+    document.getElementById('spentThisMonth').textContent = spentThisMonth.toFixed(2);
+    document.getElementById('userPoints').textContent = points;
+  }
 
-  // ----------------------------
-  // 🔹 Render inicial
-  // ----------------------------
-  renderPedidosActivos();
-  renderHistorial();
+  renderOrders();
+  computeStats();
 });
-
-// Función de logout
-document.getElementById("btnLogout").addEventListener("click", function(e) {
-    e.preventDefault(); // evita que el enlace recargue la página
-
-    // Limpiar datos de sesión/localStorage
-    localStorage.removeItem('pedidosCliente');
-    localStorage.removeItem('usuario');
-
-    console.log("Sesión cerrada correctamente"); // para depuración
-
-    // Redirigir al login
-    window.location.href = "../auth/login.html";
-});
-
-
-// ======================================================
-// 🔸 SECCIÓN DE PRUEBAS (comentada)
-// ======================================================
-/*
- function agregarPedidoPrueba() {
-   const pedidos = JSON.parse(localStorage.getItem("pedidosCliente"));
-   pedidos.activos.push({
-     id: Date.now(),
-     negocio: "Hamburguesas FastKing",
-     fecha: "2025-11-06 20:00",
-     total: 38.5,
-     estado: "Pedido Confirmado",
-     items: [
-       { producto: "Combo Doble", cantidad: 1, precio: 25.5 },
-       { producto: "Papas Grandes", cantidad: 1, precio: 8 },
-       { producto: "Refresco", cantidad: 1, precio: 5 },
-     ],
-     timeline: [{ hora: "19:50", estado: "Pedido Confirmado" }],
-   });
-   localStorage.setItem("pedidosCliente", JSON.stringify(pedidos));
-   location.reload();
- }
- agregarPedidoPrueba();*/
-
-

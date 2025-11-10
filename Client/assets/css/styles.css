@@ -123,6 +123,10 @@
     letter-spacing: -0.01em;
 }
 
+h3 img {
+  height: 1em;       /* altura igual a la del texto */
+  vertical-align: middle; /* alinear con el texto */
+}
 
 
 @media (max-width: 768px) {
