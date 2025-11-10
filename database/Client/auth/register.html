@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse - DeliveryApp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body class="bg-light">
+    <!-- Navbar simple -->
+    <nav class="navbar navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-warning" href="../index.html">
+              <h3>🚚 DeliveryApp</h3>
+            </a>
+            <a href="../index.html" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        </div>
+    </nav>
+
+    <!-- Formulario de registro -->
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100 py-5">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow border-0">
+                    <div class="card-body p-5">
+                        <!-- Header -->
+                        <div class="text-center mb-4">
+                            <div class="mb-3">
+                                <i class="bi bi-person-plus-fill text-primary" style="font-size: 4rem;"></i>
+                            </div>
+                            <h3 class="fw-bold">Crear cuenta</h3>
+                            <p class="text-muted">Únete a DeliveryApp</p>
+                        </div>
+
+                        <!-- Formulario -->
+                        <form id="registerForm">
+                            <!-- Nombre completo -->
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Nombre completo *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="fullName" 
+                                           placeholder="Juan Pérez" required>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo electrónico *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control" id="email" 
+                                           placeholder="tu@email.com" required>
+                                </div>
+                                <small class="text-muted">Usaremos este correo para tu cuenta</small>
+                            </div>
+
+                            <!-- Teléfono -->
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Teléfono *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="bi bi-phone"></i>
+                                    </span>
+                                    <input type="tel" class="form-control" id="phone" 
+                                           placeholder="999 999 999" required maxlength="9">
+                                </div>
+                            </div>
+
+                            <!-- Contraseña -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="password" 
+                                           placeholder="••••••••" required minlength="6">
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="bi bi-eye" id="toggleIcon"></i>
+                                    </button>
+                                </div>
+                                <small class="text-muted">Mínimo 6 caracteres</small>
+                            </div>
+
+                            <!-- Confirmar contraseña -->
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirmar contraseña *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="bi bi-lock-fill"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="confirmPassword" 
+                                           placeholder="••••••••" required minlength="6">
+                                </div>
+                            </div>
+
+                            <!-- Dirección -->
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Dirección</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="bi bi-geo-alt"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="address" 
+                                           placeholder="Av. Principal 123, Miraflores">
+                                </div>
+                            </div>
+
+                            <!-- Términos y condiciones -->
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="terms" required>
+                                <label class="form-check-label small" for="terms">
+                                    Acepto los <a href="#" class="text-primary">Términos y Condiciones</a> 
+                                    y la <a href="#" class="text-primary">Política de Privacidad</a>
+                                </label>
+                            </div>
+
+                            <!-- Recibir promociones -->
+                            <div class="mb-4 form-check">
+                                <input type="checkbox" class="form-check-input" id="promotions" checked>
+                                <label class="form-check-label small" for="promotions">
+                                    Deseo recibir promociones y ofertas especiales
+                                </label>
+                            </div>
+
+                            <!-- Botón registrar -->
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-person-check"></i> Crear cuenta
+                                </button>
+                            </div>
+
+                            <!-- Divisor -->
+                            <div class="text-center mb-3">
+                                <span class="text-muted small">o regístrate con</span>
+                            </div>
+
+                            <!-- Registro con redes sociales -->
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-outline-danger w-100">
+                                        <i class="bi bi-google"></i> Google
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-outline-primary w-100">
+                                        <i class="bi bi-facebook"></i> Facebook
+                                    </button>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <!-- Link a login -->
+                            <div class="text-center">
+                                <p class="text-muted small mb-0">
+                                    ¿Ya tienes cuenta? 
+                                    <a href="login.html" class="text-primary fw-bold">Inicia sesión</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Información adicional -->
+                <div class="card mt-3 border-0 bg-transparent">
+                    <div class="card-body text-center">
+                        <small class="text-muted">
+                            <i class="bi bi-shield-check text-success"></i>
+                            Tus datos están seguros con nosotros
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('bi-eye');
+                toggleIcon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('bi-eye-slash');
+                toggleIcon.classList.add('bi-eye');
+            }
+        });
+
+        // Validación de teléfono (solo números)
+        document.getElementById('phone').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Validación de email en tiempo real
+        document.getElementById('email').addEventListener('blur', function() {
+            const email = this.value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (email && !emailRegex.test(email)) {
+                this.classList.add('is-invalid');
+                if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('invalid-feedback')) {
+                    const feedback = document.createElement('div');
+                    feedback.className = 'invalid-feedback';
+                    feedback.textContent = 'Por favor ingresa un email válido';
+                    this.parentNode.appendChild(feedback);
+                }
+            } else {
+                this.classList.remove('is-invalid');
+            }
+        });
+
+        // Validación de contraseñas coincidentes
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            
+            if (confirmPassword && password !== confirmPassword) {
+                this.classList.add('is-invalid');
+                if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('invalid-feedback')) {
+                    const feedback = document.createElement('div');
+                    feedback.className = 'invalid-feedback';
+                    feedback.textContent = 'Las contraseñas no coinciden';
+                    this.parentNode.appendChild(feedback);
+                }
+            } else {
+                this.classList.remove('is-invalid');
+            }
+        });
+
+        // Manejar registro
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Obtener valores
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const address = document.getElementById('address').value;
+            const termsAccepted = document.getElementById('terms').checked;
+            const wantsPromotions = document.getElementById('promotions').checked;
+
+            // Validaciones
+            if (!termsAccepted) {
+                alert('Debes aceptar los términos y condiciones');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Las contraseñas no coinciden');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            if (phone.length !== 9) {
+                alert('El teléfono debe tener 9 dígitos');
+                return;
+            }
+
+            // Crear usuario
+            const userData = {
+                name: fullName,
+                email: email,
+                phone: phone,
+                address: address,
+                role: 'cliente', // Por defecto todos son clientes
+                wantsPromotions: wantsPromotions,
+                loggedIn: true,
+                registeredAt: new Date().toISOString()
+            };
+
+            // Guardar en localStorage
+            localStorage.setItem('user', JSON.stringify(userData));
+
+            // Mostrar mensaje de éxito
+            const successAlert = document.createElement('div');
+            successAlert.className = 'alert alert-success alert-dismissible fade show';
+            successAlert.innerHTML = `
+                <i class="bi bi-check-circle"></i> ¡Cuenta creada exitosamente! Redirigiendo...
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelector('.card-body').prepend(successAlert);
+
+            // Redirigir al dashboard de cliente después de 2 segundos
+            setTimeout(() => {
+                window.location.href = '../dashboard/cliente.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

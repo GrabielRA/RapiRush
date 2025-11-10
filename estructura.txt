@@ -1,0 +1,94 @@
+deliveryApp/
+│
+├── client/                               # Frontend (HTML, CSS, JS)
+│   ├── index.html                        # Página principal (inicio / catálogo)
+│   ├── restaurantes.html                 # Listado de restaurantes
+│   ├── carrito.html                      # Ver productos agregados
+│   ├── checkout.html                     # Paso de pago y confirmación
+│   ├── agregarestaurante.html           # Registro para socios (restaurantes)
+│   ├── serepartidor.html                 # Registro para repartidores
+│   ├── restaurante.html                 # se muestra las opciones que tiene el restaurante o menu
+│   │
+│   ├── auth/                             # Autenticación
+│   │   ├── login.html                    # Iniciar sesión
+│   │   └── register.html                 # Registro de usuario
+│   │
+│   ├── dashboard/                        # Paneles según rol
+│   │   ├── cliente.html                  # Panel del cliente (historial, pedidos)
+│   │   ├── repartidor.html               # Panel del repartidor
+│   │   ├── restaurante.html              # Panel del restaurante (productos, pedidos)
+│   │   └── admin.html                    # Panel del administrador
+│   │   └── orden.html                    # panel de ordenes y sus estados
+│   │
+│   ├── assets/                           # Recursos visuales
+│       ├── css/
+│       │   └── styles.css                # Estilos principales (Bootstrap + personalizados)
+│       ├── js/
+│       │   ├── script.js                 # Lógica general del sitio
+│       │   ├── carrito.js                # Manejo del carrito (add/remove/update)
+│       │   └── checkout.js               # Lógica del proceso de compra/pago
+│       │   └── admin.js                  # Lógica del admin.html
+│       │   └── orden.js                  # Lógica del orden.html
+│       ├── img/
+│       └── icons/
+│ 
+│
+├── server/                               # Backend con Node.js + Express
+│   ├── app.js                            # Punto de entrada principal
+│   ├── config/
+│   │   └── db.js                         # Configuración y conexión a MySQL
+│   │
+│   ├── routes/                           # Rutas de la API
+│   │   ├── auth.js                       # Login, registro, logout
+│   │   ├── orders.js                     # Pedidos y checkout
+│   │   ├── admin.js                      # Administración
+│   │   └── restaurant.js                 # Restaurantes (CRUD)
+│   │
+│   ├── controllers/                      # Lógica de negocio
+│   │   ├── authController.js
+│   │   ├── orderController.js
+│   │   ├── adminController.js
+│   │   └── restaurantController.js
+│   │
+│   ├── models/                           # Modelos (acceso a base de datos)
+│   │   ├── userModel.js
+│   │   ├── orderModel.js
+│   │   └── restaurantModel.js
+│   │
+│   └── tests/                            # Pruebas (para Calidad)
+│       ├── unit/
+│       │   ├── userModel.test.js
+│       │   └── orderController.test.js
+│       │
+│       ├── integration/
+│       │   ├── authRoutes.test.js
+│       │   └── ordersRoutes.test.js
+│       │
+│       └── performance/
+│           └── artillery-config.yml
+│
+├── database/
+│   ├── schema.sql                        # Estructura de tablas (users, orders, restaurants)
+│   └── seed.sql                          # Datos iniciales para pruebas
+│
+├── docs/                                 # Documentación de Calidad de Software
+│   ├── casos_de_uso.pdf
+│   ├── matriz_requisitos.xlsx
+│   ├── plan_pruebas_ISO829.docx
+│   ├── evidencias_funcionales.pdf
+│   └── métricas_ISO25010.xlsx
+│
+├── .env                                  # Variables de entorno (DB_USER, DB_PASS, etc.)
+├── .gitignore                            # Archivos a excluir del repositorio
+└── README.md                             # Documentación general del proyecto
+
+
+
+CORRE EL proyecto
+- SERVIDOR: 
+cd server
+npm run dev
+-CLIENTE:
+cd client
+http-server -p 5000
+

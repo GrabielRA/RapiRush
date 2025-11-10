@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeliveryApp - Mis Pedidos</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>🚚 DeliveryApp</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Inicio</a>
+                <a href="orders.html" class="nav-link active">Mis Pedidos</a>
+                <div class="nav-user">
+                    <span id="userNameDisplay">Usuario</span>
+                    <button onclick="logout()" class="btn btn-secondary btn-small">Cerrar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Mis Pedidos</h1>
+                <p>Aquí puedes ver el historial de todos tus pedidos</p>
+            </div>
+
+            <div class="orders-filter">
+                <button class="filter-btn active" onclick="filterUserOrders('all')">Todos</button>
+                <button class="filter-btn" onclick="filterUserOrders('pending')">Pendientes</button>
+                <button class="filter-btn" onclick="filterUserOrders('preparing')">Preparando</button>
+                <button class="filter-btn" onclick="filterUserOrders('delivering')">En Camino</button>
+                <button class="filter-btn" onclick="filterUserOrders('delivered')">Entregados</button>
+                <button class="filter-btn" onclick="filterUserOrders('cancelled')">Cancelados</button>
+            </div>
+
+            <div class="user-orders-list" id="userOrdersList">
+                <div class="user-order-card delivering">
+                    <div class="order-header">
+                        <div class="order-basic-info">
+                            <h3>Pedido #12347</h3>
+                            <span class="order-status delivering">En Camino</span>
+                        </div>
+                        <div class="order-time">
+                            <small>Pedido hoy a las 14:45</small>
+                        </div>
+                    </div>
+                    
+                    <div class="order-restaurant">
+                        <img src="https://images.pexels.com/photos/2762942/pexels-photo-2762942.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Pizza Palace" class="restaurant-thumb">
+                        <div class="restaurant-info">
+                            <h4>Pizza Palace</h4>
+                            <p>Zona Norte • Pizza</p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-items">
+                        <div class="order-item">
+                            <span>2x Pizza Margherita (Grande)</span>
+                            <span>$24.00</span>
+                        </div>
+                        <div class="order-item">
+                            <span>1x Coca Cola</span>
+                            <span>$2.50</span>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span>$26.50</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Domicilio:</span>
+                            <span>$3.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span><strong>Total:</strong></span>
+                            <span><strong>$29.50</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div class="order-tracking">
+                        <div class="tracking-step completed">
+                            <div class="step-icon">✓</div>
+                            <div class="step-info">
+                                <p>Pedido Confirmado</p>
+                                <small>14:45</small>
+                            </div>
+                        </div>
+                        <div class="tracking-step completed">
+                            <div class="step-icon">✓</div>
+                            <div class="step-info">
+                                <p>Preparando</p>
+                                <small>14:50</small>
+                            </div>
+                        </div>
+                        <div class="tracking-step active">
+                            <div class="step-icon">🚚</div>
+                            <div class="step-info">
+                                <p>En Camino</p>
+                                <small>15:10</small>
+                            </div>
+                        </div>
+                        <div class="tracking-step">
+                            <div class="step-icon">📍</div>
+                            <div class="step-info">
+                                <p>Entregado</p>
+                                <small></small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-actions">
+                        <button class="btn btn-secondary btn-small">Rastrear Pedido</button>
+                        <button class="btn btn-danger btn-small">Cancelar</button>
+                    </div>
+                </div>
+
+                <div class="user-order-card delivered">
+                    <div class="order-header">
+                        <div class="order-basic-info">
+                            <h3>Pedido #12340</h3>
+                            <span class="order-status delivered">Entregado</span>
+                        </div>
+                        <div class="order-time">
+                            <small>Ayer a las 19:30</small>
+                        </div>
+                    </div>
+                    
+                    <div class="order-restaurant">
+                        <img src="https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Burger House" class="restaurant-thumb">
+                        <div class="restaurant-info">
+                            <h4>Burger House</h4>
+                            <p>Centro • Hamburguesas</p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-items">
+                        <div class="order-item">
+                            <span>1x Hamburguesa Clásica</span>
+                            <span>$12.00</span>
+                        </div>
+                        <div class="order-item">
+                            <span>1x Papas Fritas</span>
+                            <span>$4.50</span>
+                        </div>
+                        <div class="order-item">
+                            <span>1x Sprite</span>
+                            <span>$2.50</span>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <div class="summary-row total">
+                            <span><strong>Total:</strong></span>
+                            <span><strong>$22.00</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div class="order-actions">
+                        <button class="btn btn-primary btn-small">Pedir de Nuevo</button>
+                        <button class="btn btn-secondary btn-small">Calificar</button>
+                    </div>
+                </div>
+
+                <div class="user-order-card cancelled">
+                    <div class="order-header">
+                        <div class="order-basic-info">
+                            <h3>Pedido #12338</h3>
+                            <span class="order-status cancelled">Cancelado</span>
+                        </div>
+                        <div class="order-time">
+                            <small>2 días atrás - 13:15</small>
+                        </div>
+                    </div>
+                    
+                    <div class="order-restaurant">
+                        <img src="https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Sushi Master" class="restaurant-thumb">
+                        <div class="restaurant-info">
+                            <h4>Sushi Master</h4>
+                            <p>Zona Sur • Sushi</p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-items">
+                        <div class="order-item">
+                            <span>1x Combo Sushi (20 piezas)</span>
+                            <span>$28.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <div class="summary-row total">
+                            <span><strong>Total:</strong></span>
+                            <span><strong>$31.00</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div class="cancellation-reason">
+                        <p><strong>Motivo:</strong> Restaurante sin disponibilidad</p>
+                        <p><small>Reembolso procesado automáticamente</small></p>
+                    </div>
+                    
+                    <div class="order-actions">
+                        <button class="btn btn-primary btn-small">Pedir de Nuevo</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="empty-orders" id="emptyOrders" style="display: none;">
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <h3>No tienes pedidos</h3>
+                    <p>¡Haz tu primer pedido y aparecerá aquí!</p>
+                    <a href="dashboard.html" class="btn btn-primary">Explorar Restaurantes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+</body>
+</html>
