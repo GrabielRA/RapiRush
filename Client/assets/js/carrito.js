@@ -8,6 +8,15 @@ class ShoppingCart {
     constructor() {
         this.storageKey = 'cart';
         this.items = this.loadCart();
+        this.initializeEventListeners();
+    }
+
+    // Inicializar event listeners
+    initializeEventListeners() {
+        document.addEventListener('DOMContentLoaded', () => {
+            this.updateCartCount();
+            this.renderCart();
+        });
     }
 
     // Cargar carrito desde localStorage
@@ -26,6 +35,8 @@ class ShoppingCart {
         try {
             localStorage.setItem(this.storageKey, JSON.stringify(this.items));
             this.updateCartCount();
+            this.renderCart();
+            this.updateOrderSummaryDirect();
         } catch (error) {
             console.error('Error al guardar el carrito:', error);
         }
@@ -54,17 +65,40 @@ class ShoppingCart {
         }
 
         this.saveCart();
+        this.updateCartCount();
+        // Si estamos en la página del carrito, actualizar la vista
+        if (document.getElementById('cart-items-container')) {
+            loadCart();
+        }
         return true;
     }
 
     // Actualizar cantidad de un item
     updateQuantity(index, change) {
         if (index >= 0 && index < this.items.length) {
-            this.items[index].quantity += change;
+            const item = this.items[index];
+            const newQuantity = item.quantity + change;
 
-            if (this.items[index].quantity <= 0) {
+            if (newQuantity <= 0) {
                 this.removeItem(index);
             } else {
+                item.quantity = newQuantity;
+                // Actualizar cantidad en la interfaz inmediatamente
+                const quantityElement = document.querySelector(`[data-index="${index}"] .quantity-control .fw-bold`);
+                if (quantityElement) {
+                    quantityElement.textContent = newQuantity;
+                    CartUtils.animateElement(quantityElement, 'animate-bounce');
+                }
+                // Actualizar subtotal inmediatamente
+                const subtotalElement = document.querySelector(`[data-index="${index}"] .text-primary`);
+                if (subtotalElement) {
+                    subtotalElement.textContent = CartUtils.formatPrice(item.price * newQuantity);
+                    CartUtils.animateElement(subtotalElement, 'animate-pulse');
+                }
+                
+                // Actualizar resumen inmediatamente
+                this.updateOrderSummaryDirect();
+                
                 this.saveCart();
             }
         }
@@ -73,8 +107,25 @@ class ShoppingCart {
     // Remover item del carrito
     removeItem(index) {
         if (index >= 0 && index < this.items.length) {
-            this.items.splice(index, 1);
-            this.saveCart();
+            const itemElement = document.querySelector(`[data-index="${index}"]`);
+            if (itemElement) {
+                // Animación de desvanecimiento
+                itemElement.style.transition = 'all 0.3s ease';
+                itemElement.style.transform = 'translateX(100%)';
+                itemElement.style.opacity = '0';
+
+                setTimeout(() => {
+                    this.items.splice(index, 1);
+                    // Actualizar resumen inmediatamente
+                    this.updateOrderSummaryDirect();
+                    this.saveCart();
+                }, 300);
+            } else {
+                this.items.splice(index, 1);
+                // Actualizar resumen inmediatamente
+                this.updateOrderSummaryDirect();
+                this.saveCart();
+            }
         }
     }
 
@@ -116,19 +167,65 @@ class ShoppingCart {
     // Actualizar contador en navbar
     updateCartCount() {
         const countElements = document.querySelectorAll('#cart-count, .cart-count');
-        const count = this.getTotalItems();
+        const count = this.items.reduce((total, item) => total + item.quantity, 0);
         
         countElements.forEach(element => {
             if (element) {
-                element.textContent = count;
-                
-                // Animación de actualización
-                element.classList.add('animate-bounce');
-                setTimeout(() => {
-                    element.classList.remove('animate-bounce');
-                }, 500);
+                if (element.textContent !== String(count)) {
+                    element.textContent = count;
+                    CartUtils.animateElement(element, 'animate-bounce');
+                }
             }
         });
+    }
+
+    // Actualizar resumen del pedido directo (sin esperar saveCart)
+    updateOrderSummaryDirect() {
+        const elements = {
+            subtotal: document.getElementById('subtotal'),
+            deliveryFee: document.getElementById('delivery-fee'),
+            discount: document.getElementById('discount'),
+            total: document.getElementById('total')
+        };
+
+        if (!elements.subtotal) return;
+
+        const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const deliveryFee = subtotal > 50 ? 0 : 5.00; // Delivery gratis para pedidos mayores a S/50
+        const discount = this.getActivePromo()?.value || 0;
+        const total = subtotal + deliveryFee - discount;
+
+        // Animar y actualizar cambios en los precios inmediatamente
+        Object.entries({ 
+            subtotal: subtotal,
+            'delivery-fee': deliveryFee,
+            discount: discount,
+            total: total
+        }).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                const currentPrice = parseFloat(element.textContent.replace('S/. ', '')) || 0;
+                if (currentPrice !== value) {
+                    CartUtils.animateElement(element, 'animate-pulse');
+                    element.textContent = CartUtils.formatPrice(value);
+                }
+            }
+        });
+
+        // Si el carrito está vacío, mostrar mensaje de carrito vacío
+        const emptyMessage = document.getElementById('empty-cart-message');
+        const orderSummary = document.getElementById('order-summary');
+        const continueShopping = document.getElementById('continue-shopping');
+
+        if (this.items.length === 0) {
+            if (emptyMessage) emptyMessage.style.display = 'block';
+            if (orderSummary) orderSummary.style.display = 'none';
+            if (continueShopping) continueShopping.style.display = 'none';
+        } else {
+            if (emptyMessage) emptyMessage.style.display = 'none';
+            if (orderSummary) orderSummary.style.display = 'block';
+            if (continueShopping) continueShopping.style.display = 'block';
+        }
     }
 
     // Validar si el carrito está vacío
@@ -194,11 +291,16 @@ const CartUtils = {
         const bgColor = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-info';
         const icon = type === 'success' ? 'check-circle-fill' : type === 'error' ? 'x-circle-fill' : 'info-circle-fill';
 
+        // Agregar badge de carrito al mensaje si es una operación de carrito
+        const cartBadge = `<span class="badge bg-light text-dark ms-2" id="toast-cart-count"></span>`;
+        const cartIcon = type === 'success' ? '<i class="bi bi-cart-plus-fill me-2"></i>' : '';
+
         const toastHTML = `
             <div id="${toastId}" class="toast" role="alert">
                 <div class="toast-header ${bgColor} text-white">
-                    <i class="bi bi-${icon} me-2"></i>
+                    ${cartIcon}<i class="bi bi-${icon} me-2"></i>
                     <strong class="me-auto">${type === 'success' ? '¡Éxito!' : type === 'error' ? 'Error' : 'Información'}</strong>
+                    ${type === 'success' ? cartBadge : ''}
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
                 </div>
                 <div class="toast-body">
@@ -290,132 +392,107 @@ if (typeof module !== 'undefined' && module.exports) {
 
 
 
-        // Cargar y mostrar items del carrito
-        function loadCart() {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            const cartItemsContainer = document.getElementById('cart-items-container');
-            const emptyMessage = document.getElementById('empty-cart-message');
-            const orderSummary = document.getElementById('order-summary');
-            const continueShopping = document.getElementById('continue-shopping');
+// Función para cargar y mostrar items del carrito en la página de carrito
+function loadCart() {
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const emptyMessage = document.getElementById('empty-cart-message');
+    const orderSummary = document.getElementById('order-summary');
+    const continueShopping = document.getElementById('continue-shopping');
 
-            if (cart.length === 0) {
-                emptyMessage.style.display = 'block';
-                orderSummary.style.display = 'none';
-                continueShopping.style.display = 'none';
-                return;
-            }
+    // Si no estamos en la página del carrito, salir
+    if (!cartItemsContainer) return;
 
-            emptyMessage.style.display = 'none';
-            orderSummary.style.display = 'block';
-            continueShopping.style.display = 'block';
+    const items = cart.getItems();
 
-            // Generar HTML de items
-            let itemsHTML = '';
-            cart.forEach((item, index) => {
-                itemsHTML += `
-                    <div class="cart-item" data-index="${index}">
-                        <div class="row align-items-center">
-                            <div class="col-md-2">
-                                <img src="${item.image || 'https://via.placeholder.com/100'}" 
-                                     class="img-fluid rounded" alt="${item.name}">
-                            </div>
-                            <div class="col-md-4">
-                                <h6 class="mb-1">${item.name}</h6>
-                                <small class="text-muted">${item.restaurant}</small>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <p class="mb-0 fw-bold">S/. ${item.price.toFixed(2)}</p>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="quantity-control">
-                                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, -1)">
-                                        <i class="bi bi-dash"></i>
-                                    </button>
-                                    <span class="fw-bold">${item.quantity}</span>
-                                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, 1)">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-md-2 text-end">
-                                <p class="mb-0 fw-bold text-primary">S/. ${(item.price * item.quantity).toFixed(2)}</p>
-                                <button class="btn btn-sm btn-link text-danger p-0" onclick="removeItem(${index})">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </button>
-                            </div>
+    if (items.length === 0) {
+        emptyMessage.style.display = 'block';
+        orderSummary.style.display = 'none';
+        continueShopping.style.display = 'none';
+        return;
+    }
+
+    emptyMessage.style.display = 'none';
+    orderSummary.style.display = 'block';
+    continueShopping.style.display = 'block';
+
+    // Generar HTML de items
+    let itemsHTML = '';
+    items.forEach((item, index) => {
+        itemsHTML += `
+            <div class="cart-item" data-index="${index}">
+                <div class="row align-items-center">
+                    <div class="col-md-2">
+                        <img src="${item.image || 'https://via.placeholder.com/100'}" 
+                             class="img-fluid rounded" alt="${item.name}">
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="mb-1">${item.name}</h6>
+                        <small class="text-muted">${item.restaurant}</small>
+                        ${item.notes ? `<p class="text-muted small mt-1"><i class="bi bi-card-text"></i> ${item.notes}</p>` : ''}
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <p class="mb-0 fw-bold">${CartUtils.formatPrice(item.price)}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="quantity-control">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, -1)">
+                                <i class="bi bi-dash"></i>
+                            </button>
+                            <span class="fw-bold">${item.quantity}</span>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${index}, 1)">
+                                <i class="bi bi-plus"></i>
+                            </button>
                         </div>
                     </div>
-                `;
-            });
+                    <div class="col-md-2 text-end">
+                        <p class="mb-0 fw-bold text-primary">${CartUtils.formatPrice(item.price * item.quantity)}</p>
+                        <button class="btn btn-sm btn-link text-danger p-0" onclick="removeItem(${index})">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+                <hr class="my-3">
+            </div>
+        `;
+    });
 
-            cartItemsContainer.innerHTML = itemsHTML;
-            updateOrderSummary();
-            updateCartCount();
-        }
+    cartItemsContainer.innerHTML = itemsHTML;
+    cart.updateOrderSummaryDirect();
+}
 
-        function updateQuantity(index, change) {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            cart[index].quantity += change;
-            
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
-            }
-            
-            localStorage.setItem('cart', JSON.stringify(cart));
-            loadCart();
-        }
+// Función para aplicar código promocional
+function applyPromoCode() {
+    const promoCode = document.getElementById('promo-code').value;
+    const promoMessage = document.getElementById('promo-message');
+    
+    if (!promoCode) return;
 
-        function removeItem(index) {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            cart.splice(index, 1);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            loadCart();
-        }
+    const result = cart.applyPromoCode(promoCode);
+    
+    if (result.success) {
+        promoMessage.textContent = `¡Código aplicado! ${result.promo.description}`;
+        promoMessage.className = 'text-success';
+        CartUtils.showToast('Código promocional aplicado correctamente', 'success');
+        cart.updateOrderSummaryDirect();
+    } else {
+        promoMessage.textContent = result.message;
+        promoMessage.className = 'text-danger';
+        CartUtils.showToast('Código promocional inválido', 'error');
+    }
+    promoMessage.style.display = 'block';
+}
 
-        function updateOrderSummary() {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const deliveryFee = subtotal > 0 ? 5.00 : 0;
-            const discount = 0;
-            const total = subtotal + deliveryFee - discount;
+// Función para proceder al checkout
+function proceedToCheckout() {
+    if (cart.isEmpty()) {
+        CartUtils.showToast('Tu carrito está vacío', 'error');
+        return;
+    }
+    window.location.href = 'checkout.html';
+}
 
-            document.getElementById('subtotal').textContent = `S/. ${subtotal.toFixed(2)}`;
-            document.getElementById('delivery-fee').textContent = `S/. ${deliveryFee.toFixed(2)}`;
-            document.getElementById('discount').textContent = `- S/. ${discount.toFixed(2)}`;
-            document.getElementById('total').textContent = `S/. ${total.toFixed(2)}`;
-        }
-
-        function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            const count = cart.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById('cart-count').textContent = count;
-        }
-
-        function applyPromoCode() {
-            const promoCode = document.getElementById('promo-code').value;
-            const promoMessage = document.getElementById('promo-message');
-            
-            // Simulación de validación de código
-            if (promoCode.toUpperCase() === 'DESCUENTO10') {
-                promoMessage.textContent = '¡Código aplicado! 10% de descuento';
-                promoMessage.style.display = 'block';
-                // Aquí aplicarías el descuento real
-            } else if (promoCode) {
-                promoMessage.textContent = 'Código inválido';
-                promoMessage.className = 'text-danger';
-                promoMessage.style.display = 'block';
-            }
-        }
-
-        function proceedToCheckout() {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            if (cart.length === 0) {
-                alert('Tu carrito está vacío');
-                return;
-            }
-            window.location.href = 'checkout.html';
-        }
-
-        // Cargar carrito al iniciar
-        loadCart();
-   
+// Cargar carrito al iniciar
+document.addEventListener('DOMContentLoaded', () => {
+    loadCart();
+    cart.updateCartCount();
+});

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café — DeliveryApp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<!-- Reuse header from index.html -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <div class="nav-item dropdown ms-start me-auto">
+                <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown">☰</a>
+                <ul class="dropdown-menu" style="min-width: 260px;">
+                    <li class="dropdown-item px-3">
+                        <div class="d-flex justify-content-start gap-2">
+                            <a href="auth/register.html" class="btn btn-outline-primary btn-sm">Registrarse</a>
+                            <a href="auth/login.html" class="btn btn-primary btn-sm px-3 mx-2">Iniciar Sesion</a>
+                        </div>
+                    </li>
+                    <li><a class="dropdown-item" href="restaurantes.html"><i class="bi bi-shop-window"></i> Restaurantes</a></li>
+                    <li><a class="dropdown-item" href="agregarestaurante.html"><i class="bi bi-shop-window"></i> Registra tu restaurante</a></li>
+                    <li><a class="dropdown-item" href="serepartidor.html"><i class="bi bi-bicycle"></i> Sé repartidor</a></li>
+                </ul>
+            </div>
+
+            <a class="navbar-brand fw-bold text-warning" href="index.html">
+                <h3>🚚 DeliveryApp</h3>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle fs-4 mx-2"></i>Ingreso
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="auth/login.html">Ingresar</a></li>
+                            <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="carrito.html">
+                            <i class="bi bi-cart3 fs-4"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="py-5">
+    <div class="container">
+        <div class="section-header text-center mb-4">
+            <h1 class="section-title">Café — Sabores y Energía</h1>
+            <p class="section-subtitle">Una selección de nuestras mejores tazas y acompañamientos. Encuentra tu favorito.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- 10 productos de café con imágenes reales (Unsplash queries) -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1534778101976-62847782c213" alt="Latte Art" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                            <div class="card-body">
+                                <h5 class="mb-1">Latte Art — La Casa <span class="badge bg-warning text-dark ms-2">Popular</span></h5>
+                                <p class="text-small text-muted mb-2">Suave espresso con leche cremosa y arte en la taza.</p>
+                                <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                                    <div><i class="bi bi-star-fill text-warning"></i> 4.8 (320)</div>
+                                    <div><i class="bi bi-geo-alt"></i> Miraflores</div>
+                                    <div><i class="bi bi-clock"></i> 25-35 min</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">S/ 8.50</div>
+                                        <div class="text-small text-muted">Envío S/ 3.00 • <span class="text-success">Abierto</span></div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Latte Art — La Casa', 8.50, 'https://images.unsplash.com/photo-1534778101976-62847782c213', 'La Casa')">Agregar</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04" alt="Espresso" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                            <div class="card-body">
+                                <h5 class="mb-1">Espresso Doble — Barista <span class="badge bg-info text-dark ms-2">Top</span></h5>
+                                <p class="text-small text-muted mb-2">Concentrado y aromático, perfecto para empezar el día.</p>
+                                <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                                    <div><i class="bi bi-star-fill text-warning"></i> 4.7 (210)</div>
+                                    <div><i class="bi bi-geo-alt"></i> San Isidro</div>
+                                    <div><i class="bi bi-clock"></i> 15-25 min</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">S/ 6.00</div>
+                                        <div class="text-small text-muted">Envío S/ 2.50 • <span class="text-success">Abierto</span></div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Espresso Doble — Barista', 6.00, 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04', 'Barista')">Agregar</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1572442388796-11668a67e53d" alt="Cappuccino" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                            <div class="card-body">
+                                <h5 class="mb-1">Cappuccino Clásico <span class="badge bg-secondary text-white ms-2">Recomendado</span></h5>
+                                <p class="text-small text-muted mb-2">Espuma densa y cacao espolvoreado — balance perfecto.</p>
+                                <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                                    <div><i class="bi bi-star-fill text-warning"></i> 4.6 (180)</div>
+                                    <div><i class="bi bi-geo-alt"></i> Barranco</div>
+                                    <div><i class="bi bi-clock"></i> 20-30 min</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">S/ 9.00</div>
+                                        <div class="text-small text-muted">Envío S/ 3.50 • <span class="text-success">Abierto</span></div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Cappuccino Clásico', 9.00, 'https://images.unsplash.com/photo-1572442388796-11668a67e53d', 'Barranco')">Agregar</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1577968897966-3d4325b36b61" alt="Flat White" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                            <div class="card-body">
+                                <h5 class="mb-1">Flat White — Tostado Medio</h5>
+                                <p class="text-small text-muted mb-2">Textura sedosa y cuerpo balanceado.</p>
+                                <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                                    <div><i class="bi bi-star-fill text-warning"></i> 4.5 (98)</div>
+                                    <div><i class="bi bi-geo-alt"></i> Miraflores</div>
+                                    <div><i class="bi bi-clock"></i> 18-28 min</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">S/ 8.75</div>
+                                        <div class="text-small text-muted">Envío S/ 3.00 • <span class="text-success">Abierto</span></div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Flat White — Tostado Medio', 8.75, 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61', 'Miraflores')">Agregar</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1485808191679-5f86510681a2" alt="Macchiato" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                            <div class="card-body">
+                                <h5 class="mb-1">Macchiato Caramelizado</h5>
+                                <p class="text-small text-muted mb-2">Toque dulce que realza el espresso.</p>
+                                <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                                    <div><i class="bi bi-star-fill text-warning"></i> 4.4 (76)</div>
+                                    <div><i class="bi bi-geo-alt"></i> San Borja</div>
+                                    <div><i class="bi bi-clock"></i> 22-32 min</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">S/ 9.50</div>
+                                        <div class="text-small text-muted">Envío S/ 3.00 • <span class="text-success">Abierto</span></div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Macchiato Caramelizado', 9.50, 'https://images.unsplash.com/photo-1485808191679-5f86510681a2', 'San Borja')">Agregar</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735" alt="Iced Coffee" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                            <div class="card-body">
+                                <h5 class="mb-1">Iced Coffee Tropical</h5>
+                                <p class="text-small text-muted mb-2">Refrescante con un toque de leche de almendra.</p>
+                                <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                                    <div><i class="bi bi-star-fill text-warning"></i> 4.3 (54)</div>
+                                    <div><i class="bi bi-geo-alt"></i> Miraflores</div>
+                                    <div><i class="bi bi-clock"></i> 30-40 min</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">S/ 10.00</div>
+                                        <div class="text-small text-muted">Envío S/ 4.00 • <span class="text-success">Abierto</span></div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Iced Coffee Tropical', 10.00, 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735', 'Miraflores')">Agregar</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e" alt="Granos de Café" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                            <div class="card-body">
+                                <h5 class="mb-1">Granos Premium — 250g</h5>
+                                <p class="text-small text-muted mb-2">Tueste recién molido, ideal para cafetera de filtro.</p>
+                                <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                                    <div><i class="bi bi-star-fill text-warning"></i> 4.9 (120)</div>
+                                    <div><i class="bi bi-geo-alt"></i> Delivery Nacional</div>
+                                    <div><i class="bi bi-clock"></i> 2-3 días</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">S/ 25.00</div>
+                                        <div class="text-small text-muted">Envío S/ 8.00 • <span class="text-success">En stock</span></div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Granos Premium — 250g', 25.00, 'https://images.unsplash.com/photo-1447933601403-0c6688de566e', 'Delivery Nacional')">Agregar</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1555507036-ab1f4038808a" alt="Croissant" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                            <div class="card-body">
+                                <h5 class="mb-1">Croissant Mantequilla</h5>
+                                <p class="text-small text-muted mb-2">Hojuela crujiente y mantequilla premium.</p>
+                                <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                                    <div><i class="bi bi-star-fill text-warning"></i> 4.5 (88)</div>
+                                    <div><i class="bi bi-geo-alt"></i> San Isidro</div>
+                                    <div><i class="bi bi-clock"></i> 20-30 min</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">S/ 7.50</div>
+                                        <div class="text-small text-muted">Envío S/ 2.50 • <span class="text-success">Abierto</span></div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Croissant Mantequilla', 7.50, 'https://images.unsplash.com/photo-1555507036-ab1f4038808a', 'San Isidro')">Agregar</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1505253468034-514d2507d914" alt="Dulce" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                            <div class="card-body">
+                                <h5 class="mb-1">Dulce Artesanal</h5>
+                                <p class="text-small text-muted mb-2">Perfecto acompañamiento para tu café favorito.</p>
+                                <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                                    <div><i class="bi bi-star-fill text-warning"></i> 4.2 (45)</div>
+                                    <div><i class="bi bi-geo-alt"></i> Miraflores</div>
+                                    <div><i class="bi bi-clock"></i> 15-25 min</div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">S/ 6.50</div>
+                                        <div class="text-small text-muted">Envío S/ 2.50 • <span class="text-success">Abierto</span></div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Dulce Artesanal', 6.50, 'https://images.unsplash.com/photo-1505253468034-514d2507d914', 'Miraflores')">Agregar</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer class="bg-dark text-white py-4 mt-5">
+    <div class="container text-center small">© 2025 DeliveryApp. Todos los derechos reservados.</div>
+</footer>
+
+<!-- Modal para agregar al carrito -->
+<div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="addToCartModalLabel">Vista Previa del Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="position-relative">
+                            <img id="modalProductImage" src="" alt="Producto" class="img-fluid rounded shadow" style="width: 100%; height: 300px; object-fit: cover;">
+                            <span id="modalProductBadge" class="position-absolute top-0 end-0 m-2 badge"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 id="modalProductName" class="mb-3 fw-bold"></h4>
+                        <div class="mb-3">
+                            <h5 class="text-primary mb-2" id="modalProductPrice"></h5>
+                            <div class="d-flex align-items-center mb-2 text-muted">
+                                <i class="bi bi-geo-alt me-2"></i>
+                                <span id="modalProductLocation"></span>
+                            </div>
+                            <div class="d-flex align-items-center mb-2 text-muted">
+                                <i class="bi bi-clock me-2"></i>
+                                <span id="modalProductTime"></span>
+                            </div>
+                            <div class="d-flex align-items-center mb-3 text-warning">
+                                <i class="bi bi-star-fill me-2"></i>
+                                <span id="modalProductRating"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <h6 class="mb-2">Descripción:</h6>
+                            <p id="modalProductDescription" class="text-muted"></p>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Cantidad:</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-primary" type="button" onclick="updateModalQuantity(-1)">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <input type="number" class="form-control text-center" id="quantity" value="1" min="1" max="10" onchange="validateQuantity(this)">
+                                <button class="btn btn-outline-primary" type="button" onclick="updateModalQuantity(1)">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Instrucciones especiales:</label>
+                            <textarea class="form-control" id="notes" rows="3" placeholder="Ej: Sin azúcar, temperatura específica, etc."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 text-start text-muted">
+                            <small>* El tiempo de entrega puede variar según la ubicación</small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" onclick="addToCartFromModal()">
+                                <i class="bi bi-cart-plus me-2"></i>Agregar al Carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/carrito.js"></script>
+<script>
+    let currentProduct = null;
+
+    function showAddToCartModal(name, price, image, location) {
+        // Get product details from the card that was clicked
+        const productCard = event.target.closest('.restaurant-card');
+        const description = productCard.querySelector('.text-small.text-muted').textContent;
+        const rating = productCard.querySelector('.bi-star-fill').parentElement.textContent.trim();
+        const deliveryTime = productCard.querySelector('.bi-clock').parentElement.textContent.trim();
+        const badge = productCard.querySelector('.badge');
+        
+        // Store product information
+        currentProduct = { 
+            name, 
+            price, 
+            image, 
+            location,
+            description,
+            rating,
+            deliveryTime,
+            restaurant: 'Sabores y Energía' // Nombre del restaurante de café
+        };
+
+        // Update modal with all product information
+        document.getElementById('modalProductName').textContent = name;
+        document.getElementById('modalProductPrice').textContent = `S/ ${price.toFixed(2)}`;
+        document.getElementById('modalProductImage').src = image;
+        document.getElementById('modalProductLocation').textContent = location;
+        document.getElementById('modalProductTime').textContent = deliveryTime;
+        document.getElementById('modalProductRating').textContent = rating;
+        document.getElementById('modalProductDescription').textContent = description;
+
+        // Handle badge if exists
+        const modalBadge = document.getElementById('modalProductBadge');
+        if (badge) {
+            modalBadge.textContent = badge.textContent;
+            modalBadge.className = badge.className + ' position-absolute top-0 end-0 m-2';
+        } else {
+            modalBadge.style.display = 'none';
+        }
+
+        // Reset quantity and notes
+        document.getElementById('quantity').value = 1;
+        document.getElementById('notes').value = '';
+
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('addToCartModal'));
+        modal.show();
+    }
+
+    function updateModalQuantity(change) {
+        const quantityInput = document.getElementById('quantity');
+        let newValue = parseInt(quantityInput.value) + change;
+        if (newValue >= 1 && newValue <= 10) {
+            quantityInput.value = newValue;
+        }
+    }
+
+    function validateQuantity(input) {
+        let value = parseInt(input.value);
+        if (isNaN(value) || value < 1) {
+            input.value = 1;
+        } else if (value > 10) {
+            input.value = 10;
+        }
+    }
+
+    function addToCartFromModal() {
+        const quantity = parseInt(document.getElementById('quantity').value);
+        const notes = document.getElementById('notes').value;
+        
+        if (currentProduct && quantity > 0) {
+            const item = {
+                ...currentProduct,
+                quantity,
+                notes,
+                total: currentProduct.price * quantity
+            };
+            
+            addToCart(item.name, item.price, item.image, item.restaurant);
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addToCartModal'));
+            modal.hide();
+        }
+    }
+</script>
+</body>
+</html>

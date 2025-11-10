@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desayuno — DeliveryApp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <div class="nav-item dropdown ms-start me-auto">
+                <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown">☰</a>
+                <ul class="dropdown-menu" style="min-width: 260px;">
+                    <li class="dropdown-item px-3">
+                        <div class="d-flex justify-content-start gap-2">
+                            <a href="auth/register.html" class="btn btn-outline-primary btn-sm">Registrarse</a>
+                            <a href="auth/login.html" class="btn btn-primary btn-sm px-3 mx-2">Iniciar Sesion</a>
+                        </div>
+                    </li>
+                    <li><a class="dropdown-item" href="restaurantes.html"><i class="bi bi-shop-window"></i> Restaurantes</a></li>
+                    <li><a class="dropdown-item" href="agregarestaurante.html"><i class="bi bi-shop-window"></i> Registra tu restaurante</a></li>
+                    <li><a class="dropdown-item" href="serepartidor.html"><i class="bi bi-bicycle"></i> Sé repartidor</a></li>
+                </ul>
+            </div>
+
+            <a class="navbar-brand fw-bold text-warning" href="index.html">
+                <h3>🚚 DeliveryApp</h3>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle fs-4 mx-2"></i>Ingreso
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="auth/login.html">Ingresar</a></li>
+                            <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="carrito.html">
+                            <i class="bi bi-cart3 fs-4"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="py-5">
+    <div class="container">
+        <div class="section-header text-center mb-4">
+            <h1 class="section-title">Desayunos — Comienza el día</h1>
+            <p class="section-subtitle">Huevos, panes, batidos y combos energéticos para empezar fuerte.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- 10 desayunos reales con imágenes Unsplash -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7" alt="Huevos Benedict" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                    <div class="card-body">
+                        <h5 class="mb-1">Huevos Benedict — Sunrise <span class="badge bg-warning text-dark ms-2">Popular</span></h5>
+                        <p class="text-small text-muted mb-2">Huevos poché sobre pan artesanal con salsa holandesa.</p>
+                        <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                            <div><i class="bi bi-star-fill text-warning"></i> 4.7 (210)</div>
+                            <div><i class="bi bi-geo-alt"></i> Miraflores</div>
+                            <div><i class="bi bi-clock"></i> 20-30 min</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">S/ 18.00</div>
+                                <div class="text-small text-muted">Envío S/ 4.00 • <span class="text-success">Abierto</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Huevos Benedict — Sunrise', 18.00, 'https://images.unsplash.com/photo-1608039829572-78524f79c4c7', 'Miraflores')">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445" alt="Pancakes" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                    <div class="card-body">
+                        <h5 class="mb-1">Pancakes Caseros</h5>
+                        <p class="text-small text-muted mb-2">Servidos con miel de maple y frutas de estación.</p>
+                        <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                            <div><i class="bi bi-star-fill text-warning"></i> 4.6 (154)</div>
+                            <div><i class="bi bi-geo-alt"></i> San Isidro</div>
+                            <div><i class="bi bi-clock"></i> 18-28 min</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">S/ 16.50</div>
+                                <div class="text-small text-muted">Envío S/ 3.50 • <span class="text-success">Abierto</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Pancakes Caseros', 16.50, 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445', 'San Isidro')">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2" alt="Smoothie Bowl" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                    <div class="card-body">
+                        <h5 class="mb-1">Smoothie Bowl Energy</h5>
+                        <p class="text-small text-muted mb-2">Açaí, granola y topping de semillas.</p>
+                        <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                            <div><i class="bi bi-star-fill text-warning"></i> 4.5 (90)</div>
+                            <div><i class="bi bi-geo-alt"></i> Miraflores</div>
+                            <div><i class="bi bi-clock"></i> 15-25 min</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">S/ 14.00</div>
+                                <div class="text-small text-muted">Envío S/ 3.00 • <span class="text-success">Abierto</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Smoothie Bowl Energy', 14.00, 'https://images.unsplash.com/photo-1511690656952-34342bb7c2f2', 'Miraflores')">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1612240498936-65f5101365d2" alt="Omelette" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                    <div class="card-body">
+                        <h5 class="mb-1">Omelette Campesino</h5>
+                        <p class="text-small text-muted mb-2">Con vegetales frescos y queso fundido.</p>
+                        <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                            <div><i class="bi bi-star-fill text-warning"></i> 4.6 (76)</div>
+                            <div><i class="bi bi-geo-alt"></i> Barranco</div>
+                            <div><i class="bi bi-clock"></i> 20-30 min</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">S/ 17.00</div>
+                                <div class="text-small text-muted">Envío S/ 3.50 • <span class="text-success">Abierto</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Omelette Campesino', 17.00, 'https://images.unsplash.com/photo-1612240498936-65f5101365d2', 'Barranco')">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://img-global.cpcdn.com/recipes/df7eadd7fe26c705/1200x630cq80/photo.jpg" alt="Bagel" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                    <div class="card-body">
+                        <h5 class="mb-1">Bagel Ahumado</h5>
+                        <p class="text-small text-muted mb-2">Con salmón, queso crema y eneldo.</p>
+                        <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                            <div><i class="bi bi-star-fill text-warning"></i> 4.8 (130)</div>
+                            <div><i class="bi bi-geo-alt"></i> San Isidro</div>
+                            <div><i class="bi bi-clock"></i> 18-28 min</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">S/ 19.00</div>
+                                <div class="text-small text-muted">Envío S/ 3.50 • <span class="text-success">Abierto</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Bagel Ahumado', 19.00, 'https://img-global.cpcdn.com/recipes/df7eadd7fe26c705/1200x630cq80/photo.jpg', 'San Isidro')">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1484723091739-30a097e8f929" alt="Tostadas Francesas" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                    <div class="card-body">
+                        <h5 class="mb-1">Tostadas Francesas</h5>
+                        <p class="text-small text-muted mb-2">Servidas con compota de frutas y crema.</p>
+                        <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                            <div><i class="bi bi-star-fill text-warning"></i> 4.4 (64)</div>
+                            <div><i class="bi bi-geo-alt"></i> Miraflores</div>
+                            <div><i class="bi bi-clock"></i> 15-25 min</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">S/ 15.50</div>
+                                <div class="text-small text-muted">Envío S/ 3.00 • <span class="text-success">Abierto</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Tostadas Francesas', 15.50, 'https://images.unsplash.com/photo-1484723091739-30a097e8f929', 'Miraflores')">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1488477181946-6428a0291777" alt="Yogurt Parfait" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                    <div class="card-body">
+                        <h5 class="mb-1">Yogurt Parfait</h5>
+                        <p class="text-small text-muted mb-2">Yogurt natural, granola y miel.</p>
+                        <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                            <div><i class="bi bi-star-fill text-warning"></i> 4.3 (42)</div>
+                            <div><i class="bi bi-geo-alt"></i> San Borja</div>
+                            <div><i class="bi bi-clock"></i> 12-22 min</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">S/ 12.00</div>
+                                <div class="text-small text-muted">Envío S/ 2.50 • <span class="text-success">Abierto</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Yogurt Parfait', 12.00, 'https://images.unsplash.com/photo-1488477181946-6428a0291777', 'San Borja')">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://cdn7.kiwilimon.com/recetaimagen/36876/960x640/46097.jpg.jpg" alt="Sándwich Desayuno" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                    <div class="card-body">
+                        <h5 class="mb-1">Sándwich Desayuno</h5>
+                        <p class="text-small text-muted mb-2">Huevos, jamón serrano y queso en pan artesanal.</p>
+                        <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                            <div><i class="bi bi-star-fill text-warning"></i> 4.5 (55)</div>
+                            <div><i class="bi bi-geo-alt"></i> Miraflores</div>
+                            <div><i class="bi bi-clock"></i> 15-25 min</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">S/ 13.50</div>
+                                <div class="text-small text-muted">Envío S/ 2.50 • <span class="text-success">Abierto</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Sándwich Desayuno', 13.50, 'https://cdn7.kiwilimon.com/recetaimagen/36876/960x640/46097.jpg.jpg', 'Miraflores')">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="restaurant-card">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea" alt="Ensalada de frutas" class="w-100" onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+                    <div class="card-body">
+                        <h5 class="mb-1">Ensalada de Frutas</h5>
+                        <p class="text-small text-muted mb-2">Variedad de frutas frescas de temporada.</p>
+                        <div class="d-flex align-items-center justify-content-between mb-2 text-small text-muted">
+                            <div><i class="bi bi-star-fill text-warning"></i> 4.2 (30)</div>
+                            <div><i class="bi bi-geo-alt"></i> San Borja</div>
+                            <div><i class="bi bi-clock"></i> 12-20 min</div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">S/ 11.00</div>
+                                <div class="text-small text-muted">Envío S/ 2.00 • <span class="text-success">Abierto</span></div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="showAddToCartModal('Ensalada de Frutas', 11.00, 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea', 'San Borja')">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer class="bg-dark text-white py-4 mt-5">
+    <div class="container text-center small">© 2025 DeliveryApp. Todos los derechos reservados.</div>
+</footer>
+
+<!-- Modal para agregar al carrito -->
+<div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addToCartModalLabel">Vista Previa del Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Columna de imagen -->
+                    <div class="col-md-6">
+                        <img src="" alt="" class="product-image rounded w-100" style="height: 300px; object-fit: cover;">
+                    </div>
+                    <!-- Columna de detalles y formulario -->
+                    <div class="col-md-6">
+                        <div class="product-info mb-4">
+                            <h4 class="product-name mb-2"></h4>
+                            <p class="product-restaurant text-muted mb-2">
+                                <i class="bi bi-shop"></i> 
+                                <span></span>
+                            </p>
+                            <p class="product-price h5 text-primary mb-3"></p>
+                            <div class="delivery-info text-muted small mb-3">
+                                <p class="mb-1"><i class="bi bi-clock"></i> Tiempo estimado: 20-30 min</p>
+                                <p class="mb-0"><i class="bi bi-truck"></i> Costo de envío: S/. 5.00</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Cantidad:</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-primary" type="button" onclick="updateModalQuantity(-1)">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <input type="number" class="form-control text-center" id="quantity" value="1" min="1" 
+                                    onchange="validateQuantity(this)" style="max-width: 100px">
+                                <button class="btn btn-outline-primary" type="button" onclick="updateModalQuantity(1)">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="additionalNotes" class="form-label">Instrucciones especiales:</label>
+                            <textarea class="form-control" id="additionalNotes" rows="3" 
+                                placeholder="Ej: Sin azúcar, Temperatura media, etc."></textarea>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-primary btn-lg" onclick="addToCartFromModal()">
+                                <i class="bi bi-cart-plus"></i> Agregar al Carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/carrito.js"></script>
+<script>
+    let currentProduct = null;
+    const modal = new bootstrap.Modal(document.getElementById('addToCartModal'));
+
+    function showAddToCartModal(name, price, image, restaurant) {
+        currentProduct = { name, price, image, restaurant };
+        
+        // Update modal content with enhanced details
+        document.querySelector('.product-name').textContent = name;
+        document.querySelector('.product-restaurant span').textContent = restaurant;
+        document.querySelector('.product-price').textContent = `S/. ${price.toFixed(2)}`;
+        document.querySelector('.product-image').src = image;
+        
+        // Reset form fields
+        document.getElementById('quantity').value = 1;
+        document.getElementById('additionalNotes').value = '';
+        
+        modal.show();
+    }
+
+    function updateModalQuantity(change) {
+        const quantityInput = document.getElementById('quantity');
+        const currentValue = parseInt(quantityInput.value) || 1;
+        const newValue = currentValue + change;
+        
+        if (newValue >= 1) {
+            quantityInput.value = newValue;
+            // Update any price calculations if needed
+        }
+    }
+
+    function validateQuantity(input) {
+        let value = parseInt(input.value);
+        if (isNaN(value) || value < 1) input.value = 1;
+    }
+
+    function addToCartFromModal() {
+        if (!currentProduct) return;
+
+        const quantity = parseInt(document.getElementById('quantity').value);
+        const notes = document.getElementById('additionalNotes').value;
+
+        cart.addItem({
+            ...currentProduct,
+            quantity,
+            notes
+        });
+
+        modal.hide();
+        
+        // Show success message with quantity
+        CartUtils.showToast(`${quantity} ${quantity > 1 ? 'unidades' : 'unidad'} de ${currentProduct.name} ${quantity > 1 ? 'agregadas' : 'agregada'} al carrito`);
+    }
+</script>
+</body>
+</html>

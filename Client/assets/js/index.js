@@ -3,24 +3,29 @@
 // Función para renderizar solo los restaurantes populares
 function renderPopularRestaurants() {
   const restaurantsList = document.getElementById('restaurantsList');
-  if (!restaurantsList || !Array.isArray(restaurantes)) return;
+  // Use restaurantData (global) as the authoritative dataset
+  const data = Array.isArray(window.restaurantData) ? window.restaurantData : (Array.isArray(window.restaurants) ? window.restaurants : []);
+  if (!restaurantsList || !Array.isArray(data)) return;
 
-  console.log("Cantidad total de restaurantes:", restaurantes.length);
+  console.log("Cantidad total de restaurantes:", data.length);
 
   // Limpiar contenedor
   restaurantsList.innerHTML = '';
 
   // Mostrar solo los 3 primeros restaurantes
-  const restaurantesPopulares = restaurantes.slice(0, 3);
+  const restaurantesPopulares = data.slice(0, 3);
 
   restaurantesPopulares.forEach(r => {
+    const img = r.img || r.imagen || (r.categories && r.categories[0] && r.categories[0].products && r.categories[0].products[0] && r.categories[0].products[0].image) || '';
+    const title = r.name || r.nombre || '';
+    const desc = r.description || r.descripcion || '';
     restaurantsList.innerHTML += `
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 shadow-sm">
-          <img src="${r.imagen}" class="card-img-top" alt="${r.nombre}">
+          <img src="${img}" class="card-img-top" alt="${title}">
           <div class="card-body">
-            <h5 class="card-title">${r.nombre}</h5>
-            <p class="card-text text-muted">${r.descripcion}</p>
+            <h5 class="card-title">${title}</h5>
+            <p class="card-text text-muted">${desc}</p>
             <a href="restaurante.html?id=${r.id}" class="btn btn-primary w-100">Ver menú</a>
           </div>
         </div>
@@ -30,10 +35,16 @@ function renderPopularRestaurants() {
 
 // Función para búsqueda
 function buscarRestaurantes() {
-  const query = document.getElementById('searchInput').value;
-  if (query.trim()) {
-    window.location.href = `restaurantes.html?search=${encodeURIComponent(query)}`;
-  }
+  const query = document.getElementById('searchInput').value || '';
+  const category = (document.getElementById('categoryFilter') && document.getElementById('categoryFilter').value) || '';
+
+  const params = new URLSearchParams();
+  if (query.trim()) params.set('search', query.trim());
+  if (category) params.set('category', category);
+
+  // Siempre vamos a restaurantes.html con los filtros como query params
+  const url = 'restaurantes.html' + (params.toString() ? `?${params.toString()}` : '');
+  window.location.href = url;
 }
 
 // Ejecutar cuando cargue la página
