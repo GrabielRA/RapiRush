@@ -19,6 +19,20 @@ class ShoppingCart {
         });
     }
 
+    // Renderizar carrito en la página (wrapper seguro para la función global loadCart)
+    renderCart() {
+        try {
+            // Si existe la función loadCart (definida en este archivo para la página del carrito), llámala.
+            if (typeof loadCart === 'function') {
+                loadCart();
+                return true;
+            }
+        } catch (error) {
+            console.error('Error al renderizar el carrito:', error);
+        }
+        return false;
+    }
+
     // Cargar carrito desde localStorage
     loadCart() {
         try {
@@ -372,11 +386,8 @@ function removeItem(index) {
     CartUtils.confirm('¿Estás seguro de eliminar este producto?', () => {
         cart.removeItem(index);
         CartUtils.showToast('Producto eliminado', 'info');
-        
-        // Si estamos en la página del carrito, recargar vista
-        if (typeof loadCart === 'function') {
-            loadCart();
-        }
+        // No recargamos la vista aquí: el método removeItem de la clase llama a saveCart()
+        // que a su vez llama a renderCart() después de actualizar items (respeta la animación).
     });
 }
 
@@ -404,16 +415,32 @@ function loadCart() {
 
     const items = cart.getItems();
 
-    if (items.length === 0) {
-        emptyMessage.style.display = 'block';
-        orderSummary.style.display = 'none';
-        continueShopping.style.display = 'none';
-        return;
-    }
+        // Si no hay items, reconstruir el contenido del contenedor con el mensaje de carrito vacío
+        if (items.length === 0) {
+            cartItemsContainer.innerHTML = `
+                <div class="text-center py-5" id="empty-cart-message">
+                    <i class="bi bi-cart-x display-1 text-muted"></i>
+                    <h4 class="mt-3">Tu carrito está vacío</h4>
+                    <p class="text-muted">Agrega productos de tus restaurantes favoritos</p>
+                    <a href="index.html" class="btn btn-primary mt-3">
+                        <i class="bi bi-shop"></i> Explorar restaurantes
+                    </a>
+                </div>
+            `;
 
-    emptyMessage.style.display = 'none';
-    orderSummary.style.display = 'block';
-    continueShopping.style.display = 'block';
+            if (orderSummary) orderSummary.style.display = 'none';
+            if (continueShopping) continueShopping.style.display = 'none';
+
+            // Actualizar resumen y contador aunque el carrito esté vacío
+            cart.updateCartCount();
+            cart.updateOrderSummaryDirect();
+
+            return;
+        }
+
+    if (emptyMessage) emptyMessage.style.display = 'none';
+    if (orderSummary) orderSummary.style.display = 'block';
+    if (continueShopping) continueShopping.style.display = 'block';
 
     // Generar HTML de items
     let itemsHTML = '';
