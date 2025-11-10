@@ -7,25 +7,34 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
+            <div class="nav-item dropdown ms-start me-auto">
+                <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown">☰</a>
+                <ul class="dropdown-menu" style="min-width: 260px;">
+                    <li class="dropdown-item px-3">
+                        <div class="d-flex justify-content-start gap-2">
+                            <a href="auth/register.html" class="btn btn-outline-primary btn-sm">Registrarse</a>
+                            <a href="auth/login.html" class="btn btn-primary btn-sm px-3 mx-2">Iniciar Sesion</a>
+                        </div>
+                    </li>
+                    <li><a class="dropdown-item" href="restaurantes.html"><i class="bi bi-shop-window"></i> Restaurantes</a></li>
+                    <li><a class="dropdown-item" href="agregarestaurante.html"><i class="bi bi-shop-window"></i> Registra tu restaurante</a></li>
+                    <li><a class="dropdown-item" href="serepartidor.html"><i class="bi bi-bicycle"></i> Sé repartidor</a></li>
+                </ul>
+            </div>
             <a class="navbar-brand fw-bold text-warning" href="index.html">
-              <h3>🚚 DeliveryApp</h3>
+                🚚 DeliveryApp
             </a>
-            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Inicio</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-4"></i>
@@ -38,259 +47,48 @@
                     <li class="nav-item">
                         <a class="nav-link position-relative" href="carrito.html">
                             <i class="bi bi-cart3 fs-4"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
-                                0
-                            </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-  <!--carrito-->
-
-    <button class="cart-toggle" onclick="toggleCart()">
-        <a class="nav-link position-relative" href="carrito.html">
-            <i class="bi bi-cart3 fs-4"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
-              0
-            </span>
-          </a>
-    </button>
 
     <!-- Breadcrumb -->
     <div class="container my-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="index.html">Restaurantes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Restaurantes</li>
             </ol>
         </nav>
     </div>
 
-<!-- Header -->
-  <section class=" text-center bg-light">
-    <div class="container">
-      <h1 class="fw-bold text-danger mb-3">Restaurantes Disponibles</h1>
-      <p class="text-muted mb-0">Descubre los mejores lugares para comer en tu ciudad.</p>
-    </div>
-  </section>
-
- 
-  <!-- Restaurantes Dispponibles -->
-    <section class="restaurants-section py-5">
-        <div class="container">
-            <div class="row g-4" id="restaurantsList">
-                <!-- Tarjeta de Restaurante 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card restaurant-card shadow-sm h-100">
-                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Restaurante">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title mb-0">La Pizzería Italiana</h5>
-                                <span class="badge bg-success">
-                                    <i class="bi bi-star-fill"></i> 4.8
-                                </span>
-                            </div>
-                            <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt"></i> Pizza, Italiana
-                            </p>
-                            <p class="text-muted small mb-3">
-                                <i class="bi bi-clock"></i> 25-35 min • S/. 5.00 delivery
-                            </p>
-                            <a href="restaurante.html?id=1" class="btn btn-primary w-100">Ver menú</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta de Restaurante 2 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card restaurant-card shadow-sm h-100">
-                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Restaurante">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title mb-0">Burger House</h5>
-                                <span class="badge bg-success">
-                                    <i class="bi bi-star-fill"></i> 4.6
-                                </span>
-                            </div>
-                            <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt"></i> Hamburguesas, Fast Food
-                            </p>
-                            <p class="text-muted small mb-3">
-                                <i class="bi bi-clock"></i> 20-30 min • S/. 4.00 delivery
-                            </p>
-                            <a href="restaurante.html?id=2" class="btn btn-primary w-100">Ver menú</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta de Restaurante 3 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card restaurant-card shadow-sm h-100">
-                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Restaurante">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title mb-0">Sushi Master</h5>
-                                <span class="badge bg-success">
-                                    <i class="bi bi-star-fill"></i> 4.9
-                                    <p class="mb-0">(1200 reseñas)</p>
-                                </span>
-                            </div>
-                            <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt"></i> Sushi, Japonesa
-                            </p>
-                            <p class="text-muted small mb-3">
-                                <i class="bi bi-clock"></i> 30-40 min • S/. 6.00 delivery
-                            </p>
-                            <a href="restaurante.html?id=3" class="btn btn-primary w-100">Ver menú</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Tarjeta de Restaurante 4 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card restaurant-card shadow-sm h-100">
-                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Restaurante">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title mb-0">Dulce Tentación</h5>
-                                <span class="badge bg-success">
-                                    <i class="bi bi-star-fill"></i> 4.9
-                                    <p class="mb-0">(1200 reseñas)</p>
-                                </span>
-                            </div>
-                            <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt"></i> Postres y café
-                            </p>
-                            <p class="text-muted small mb-3">
-                                <i class="bi bi-clock"></i> 30-40 min • S/. 6.00 delivery
-                            </p>
-                            <a href="restaurante.html?id=3" class="btn btn-primary w-100">Ver menú</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta de Restaurante 5 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card restaurant-card shadow-sm h-100">
-                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Restaurante">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title mb-0">Pollo Peruano</h5>
-                                <span class="badge bg-success">
-                                    <i class="bi bi-star-fill"></i> 4.5
-                                    <p class="mb-0">(1000 reseñas)</p>
-                                </span>
-                            </div>
-                            <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt"></i> Pollo a la brasa
-                            </p>
-                            <p class="text-muted small mb-3">
-                                <i class="bi bi-clock"></i> 30-40 min • S/. 10.00 delivery
-                            </p>
-                            <a href="restaurante.html?id=3" class="btn btn-primary w-100">Ver menú</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta de Restaurante 6 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card restaurant-card shadow-sm h-100">
-                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Restaurante">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title mb-0">Sushi Express</h5>
-                                <span class="badge bg-success">
-                                    <i class="bi bi-star-fill"></i> 4.5
-                                    <p class="mb-0">(1000 reseñas)</p>
-                                </span>
-                            </div>
-                            <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt"></i> sushi y makis
-                            </p>
-                            <p class="text-muted small mb-3">
-                                <i class="bi bi-clock"></i> 30-40 min • S/. 10.00 delivery
-                            </p>
-                            <a href="restaurante.html?id=3" class="btn btn-primary w-100">Ver menú</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta de Restaurante 7 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card restaurant-card shadow-sm h-100">
-                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Restaurante">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title mb-0">BurgerLand</h5>
-                                <span class="badge bg-success">
-                                    <i class="bi bi-star-fill"></i> 4.5
-                                    <p class="mb-0">(1000 reseñas)</p>
-                                </span>
-                            </div>
-                            <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt"></i> Hamburguesaas artesanales
-                            </p>
-                            <p class="text-muted small mb-3">
-                                <i class="bi bi-clock"></i> 30-40 min • S/. 10.00 delivery
-                            </p>
-                            <a href="restaurante.html?id=3" class="btn btn-primary w-100">Ver menú</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Tarjeta de Restaurante 8 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card restaurant-card shadow-sm h-100">
-                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Restaurante">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title mb-0">Pizza Bella</h5>
-                                <span class="badge bg-success">
-                                    <i class="bi bi-star-fill"></i> 4.5
-                                    <p class="mb-0">(760 reseñas)</p>
-                                </span>
-                            </div>
-                            <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt"></i> Pizzas y pastas
-                            </p>
-                            <p class="text-muted small mb-3">
-                                <i class="bi bi-clock"></i> 30-40 min • S/. 10.00 delivery
-                            </p>
-                            <a href="restaurante.html?id=3" class="btn btn-primary w-100">Ver menú</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta de Restaurante 9 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card restaurant-card shadow-sm h-100">
-                        <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Restaurante">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title mb-0">Chifa Oriental</h5>
-                                <span class="badge bg-success">
-                                    <i class="bi bi-star-fill"></i> 4.3
-                                    <p class="mb-0">(500 reseñas)</p>
-                                </span>
-                            </div>
-                            <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt"></i> comida china
-                            </p>
-                            <p class="text-muted small mb-3">
-                                <i class="bi bi-clock"></i> 30-40 min • S/. 10.00 delivery
-                            </p>
-                            <a href="restaurante.html?id=3" class="btn btn-primary w-100">Ver menú</a>
-                        </div>
-                    </div>
-                </div>
-
+    <!-- Header (modernized) -->
+    <section class="py-5" style="background: linear-gradient(90deg,#ff7a18 0%, #e12f6b 50%, #8b3be2 100%); color: #fff;">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold mb-2" style="text-shadow: 0 2px 8px rgba(0,0,0,0.25);">
+                Explora restaurantes
+                <small class="d-block fw-normal mt-2" style="opacity: .95; font-size: 1rem;">Descubre nuevos sabores cerca de ti</small>
+            </h1>
+            <p class="lead mb-3" style="opacity: .95">Encuentra tu próxima comida favorita entre cientos de locales y menús seleccionados.</p>
+            <!-- search hint removed as requested -->
         </div>
     </section>
 
-    
-
+    <!-- Restaurantes -->
+    <section class="restaurants-section py-5">
+        <div class="container">
+            <div class="row g-4" id="restaurantsList">
+                <!-- Tarjetas generadas dinámicamente aquí -->
+            </div>
+        </div>
+    </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <!-- Datos maestros de restaurantes -->
+    <script src="assets/js/restaurantData.js"></script>
+    <script src="assets/js/restaurantes.js"></script>
 </body>
 </html>
