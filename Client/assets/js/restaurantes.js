@@ -296,34 +296,24 @@ function filterRestaurants(query = '', category = '') {
   const catFilter = category.trim().toLowerCase();
 
   return baseData.filter(r => {
-    // Filtro por texto
-    if (q) {
-      const name = (r.name || r.nombre || '').toString().toLowerCase();
-      const desc = (r.description || r.descripcion || '').toString().toLowerCase();
-      const cats = Array.isArray(r.categories) 
-        ? r.categories.map(c => c.name || c.id || '').join(', ').toLowerCase()
-        : (r.categories || '').toString().toLowerCase();
+    const name = (r.name || r.nombre || '').toLowerCase();
+    const desc = (r.description || r.descripcion || '').toLowerCase();
+    const cats = Array.isArray(r.categories)
+      ? r.categories.map(c => (c.name || c.id || '').toLowerCase()).join(', ')
+      : (r.categories || '').toLowerCase();
 
-      if (!name.includes(q) && !desc.includes(q) && !cats.includes(q)) {
-        return false;
-      }
-    }
+    // Filtra por búsqueda
+    const matchQuery = !q || name.includes(q) || desc.includes(q) || cats.includes(q);
 
-    // Filtro por categoría
-    if (catFilter) {
-      const restaurantCats = Array.isArray(r.categories) 
-        ? r.categories.map(c => (c.name || c.id || '').toString().toLowerCase())
-        : [(r.categories || '').toString().toLowerCase()];
+    // Filtra por categoría
+    const matchCategory =
+      !catFilter ||
+      cats.includes(catFilter) ||
+      catFilter.includes(cats);
 
-      if (!restaurantCats.some(cat => cat.includes(catFilter) || catFilter.includes(cat))) {
-        return false;
-      }
-    }
-
-    return true;
+    return matchQuery && matchCategory;
   });
 }
-
 // === INICIALIZACIÓN PARA RESTAURANTES.HTML ===
 document.addEventListener('DOMContentLoaded', function() {
   // Solo ejecutar si estamos en restaurantes.html

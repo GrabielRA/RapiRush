@@ -24,8 +24,28 @@ function buscarRestaurantes() {
   }
 }
 
+
 // Filtrar por categoría
 function filtrarPorCategoria(categoria) {
+  const cat = categoria.trim().toLowerCase();
+  const all = getBaseRestaurantData();
+
+  // Categorías principales (puedes ajustar)
+  const categoriasPrincipales = ["pollo","pizza",  "italiana", "postres", "hamburguesas", "sushi", "mexicana", "china", "comida china", "pollo"];
+
+  if (cat === "mas" || cat === "más") {
+    // Filtrar los que NO pertenezcan a las principales
+    const filtered = all.filter(r => {
+      const cats = (r.categories || "").toLowerCase();
+      // Si ninguna categoría principal está incluida, lo mostramos
+      return !categoriasPrincipales.some(c => cats.includes(c));
+    });
+
+    renderRestaurants(filtered);
+    return;
+  }
+
+  // Caso normal: filtrar por la categoría elegida
   const filtered = filterRestaurants('', categoria);
   renderRestaurants(filtered);
 }
