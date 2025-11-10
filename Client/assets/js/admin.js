@@ -48,23 +48,9 @@ function showSection(sectionName) {
     document.querySelector(`[onclick="showSection('${sectionName}')"]`)?.classList.add('active');
 }
 
-// ==========================
-// Mostrar nombre del usuario
-// ==========================
-function updateUserDisplay() {
-    document.querySelectorAll('#userNameDisplay, #adminNameDisplay').forEach(display => {
-        if (display && currentUser) display.textContent = currentUser.name;
-    });
-}
 
-// ==========================
-// Cerrar sesión
-// ==========================
-function logout() {
-    currentUser = null;
-    localStorage.removeItem('currentUser');
-    window.location.href = '../auth/login.html';
-}
+
+
 
 // ==========================
 // Gestión de pedidos

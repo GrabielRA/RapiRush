@@ -123,6 +123,10 @@
     letter-spacing: -0.01em;
 }
 
+h3 img {
+  height: 1em;       /* altura igual a la del texto */
+  vertical-align: middle; /* alinear con el texto */
+}
 
 
 @media (max-width: 768px) {
@@ -1126,3 +1130,24 @@ footer a:hover {
 @media (max-width: 480px) {
     .popular-item { flex: 0 0 220px; }
 }
+
+.order-tracking { margin: 25px 0; padding: 20px; background: var(--gray-50); border-radius: 12px; }
+.tracking-step { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; position: relative; }
+.tracking-step:last-child { margin-bottom: 0; }
+.tracking-step:not(:last-child):after { content: ''; position: absolute; left: 17px; top: 35px; width: 2px; height: 20px; background: var(--gray-300); }
+.tracking-step.completed:not(:last-child):after { background: var(--success-color); }
+.tracking-step.active:not(:last-child):after { background: var(--primary-color); }
+.step-icon { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--gray-300); color: white; font-size: 14px; font-weight: 500; }
+.tracking-step.completed .step-icon { background: var(--success-color); }
+.tracking-step.active .step-icon { background: var(--primary-color); animation: pulse 2s infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+.step-info p { margin: 0; font-weight: 500; color: var(--gray-800); }
+.step-info small { color: var(--gray-600); font-size: 12px; }
+.cancellation-reason { background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 15px; margin: 20px 0; }
+.cancellation-reason p { margin-bottom: 5px; color: var(--danger-color); }
+.cancellation-reason small { color: var(--gray-600); }
+.empty-orders { text-align: center; padding: 60px 20px; }
+.empty-state { max-width: 400px; margin: 0 auto; }
+.empty-icon { font-size: 4rem; margin-bottom: 20px; }
+.empty-state h3 { color: var(--gray-700); margin-bottom: 10px; }
+.empty-state p { color: var(--gray-600); margin-bottom: 25px; }

@@ -1,6 +1,6 @@
 // assets/js/restaurantData.js
 const restaurantData = [
-  // 1
+  // 1 LA PIZZERÍA ITALIANA
   {
     id: 1,
     name: "La Pizzería Italiana",
@@ -176,7 +176,7 @@ const restaurantData = [
       }
     ]
   },
-  // 2
+  // 2 BURGER HOUSE
   {
     id: 2,
     name: "Burger House",
@@ -324,7 +324,7 @@ const restaurantData = [
       }
     ]
   },
-  // 3
+  // 3 SUSHI MASTER
   {
     id: 3,
     name: "Sushi Master",
@@ -447,7 +447,7 @@ const restaurantData = [
       }
     ]
   },
-  // 4
+  // 4 DULCE TENTACION
   {
     id: 4,
     name: "Dulce Tentación",
@@ -582,7 +582,7 @@ const restaurantData = [
       }
     ]
   },
-  // 5
+  // 5 POLLO PERUANO
   {
     id: 5,
     name: "Pollo Peruano",
@@ -704,7 +704,7 @@ const restaurantData = [
       }
     ]
   },
-  // 6
+  // 6 SUSHI EXPRESS
   {
     id: 6,
     name: "Sushi Express",
@@ -812,7 +812,7 @@ const restaurantData = [
       }
     ]
   },
-  // 7
+  // 7 BURGER LAND
   {
     id: 7,
     name: "BurgerLand",
@@ -834,7 +834,7 @@ const restaurantData = [
             sizes: { simple: 22.00, doble: 32.00, triple: 42.00 },
             rating: 4.8,
             reviews: 280,
-            image: "https://images.pexels.com/photos/1639560/pexels-photo-1639560.jpeg"
+            image: "https://assets.tastemadecdn.net/images/e3fe44/e412b74b19801dcaf972/5e4c40.jpg"
           },
           {
             name: "BBQ Bacon Burger",
@@ -858,7 +858,7 @@ const restaurantData = [
       }
     ]
   },
-  // 8
+  // 8 PIZZA BELLA
   {
     id: 8,
     name: "Pizza Bella",
@@ -882,13 +882,13 @@ const restaurantData = [
         name: "Pastas",
         icon: "bi bi-basket",
         products: [
-          { name: "Pasta Alfredo", description: "Pasta con salsa cremosa y queso parmesano", basePrice: 28, sizes: { individual: 28.00, familiar: 48.00 }, rating: 4.6, reviews: 140, image: "https://images.unsplash.com/photo-1279330685174-4e6b0f6d4a5a" },
-          { name: "Lasagna de Carne", description: "Capas de pasta, carne y salsa bechamel", basePrice: 32, sizes: { individual: 32.00, familiar: 58.00 }, rating: 4.8, reviews: 200, image: "https://images.unsplash.com/photo-1603077334782-2b8d4ef5d6d2" }
+          { name: "Pasta Alfredo", description: "Pasta con salsa cremosa y queso parmesano", basePrice: 28, sizes: { individual: 28.00, familiar: 48.00 }, rating: 4.6, reviews: 140, image: "https://www.lacocinadelila.com/wp-content/uploads/2022/09/pasta-alfredo-600x450.jpg?v=1664123760" },
+          { name: "Lasagna de Carne", description: "Capas de pasta, carne y salsa bechamel", basePrice: 32, sizes: { individual: 32.00, familiar: 58.00 }, rating: 4.8, reviews: 200, image: "https://th.bing.com/th/id/R.44c78be1a4bc8fb1fe18afe821f33f32?rik=Xz929WCue%2fFxdA&pid=ImgRaw&r=0" }
         ]
       }
     ]
   },
-  // 9
+  // 9 CHIFA ORIENTAL
   {
     id: 9,
     name: "Chifa Oriental",
@@ -904,7 +904,7 @@ const restaurantData = [
         icon: "bi bi-egg-fried",
         products: [
           { name: "Arroz Chaufa", description: "Arroz frito estilo chifa con pollo y verduras", basePrice: 22, sizes: { personal: 22.00, familiar: 40.00 }, rating: 4.5, reviews: 180, image: "https://img.freepik.com/fotos-premium/cultura-comer-comida-oriental-palillos-como-cubiertos-tradicionales_201836-8325.jpg" },
-          { name: "Tallarín Saltado", description: "Tallarines salteados con carne y salsa especial", basePrice: 24, sizes: { personal: 24.00, familiar: 44.00 }, rating: 4.4, reviews: 160, image: "https://images.unsplash.com/photo-1604908177522-9b1a1f9b2dd4" }
+          { name: "Tallarín Saltado", description: "Tallarines salteados con carne y salsa especial", basePrice: 24, sizes: { personal: 24.00, familiar: 44.00 }, rating: 4.4, reviews: 160, image: "https://tse4.mm.bing.net/th/id/OIP.kjANnWfaicZ1PZ4erupVygHaFK?rs=1&pid=ImgDetMain&o=7&rm=3" }
         ]
       },
       {
@@ -917,7 +917,7 @@ const restaurantData = [
       }
     ]
   },
-  // 10
+  // 10 TACO LOCO
   {
     id: 10,
     name: "Taco Loco",
@@ -933,7 +933,7 @@ const restaurantData = [
         icon: "bi bi-egg",
         products: [
           { name: "Taco al Pastor", description: "Cerdo adobado con piña y salsa", basePrice: 12, sizes: { unidad: 12.00, trio: 32.00 }, rating: 4.6, reviews: 120, image: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg" },
-          { name: "Taco de Carnitas", description: "Cerdo confitado con cebolla y cilantro", basePrice: 14, sizes: { unidad: 14.00, trio: 36.00 }, rating: 4.7, reviews: 140, image: "https://images.unsplash.com/photo-1601924928360-5c1d0b3f6a7b" }
+          { name: "Taco de Carnitas", description: "Cerdo confitado con cebolla y cilantro", basePrice: 14, sizes: { unidad: 14.00, trio: 36.00 }, rating: 4.7, reviews: 140, image: "https://www.gastrolabweb.com/u/fotografias/m/2021/2/10/f1280x720-8401_140076_5050.jpg" }
         ]
       },
       {
@@ -941,12 +941,12 @@ const restaurantData = [
         name: "Burritos",
         icon: "bi bi-basket",
         products: [
-          { name: "Burrito Clásico", description: "Carne, arroz, frijoles, salsa y queso", basePrice: 22, sizes: { regular: 22.00, grande: 30.00 }, rating: 4.5, reviews: 90, image: "https://images.unsplash.com/photo-1604908177522-9b1a1f9b2dd4" }
+          { name: "Burrito Clásico", description: "Carne, arroz, frijoles, salsa y queso", basePrice: 22, sizes: { regular: 22.00, grande: 30.00 }, rating: 4.5, reviews: 90, image: "https://tse3.mm.bing.net/th/id/OIP.FoQlAQhQ5VELm4ZzMwul8QHaEJ?rs=1&pid=ImgDetMain&o=7&rm=3" }
         ]
       }
     ]
   },
-  // 11
+  // 11 LA PARRILLA ARGENTINA
   {
     id: 11,
     name: "La Parrilla Argentina",
@@ -962,7 +962,7 @@ const restaurantData = [
         icon: "bi bi-basket",
         products: [
           { name: "Bife de Chorizo", description: "Corte jugoso a la parrilla", basePrice: 50, sizes: { individual: 50.00 }, rating: 4.8, reviews: 200, image: "https://images.pexels.com/photos/105827/pexels-photo-105827.jpeg" },
-          { name: "Entraña", description: "Corte tierno y sabroso", basePrice: 45, sizes: { individual: 45.00 }, rating: 4.7, reviews: 160, image: "https://images.unsplash.com/photo-1543352634-9d1f6b3b2d8d" }
+          { name: "Entraña", description: "Corte tierno y sabroso", basePrice: 45, sizes: { individual: 45.00 }, rating: 4.7, reviews: 160, image: "https://carnesargentinas.es/wp-content/uploads/2020/04/entra%C3%B1a-2048x1353.jpg" }
         ]
       },
       {
@@ -975,7 +975,7 @@ const restaurantData = [
       }
     ]
   },
-  // 12
+  // 12VEGGIE DELIGHT
   {
     id: 12,
     name: "Veggie Delight",
@@ -990,7 +990,7 @@ const restaurantData = [
         name: "Ensaladas",
         icon: "bi bi-leaf",
         products: [
-          { name: "Ensalada César Veggie", description: "Lechuga, croutons y aderezo vegano", basePrice: 14, sizes: { individual: 14.00 }, rating: 4.5, reviews: 80, image: "https://images.unsplash.com/photo-1542444459-db3c5b2d1f49" },
+          { name: "Ensalada César Veggie", description: "Lechuga, croutons y aderezo vegano", basePrice: 14, sizes: { individual: 14.00 }, rating: 4.5, reviews: 80, image: "https://tse2.mm.bing.net/th/id/OIP.IM4D82GqsgJ9Hg1cjV1WqgHaE7?rs=1&pid=ImgDetMain&o=7&rm=3" },
           { name: "Bowl Protein", description: "Quinoa, garbanzos, verduras asadas y hummus", basePrice: 18, sizes: { individual: 18.00 }, rating: 4.6, reviews: 100, image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd" }
         ]
       },
@@ -1004,7 +1004,7 @@ const restaurantData = [
       }
     ]
   },
-  // 13
+  // 13 CURRY PALACE
   {
     id: 13,
     name: "Curry Palace",
@@ -1019,8 +1019,8 @@ const restaurantData = [
         name: "Currys",
         icon: "bi bi-bowl",
         products: [
-          { name: "Chicken Curry", description: "Pollo en salsa especiada y aromática", basePrice: 35, sizes: { individual: 35.00, familiar: 65.00 }, rating: 4.7, reviews: 200, image: "https://images.unsplash.com/photo-1604908177522-9b1a1f9b2dd4" },
-          { name: "Paneer Tikka Masala", description: "Queso paneer en salsa cremosa", basePrice: 32, sizes: { individual: 32.00 }, rating: 4.6, reviews: 150, image: "https://images.unsplash.com/photo-1604908177522-9b1a1f9b2dd4" }
+          { name: "Chicken Curry", description: "Pollo en salsa especiada y aromática", basePrice: 35, sizes: { individual: 35.00, familiar: 65.00 }, rating: 4.7, reviews: 200, image: "https://tse4.mm.bing.net/th/id/OIP.dVTk-vYa2BpQDxEOYNGirAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" },
+          { name: "Paneer Tikka Masala", description: "Queso paneer en salsa cremosa", basePrice: 32, sizes: { individual: 32.00 }, rating: 4.6, reviews: 150, image: "https://tse1.mm.bing.net/th/id/OIP.YMUBgbQa3yM-XWiBe7fYtQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" }
         ]
       },
       {
@@ -1028,12 +1028,12 @@ const restaurantData = [
         name: "Breads & Sides",
         icon: "bi bi-basket",
         products: [
-          { name: "Naan de Ajo", description: "Pan naan fresco con ajo y mantequilla", basePrice: 6, sizes: { unidad: 6.00 }, rating: 4.8, reviews: 110, image: "https://images.unsplash.com/photo-1604908177522-9b1a1f9b2dd4" }
+          { name: "Naan de Ajo", description: "Pan naan fresco con ajo y mantequilla", basePrice: 6, sizes: { unidad: 6.00 }, rating: 4.8, reviews: 110, image: "https://t4.ftcdn.net/jpg/06/09/58/09/360_F_609580941_U8W4KuzYJ9w70Fxg9ZByT5F3Q9AIVmBq.jpg" }
         ]
       }
     ]
   },
-  // 14
+  // 14 PATAFRESCA
   {
     id: 14,
     name: "Pasta Fresca",
@@ -1049,12 +1049,12 @@ const restaurantData = [
         icon: "bi bi-pizza",
         products: [
           { name: "Spaghetti Carbonara", description: "Pasta con panceta, huevo y queso", basePrice: 25, sizes: { individual: 25.00 }, rating: 4.7, reviews: 140, image: "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg" },
-          { name: "Ravioli de Ricotta", description: "Raviolis rellenos con salsa de tomate", basePrice: 27, sizes: { individual: 27.00 }, rating: 4.6, reviews: 120, image: "https://images.unsplash.com/photo-1604908177522-9b1a1f9b2dd4" }
+          { name: "Ravioli de Ricotta", description: "Raviolis rellenos con salsa de tomate", basePrice: 27, sizes: { individual: 27.00 }, rating: 4.6, reviews: 120, image: "https://tse3.mm.bing.net/th/id/OIP.twHM2OQCqGn2yruXDsgYowHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" }
         ]
       }
     ]
   },
-  // 15
+  // 15 DONUT HEAVEN
   {
     id: 15,
     name: "Donut Heaven",
@@ -1070,7 +1070,7 @@ const restaurantData = [
         icon: "bi bi-cupcake",
         products: [
           { name: "Donut Glaseado", description: "Donut clásico con glaseado", basePrice: 8, sizes: { unidad: 8.00, caja6: 40.00 }, rating: 4.8, reviews: 240, image: "https://images.pexels.com/photos/31976170/pexels-photo-31976170.jpeg" },
-          { name: "Donut Chocolate Deluxe", description: "Con cobertura de chocolate y toppings", basePrice: 10, sizes: { unidad: 10.00, caja6: 48.00 }, rating: 4.9, reviews: 180, image: "https://images.unsplash.com/photo-1585238342028-7c090c76b6f9" }
+          { name: "Donut Chocolate Deluxe", description: "Con cobertura de chocolate y toppings", basePrice: 10, sizes: { unidad: 10.00, caja6: 48.00 }, rating: 4.9, reviews: 180, image: "https://tse1.mm.bing.net/th/id/OIP.hD8Us6td_zjx4qixKY1JnQHaFP?rs=1&pid=ImgDetMain&o=7&rm=3" }
         ]
       },
       {

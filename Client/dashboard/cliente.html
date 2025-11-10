@@ -6,51 +6,69 @@
     <title>Mi Cuenta - DeliveryApp</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body class="bg-light">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-warning" href="index.html">
-                <h3>🚚 DeliveryApp</h3>
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.html">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../restaurantes.html">Restaurantes</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle fs-5"></i>
-                            <span id="userName">Usuario</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item active" href="cliente.html">Mi cuenta</a></li>
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Editar perfil</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" onclick="logout()">Cerrar sesión</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link position-relative" href="../carrito.html">
-                            <i class="bi bi-cart3 fs-5"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
-                                0
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <div class="nav-item dropdown ms-start me-auto m-3">
+            <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown">☰</a>
+            <ul class="dropdown-menu" style="min-width: 260px;">
+                <li class="dropdown-item px-3">
+                    <div class="d-flex justify-content-start gap-2 ">
+                        <a href="../auth/register.html" class="btn btn-outline-primary btn-sm">Registrarse</a>
+                        <a href="../auth/login.html" class="btn btn-outline-primary btn-sm">Iniciar Sesion</a>
+                    </div>
+                </li>
+                <li><a class="dropdown-item" href="../restaurantes.html"><i class="bi bi-shop-window"></i> Restaurantes</a></li>
+                <li><a class="dropdown-item" href="../agregarestaurante.html"><i class="bi bi-shop-window"></i> Registra tu restaurante</a></li>
+                <li><a class="dropdown-item" href="../serepartidor.html"><i class="bi bi-bicycle"></i> Sé repartidor</a></li>
+            </ul>
         </div>
-    </nav>
+        <a class="navbar-brand fw-bold text-warning px-3" href="../index.html">
+          <h3>🚚 DeliveryApp</h3>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Inicio</a>
+                </li>
+                <li class="nav-item px-2">
+                    <a class="nav-link" href="../restaurantes.html">Restaurantes</a>
+                </li>
+                <li class="nav-item dropdown px-2">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle fs-5 mx-2"></i>
+                        <span id="userName">Usuario</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item active" href="cliente.html">Mi cuenta</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Editar perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <!-- Cambiado el enlace para logout -->
+                        <li><a class="dropdown-item" href="#" id="btnLogout">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+                 <li class="nav-item ">
+                        <a class="nav-link position-relative" href="../carrito.html">
+                            <i class="bi bi-cart3 fs-4"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
 
     <!-- Contenido Principal -->
     <div class="container my-5">
@@ -69,7 +87,7 @@
                 </div>
 
                 <div class="list-group mt-3">
-                    <a href="orden.html" class="list-group-item list-group-item-action active">
+                    <a href="#pedidos" class="list-group-item list-group-item-action active">
                         <i class="bi bi-bag-check"></i> Mis pedidos
                     </a>
                     <a href="#favorites" class="list-group-item list-group-item-action">
@@ -97,7 +115,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="text-muted mb-1 small">Total pedidos</p>
-                                        <h3 class="fw-bold mb-0">24</h3>
+                                            <h3 class="fw-bold mb-0"><span id="totalOrdersCount">0</span></h3>
                                     </div>
                                     <div class="bg-primary bg-opacity-10 rounded-circle p-3">
                                         <i class="bi bi-bag-check fs-3 text-primary"></i>
@@ -112,7 +130,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="text-muted mb-1 small">Gastado este mes</p>
-                                        <h3 class="fw-bold mb-0">S/. 345</h3>
+                                        <h3 class="fw-bold mb-0">S/. <span id="spentThisMonth">0.00</span></h3>
                                     </div>
                                     <div class="bg-success bg-opacity-10 rounded-circle p-3">
                                         <i class="bi bi-wallet2 fs-3 text-success"></i>
@@ -127,7 +145,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="text-muted mb-1 small">Puntos</p>
-                                        <h3 class="fw-bold mb-0">1,240</h3>
+                                        <h3 class="fw-bold mb-0"><span id="userPoints">0</span></h3>
                                     </div>
                                     <div class="bg-warning bg-opacity-10 rounded-circle p-3">
                                         <i class="bi bi-star fs-3 text-warning"></i>
@@ -146,44 +164,9 @@
                         </h5>
                     </div>
                     <div class="card-body" id="activeOrders">
-                        <!-- Pedido activo -->
-                        <div class="order-card card mb-3">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <h6 class="fw-bold mb-1">Pedido #125847</h6>
-                                        <p class="text-muted small mb-0">
-                                            <i class="bi bi-shop"></i> La Pizzería Italiana
-                                        </p>
-                                    </div>
-                                    <span class="order-status status-delivering">En camino</span>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <small class="text-muted d-block">2x Pizza Margarita</small>
-                                    <small class="text-muted d-block">1x Bebida 1.5L</small>
-                                </div>
-
-                                <div class="progress mb-2" style="height: 6px;">
-                                    <div class="progress-bar bg-success" role="progressbar" 
-                                         style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <small class="text-muted">
-                                            <i class="bi bi-clock"></i> Llegará en 10-15 min
-                                        </small>
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-sm btn-outline-primary me-2">
-                                            <i class="bi bi-geo-alt"></i> Rastrear
-                                        </button>
-                                        <button class="btn btn-sm btn-primary">Ver detalles</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="pedidosActivosList" class="list-group mt-3">
+                                    <!-- JS insertará aquí los pedidos activos -->
+                        </div>                     
                     </div>
                 </div>
 
@@ -193,116 +176,17 @@
                         <h5 class="mb-0 fw-bold">
                             <i class="bi bi-clock-history text-primary"></i> Historial de pedidos
                         </h5>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-secondary active">Todos</button>
-                            <button class="btn btn-outline-secondary">Completados</button>
-                            <button class="btn btn-outline-secondary">Cancelados</button>
+                        <div class="btn-group mb-3" role="group">
+                            <button class="btn btn-outline-secondary active" onclick="filtrarHistorial('all')">Todos</button>
+                            <button class="btn btn-outline-secondary" onclick="filtrarHistorial('delivered')">Entregados</button>
+                            <button class="btn btn-outline-secondary" onclick="filtrarHistorial('cancelled')">Cancelados</button>
                         </div>
                     </div>
                     <div class="card-body" id="orderHistory">
-                        <!-- Pedido completado -->
-                        <div class="order-card card mb-3">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <h6 class="fw-bold mb-1">Pedido #125846</h6>
-                                                <p class="text-muted small mb-1">
-                                                    <i class="bi bi-shop"></i> Burger House
-                                                </p>
-                                                <small class="text-muted">
-                                                    <i class="bi bi-calendar"></i> 28 Oct 2024, 20:30
-                                                </small>
-                                            </div>
-                                            <span class="order-status status-completed">Completado</span>
-                                        </div>
-                                        <div class="mt-2">
-                                            <small class="text-muted d-block">1x Hamburguesa Premium</small>
-                                            <small class="text-muted d-block">1x Papas fritas grandes</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                        <p class="fw-bold text-primary mb-2">S/. 45.00</p>
-                                        <button class="btn btn-sm btn-outline-primary me-1">
-                                            <i class="bi bi-arrow-clockwise"></i> Repetir
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            <i class="bi bi-star"></i> Calificar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                        <div id="historialPedidosList" class="list-group mt-3">
+                                        <!-- JS insertará aquí el historial -->
                         </div>
 
-                        <!-- Más pedidos -->
-                        <div class="order-card card mb-3">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <h6 class="fw-bold mb-1">Pedido #125845</h6>
-                                                <p class="text-muted small mb-1">
-                                                    <i class="bi bi-shop"></i> Sushi Master
-                                                </p>
-                                                <small class="text-muted">
-                                                    <i class="bi bi-calendar"></i> 27 Oct 2024, 19:15
-                                                </small>
-                                            </div>
-                                            <span class="order-status status-completed">Completado</span>
-                                        </div>
-                                        <div class="mt-2">
-                                            <small class="text-muted d-block">20x Roll California</small>
-                                            <small class="text-muted d-block">10x Roll Philadelphia</small>
-                                            <small class="text-muted d-block">2x Bebidas</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                        <p class="fw-bold text-primary mb-2">S/. 89.00</p>
-                                        <button class="btn btn-sm btn-outline-primary me-1">
-                                            <i class="bi bi-arrow-clockwise"></i> Repetir
-                                        </button>
-                                        <button class="btn btn-sm btn-success" disabled>
-                                            <i class="bi bi-star-fill"></i> 5.0
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="order-card card mb-3">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-md-8">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div>
-                                                <h6 class="fw-bold mb-1">Pedido #125844</h6>
-                                                <p class="text-muted small mb-1">
-                                                    <i class="bi bi-shop"></i> Taco Loco
-                                                </p>
-                                                <small class="text-muted">
-                                                    <i class="bi bi-calendar"></i> 26 Oct 2024, 21:00
-                                                </small>
-                                            </div>
-                                            <span class="order-status status-cancelled">Cancelado</span>
-                                        </div>
-                                        <div class="mt-2">
-                                            <small class="text-muted d-block">3x Tacos al pastor</small>
-                                            <small class="text-danger d-block">
-                                                <i class="bi bi-info-circle"></i> Cancelado por el restaurante
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                        <p class="fw-bold text-muted mb-2">S/. 25.00</p>
-                                        <button class="btn btn-sm btn-outline-secondary">
-                                            Ver detalles
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- Ver más -->
                         <div class="text-center mt-3">
@@ -325,65 +209,72 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="profileForm">
                         <div class="mb-3">
                             <label class="form-label">Nombre completo</label>
-                            <input type="text" class="form-control" value="Juan Pérez">
+                            <input type="text" id="profileFullName" class="form-control" value="">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="email" class="form-control" value="juan@email.com">
+                            <input type="email" id="profileEmail" class="form-control" value="" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Teléfono</label>
-                            <input type="tel" class="form-control" value="+51 999 999 999">
+                            <input type="tel" id="profilePhone" class="form-control" value="">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar cambios</button>
+                    <button type="button" id="btnSaveProfile" class="btn btn-primary">Guardar cambios</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modal DETALLES -->
+<div class="modal fade" id="detallePedidoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-warning text-white">
+        <h5 class="modal-title">Detalle del Pedido</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="detallePedidoBody">
+        <!-- Aquí el JS inyectará los detalles -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal RASTREO -->
+<div class="modal fade" id="rastrearPedidoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Rastreo del Pedido</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="rastrearPedidoBody">
+        <!-- JS insertará el timeline aquí -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Cargar información del usuario
-        function loadUserInfo() {
-            const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || 'null');
-            
-            if (!user || !user.loggedIn) {
-                window.location.href = '../auth/login.html';
-                return;
-            }
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/session.js"></script>
+    <script src="../assets/js/carrito.js"></script>
+    <script src="../assets/js/cliente.js"></script>
 
-            // Mostrar nombre del usuario
-            document.getElementById('userName').textContent = user.name || 'Usuario';
-            document.getElementById('userNameSidebar').textContent = user.name || 'Usuario';
-            document.getElementById('userEmail').textContent = user.email || 'usuario@email.com';
-        }
-
-        // Actualizar contador del carrito
-        function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            const count = cart.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById('cart-count').textContent = count;
-        }
-
-        // Cerrar sesión
-        function logout() {
-            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                localStorage.removeItem('user');
-                sessionStorage.removeItem('user');
-                window.location.href = '../auth/login.html';
-            }
-        }
-
-        // Cargar al iniciar
-        loadUserInfo();
-        updateCartCount();
-    </script>
 </body>
+
 </html>

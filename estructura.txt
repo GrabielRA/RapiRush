@@ -18,17 +18,23 @@ deliveryApp/
 │   │   ├── repartidor.html               # Panel del repartidor
 │   │   ├── restaurante.html              # Panel del restaurante (productos, pedidos)
 │   │   └── admin.html                    # Panel del administrador
-│   │   └── orden.html                    # panel de ordenes y sus estados
 │   │
 │   ├── assets/                           # Recursos visuales
 │       ├── css/
 │       │   └── styles.css                # Estilos principales (Bootstrap + personalizados)
 │       ├── js/
-│       │   ├── script.js                 # Lógica general del sitio
+│       │   ├── admin.js                 # 
+│       │   ├── admin.js                 # LOGIVA DE autenticacion
+│       │   ├── login.js                 # LOGICA DE LOGIN
+│       │   ├── register.js                 # LOGICA DE REGISTRO
 │       │   ├── carrito.js                # Manejo del carrito (add/remove/update)
-│       │   └── checkout.js               # Lógica del proceso de compra/pago
-│       │   └── admin.js                  # Lógica del admin.html
-│       │   └── orden.js                  # Lógica del orden.html
+│       │   ├── checkout.js               # Lógica del proceso de compra/pago
+│       │   ├── cliente.js                  # Lógica del cliente.html
+│       │   ├── index.js                  # Lógica del index.html
+│       │   ├── main.js                  # Lógica general del sitio
+│       │   ├── restaurantData.js         # Lógica del restaurante.html
+│       │   ├── restaurantes.js                  #  Lógica del restaurantes.html
+│       │   └── session.js                  # Lógica del sesion
 │       ├── img/
 │       └── icons/
 │ 
@@ -93,3 +99,4 @@ cd client
 http-server -p 5000                       o usar live-server   o npx live-server
 
 
+CAMBIAR LOS TIEMPOS PARA PROBAR AUDIO EN: Cliente js
