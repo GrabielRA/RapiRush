@@ -8,7 +8,9 @@ const restaurants = [
     reviews: 120,
     categories: "Pizza, Italiana",
     deliveryTime: "25-35 min",
-    deliveryCost: 5
+    deliveryCost: 5,
+    location: "Miraflores",     
+    isOpen: true  
   },
   {
     id: 2,
@@ -18,7 +20,8 @@ const restaurants = [
     reviews: 980,
     categories: "Hamburguesas, Fast Food",
     deliveryTime: "20-30 min",
-    deliveryCost: 4
+    deliveryCost: 4,location: "San Miguel",
+    isOpen: false
   },
   {
     id: 3,
@@ -28,7 +31,9 @@ const restaurants = [
     reviews: 1200,
     categories: "Sushi, Japonesa",
     deliveryTime: "30-40 min",
-    deliveryCost: 6
+    deliveryCost: 6,
+    location: "San Isidro",
+    isOpen: true
   },
   {
     id: 4,
@@ -38,7 +43,9 @@ const restaurants = [
     reviews: 1200,
     categories: "Postres, Café",
     deliveryTime: "30-40 min",
-    deliveryCost: 6
+    deliveryCost: 6,
+    location: "Barranco",
+    isOpen: true
   },
   {
     id: 5,
@@ -48,7 +55,9 @@ const restaurants = [
     reviews: 1000,
     categories: "Pollo a la brasa",
     deliveryTime: "30-40 min",
-    deliveryCost: 10
+    deliveryCost: 10,
+    location: "Surco",
+    isOpen: false
   },
   {
     id: 6,
@@ -58,7 +67,9 @@ const restaurants = [
     reviews: 1000,
     categories: "Sushi y Makis",
     deliveryTime: "30-40 min",
-    deliveryCost: 10
+    deliveryCost: 10,
+    location: "Jesús María",
+    isOpen: true
   },
   {
     id: 7,
@@ -66,44 +77,11 @@ const restaurants = [
     img: "https://th.bing.com/th/id/OIP.wLGvXc5J7z5rP9FF8g9MLQHaE7?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
     rating: 4.5,
     reviews: 1000,
-    categories: [
-      {
-        id: "hamburguesas",
-        name: "Hamburguesas artesanales",
-        icon: "bi bi-burger",
-        products: [
-          {
-            name: "Classic Burger",
-            description: "Carne 100% de res, queso cheddar, lechuga, tomate y salsa especial",
-            basePrice: 22,
-            sizes: { simple: 22.00, doble: 32.00, triple: 42.00 },
-            rating: 4.8,
-            reviews: 280,
-            image: "https://images.pexels.com/photos/1639560/pexels-photo-1639560.jpeg"
-          },
-          {
-            name: "BBQ Bacon Burger",
-            description: "Hamburguesa con tocino crujiente, cebolla caramelizada y salsa BBQ",
-            basePrice: 25,
-            sizes: { simple: 25.00, doble: 35.00 },
-            rating: 4.7,
-            reviews: 210,
-            image: "https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg"
-          },
-          {
-            name: "Veggie Deluxe",
-            description: "Hamburguesa vegetariana de garbanzos y quinoa, con aguacate y rúcula",
-            basePrice: 20,
-            sizes: { simple: 20.00, doble: 30.00 },
-            rating: 4.6,
-            reviews: 150,
-            image: "https://images.pexels.com/photos/1435907/pexels-photo-1435907.jpeg"
-          }
-        ]
-      }
-    ],
+    categories:"hamburguesas",
     deliveryTime: "30-40 min",
-    deliveryCost: 10
+    deliveryCost: 10,
+    location: "Jesús María",
+    isOpen: true
   },
   {
     id: 8,
@@ -113,7 +91,9 @@ const restaurants = [
     reviews: 760,
     categories: "Pizzas y pastas",
     deliveryTime: "30-40 min",
-    deliveryCost: 10
+    deliveryCost: 10,
+    location: "La Molina",
+    isOpen: false
   },
   {
     id: 9,
@@ -123,10 +103,12 @@ const restaurants = [
     reviews: 500,
     categories: "Comida china",
     deliveryTime: "30-40 min",
-    deliveryCost: 10
+    deliveryCost: 10,
+    location: "Callao",
+    isOpen: true
   },
 
-  // --- 6 Restaurantes adicionales ---
+  //10
   {
     id: 10,
     name: "Taco Loco",
@@ -135,7 +117,9 @@ const restaurants = [
     reviews: 210,
     categories: "Tacos, Mexicana",
     deliveryTime: "20-30 min",
-    deliveryCost: 4
+    deliveryCost: 4,
+    location: "Pueblo Libre",
+    isOpen: true
   },
   {
     id: 11,
@@ -145,7 +129,9 @@ const restaurants = [
     reviews: 340,
     categories: "Carnes, Parrilla",
     deliveryTime: "30-40 min",
-    deliveryCost: 5
+    deliveryCost: 5,
+    location: "San Isidro",
+    isOpen: false
   },
   {
     id: 12,
@@ -155,7 +141,9 @@ const restaurants = [
     reviews: 150,
     categories: "Vegetariano, Saludable",
     deliveryTime: "15-25 min",
-    deliveryCost: 3
+    deliveryCost: 3,
+    location: "Lince",
+    isOpen: true
   },
   {
     id: 13,
@@ -165,7 +153,9 @@ const restaurants = [
     reviews: 430,
     categories: "India, Curry",
     deliveryTime: "25-35 min",
-    deliveryCost: 4
+    deliveryCost: 4,
+    location: "Magdalena",
+    isOpen: true
   },
   {
     id: 14,
@@ -175,7 +165,9 @@ const restaurants = [
     reviews: 290,
     categories: "Italiana, Pasta",
     deliveryTime: "20-30 min",
-    deliveryCost: 4
+    deliveryCost: 4,
+    location: "Miraflores",
+    isOpen: false
   },
   {
     id: 15,
@@ -185,7 +177,9 @@ const restaurants = [
     reviews: 500,
     categories: "Postres, Dulces",
     deliveryTime: "10-20 min",
-    deliveryCost: 2
+    deliveryCost: 2,
+    location: "San Miguel",
+    isOpen: true
   }
 ];
 
@@ -203,10 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Leer filtros desde query params
     const params = new URLSearchParams(window.location.search);
     const q = (params.get('search') || '').trim().toLowerCase();
-  const categoryFilter = (params.get('category') || '').trim().toLowerCase();
+    const categoryFilter = (params.get('category') || '').trim().toLowerCase();
 
-    // Use restaurantData (authoritative) if available, fallback to old 'restaurants'
-    let base = Array.isArray(window.restaurantData) ? window.restaurantData.slice() : (Array.isArray(window.restaurants) ? window.restaurants.slice() : (Array.isArray(restaurants) ? restaurants.slice() : []));
+    // Fuente de datos: restaurantData > window.restaurants > restaurants
+    let base = Array.isArray(window.restaurantData)
+      ? window.restaurantData.slice()
+      : Array.isArray(window.restaurants)
+      ? window.restaurants.slice()
+      : Array.isArray(restaurants)
+      ? restaurants.slice()
+      : [];
 
     // Función que determina si un restaurante o alguno de sus productos coincide con la query
     function matchesQuery(restaurant, qstr) {
@@ -220,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const c of restaurant.categories) {
           const cname = (c.name || c.id || '').toString().toLowerCase();
           if (cname.includes(qstr)) return true;
-          // productos dentro de la categoría
           if (Array.isArray(c.products)) {
             for (const p of c.products) {
               const pname = (p.name || '').toString().toLowerCase();
@@ -237,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     }
 
-    // Filtrar según query y categoría y ubicación
+    // Filtrar según búsqueda y categoría
     let filtered = base.filter(r => matchesQuery(r, q));
 
     if (categoryFilter) {
@@ -254,38 +253,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Si no hay resultados, mostrar mensaje
     if (filtered.length === 0) {
-      restaurantsList.innerHTML = `<div class="col-12 text-center py-5"><h5>No se encontraron restaurantes que coincidan con tu búsqueda.</h5><p class="text-muted">Prueba otro término o borra los filtros.</p></div>`;
+      restaurantsList.innerHTML = `
+        <div class="col-12 text-center py-5">
+          <h5>No se encontraron restaurantes que coincidan con tu búsqueda.</h5>
+          <p class="text-muted">Prueba otro término o borra los filtros.</p>
+        </div>`;
       return;
     }
 
-    // Renderizar los resultados filtrados
+    // Renderizar tarjetas
     filtered.forEach(r => {
       const col = document.createElement('div');
       col.className = 'col-md-6 col-lg-4';
       col.innerHTML = `
-        <div class="card restaurant-card shadow-sm h-100">
-            <img src="${r.img || r.imagen || ''}" class="card-img-top" alt="${r.name || r.nombre}">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <h5 class="card-title mb-0">${r.name || r.nombre}</h5>
-                    <span class="badge bg-success">
-                        <i class="bi bi-star-fill"></i> ${r.rating || ''} ${r.reviews ? `(${r.reviews})` : ''}
-                    </span>
-                </div>
-                <p class="text-muted small mb-2">
-                    <i class="bi bi-geo-alt"></i> ${Array.isArray(r.categories) ? r.categories.map(c => c.name || c.id || '').join(', ') : (r.categories || '')}
-                </p>
-                <p class="text-muted small mb-3">
-                    <i class="bi bi-clock"></i> ${r.deliveryTime || ''} ${r.deliveryCost ? `• S/. ${r.deliveryCost}.00 delivery` : ''}
-                </p>
-                <a href="restaurante.html?id=${r.id}" class="btn btn-primary w-100">Ver menú</a>
-            </div>
-        </div>
-      `;
+  <div class="card restaurant-card shadow-sm h-100">
+    <img src="${r.img || r.imagen || ''}" class="card-img-top" alt="${r.name || r.nombre}"
+         onerror="this.onerror=null;this.src='assets/Img/basedatos.png';">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <h5 class="card-title mb-0">${r.name || r.nombre}</h5>
+        <span class="badge bg-success">
+          <i class="bi bi-star-fill"></i> ${r.rating || ''} ${r.reviews ? `(${r.reviews})` : ''}
+        </span>
+      </div>
+
+      <!-- 🧩 Fila: categoría, ubicación, tiempo -->
+      <div class="d-flex justify-content-between text-muted small mb-2">
+        <div><i class="bi bi-tags"></i> ${Array.isArray(r.categories) ? r.categories.map(c => c.name || c.id || '').join(', ') : (r.categories || '')}</div>
+        <div><i class="bi bi-geo-alt"></i> ${r.location || 'Ubicación no disponible'}</div>
+        <div><i class="bi bi-clock"></i> ${r.deliveryTime || ''}</div>
+      </div>
+
+      <!-- 🧩 Fila: delivery y estado -->
+      <div class="d-flex justify-content-between text-muted small mb-3">
+        <div>🛵 S/. ${r.deliveryCost?.toFixed(2) || '0.00'} delivery</div>
+        <div>${r.isOpen ? '🟢 Abierto' : '🔴 Cerrado'}</div>
+      </div>
+
+      <a href="restaurante.html?id=${r.id}" class="btn btn-primary w-100">Ver menú</a>
+    </div>
+  </div>
+`;
+
+
+
       restaurantsList.appendChild(col);
     });
   }
 });
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const popularesContainer = document.getElementById("restaurantes-populares");
 

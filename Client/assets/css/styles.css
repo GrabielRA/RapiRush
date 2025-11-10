@@ -59,7 +59,7 @@
 /* Search Section */
 .search-section {
     background: var(--white);
-    padding: 2.5rem;
+    padding: 1.5rem;
     border-radius: var(--border-radius-xl);
     box-shadow: var(--shadow-xl);
     margin: 2.5rem auto 4rem;
@@ -69,6 +69,22 @@
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     animation: slideUp 0.8s ease-out 0.4s backwards;
+}
+
+#categoryButtons {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-card {
+  min-width: 160px; /* Tamaño mínimo para que no se corten */
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
 }
 
 @keyframes slideUp {
@@ -82,11 +98,6 @@
     }
 }
 
-.search-bar {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
 
 .search-input {
     flex: 1;
@@ -112,74 +123,7 @@
     letter-spacing: -0.01em;
 }
 
-.search-btn {
-    padding: 1.25rem 2.5rem;
-    background: var(--gradient-primary);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius-full);
-    cursor: pointer;
-    font-size: 1.25rem;
-    transition: var(--transition-all);
-    font-weight: 600;
-    position: relative;
-    overflow: hidden;
-}
 
-.search-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
-    transform: translateX(-100%);
-    transition: transform 0.5s ease;
-}
-
-.search-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
-.search-btn:hover::before {
-    transform: translateX(100%);
-}
-
-.filters {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.filter-select {
-    padding: 0.875rem 1.25rem;
-    border: 2px solid var(--gray-200);
-    border-radius: var(--border-radius-lg);
-    font-size: 0.95rem;
-    min-width: 200px;
-    background: var(--gray-50);
-    transition: var(--transition-all);
-    color: var(--gray-700);
-    cursor: pointer;
-    font-weight: 500;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1.25rem;
-    padding-right: 2.5rem;
-}
-
-.filter-select:hover,
-.filter-select:focus {
-    border-color: var(--primary-color);
-    background-color: var(--white);
-    color: var(--gray-900);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-}
 
 @media (max-width: 768px) {
     .search-section {
@@ -198,6 +142,27 @@
     .filter-select {
         width: 100%;
     }
+    /* Scroll horizontal suave para categorías */
+#categoryButtons {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+}
+
+/* Cada botón de categoría se adapta mejor */
+.category-card {
+  min-width: 140px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  font-size: 0.9rem;
+  padding: 1rem 0.75rem;
+}
+
+/* Íconos más compactos */
+.category-icon {
+  font-size: 1.5rem;
+}
+
 }
 
 /* Cart Sidebar */
@@ -327,7 +292,7 @@ body {
 .hero-section {
     background: var(--gradient-primary);
     color: white;
-    padding: 6rem 0;
+    padding: 2rem 0;
     position: relative;
     overflow: hidden;
 }
@@ -510,36 +475,7 @@ body {
     transform: scale(1);
 }
 
-/* Ajustes específicos para iconos */
-.category-icon i.ri-cup-fill,
-.category-icon i.ri-cup-line {
-    font-size: 2.4rem;
-}
 
-.category-icon i.ri-restaurant-2-fill,
-.category-icon i.ri-restaurant-2-line {
-    font-size: 2.3rem;
-}
-
-.category-icon i.ri-pie-chart-fill,
-.category-icon i.ri-pie-chart-line {
-    font-size: 2.2rem;
-}
-
-.category-icon i.ri-restaurant-fill,
-.category-icon i.ri-restaurant-line {
-    font-size: 2.2rem;
-}
-
-.category-icon i.ri-cake-3-fill,
-.category-icon i.ri-cake-3-line {
-    font-size: 2.3rem;
-}
-
-.category-icon i.ri-apps-fill,
-.category-icon i.ri-apps-line {
-    font-size: 2rem;
-}
 
 .category-card p {
     font-weight: 600;
@@ -858,6 +794,8 @@ body {
     box-shadow: var(--shadow-md);
 }
 
+
+
 /* Animaciones */
 @keyframes fadeIn {
     from {
@@ -1170,7 +1108,8 @@ footer a:hover {
     cursor: pointer;
     box-shadow: var(--shadow-sm);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
-    margin: 0 0.5rem;
+    margin: 0 5.5rem ;
+    padding: 0 2.5rem;
 }
 
 .slider-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }

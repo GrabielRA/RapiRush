@@ -65,113 +65,126 @@
 </header>
 
 <main>
-    <!-- Hero Section con Buscador -->
-    <section class="hero-section bg-light py-5">
-        <div class="container text-center">
-            <h1 class="display-4 fw-bold mb-3">¿Qué se te antoja hoy?</h1>
-            <p class="hero-subtitle mb-4">Descubre sabores increíbles y recibe tu pedido en la puerta de tu casa</p>
+   <main>
+  <!-- Hero Section con Buscador -->
+  <section class="hero-section bg-light">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-3">¿Qué se te antoja hoy?</h1>
+      <p class="hero-subtitle mb-4">Descubre sabores increíbles y recibe tu pedido en la puerta de tu casa</p>
 
-            <!-- Buscador -->
-            <div class="search-section">
-                <div class="search-bar mb-3">
-                    <input type="text" id="searchInput" placeholder="Buscar restaurantes o comida..." class="search-input">
-                    <button class="search-btn" id="searchButton">🔍</button>
-                </div>
-                <div class="filters d-flex justify-content-center gap-2">
-                    <select id="categoryFilter" class="filter-select">
-                        <option value="">Todas las categorías</option>
-                        <option value="Pollo">Pollo a la brasa</option>
-                        <option value="pizza">Pizza</option>
-                        <option value="hamburguesa">Hamburguesas</option>
-                        <option value="sushi">Sushi</option>
-                        <option value="Postres">Postres</option>
-                        <option value="mexican">Mexicana</option>
-                        <option value="italian">Italiana</option>
-                        <option value="chinese">China</option>
-                    </select>
-                    <!-- location filter removed as requested -->
-                </div>
-            </div>
+      <!-- Buscador -->
+      <div class="search-section">
+        <div class="search-bar mb-3 d-flex justify-content-center">
+          <input type="text" id="searchInput" placeholder="Buscar restaurantes o comida..." class="search-input me-2">
+          <button class="search-btn btn btn-primary mx-2" id="searchButton">🔍</button>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Categorías -->
-    <section class="categories-section">
-        <div class="section-header">
-            <h2 class="section-title">Descubre Nuevos Sabores</h2>
-            <p class="section-subtitle">Explora nuestra selección de categorías cuidadosamente elegidas</p>
-        </div>
-        <div class="container">
-            <div class="row g-3">
-                <div class="col-6 col-md-3 col-lg-2">
-                    <a href="cafe.html" class="text-decoration-none">
-                        <div class="category-card text-center p-3 rounded bg-white shadow-sm category-coffee">
-                            <div class="category-icon">
-                                <i class="ri-cup-fill"></i>
-                                <i class="ri-cup-line"></i>
-                            </div>
-                            <p class="mb-0 mt-2">Café</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <a href="desayuno.html" class="text-decoration-none">
-                        <div class="category-card text-center p-3 rounded bg-white shadow-sm category-breakfast">
-                            <div class="category-icon">
-                                <i class="ri-restaurant-2-fill"></i>
-                                <i class="ri-restaurant-2-line"></i>
-                            </div>
-                            <p class="mb-0 mt-2">Desayuno</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <a href="pizza.html" class="text-decoration-none">
-                        <div class="category-card text-center p-3 rounded bg-white shadow-sm category-pizza">
-                            <div class="category-icon">
-                                <i class="ri-pie-chart-fill"></i>
-                                <i class="ri-pie-chart-line"></i>
-                            </div>
-                            <p class="mb-0 mt-2">Pizza</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <a href="comida.html" class="text-decoration-none">
-                        <div class="category-card text-center p-3 rounded bg-white shadow-sm category-food">
-                            <div class="category-icon">
-                                <i class="ri-restaurant-fill"></i>
-                                <i class="ri-restaurant-line"></i>
-                            </div>
-                            <p class="mb-0 mt-2">Comida</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <a href="postres.html" class="text-decoration-none">
-                        <div class="category-card text-center p-3 rounded bg-white shadow-sm category-dessert">
-                            <div class="category-icon">
-                                <i class="ri-cake-3-fill"></i>
-                                <i class="ri-cake-3-line"></i>
-                            </div>
-                            <p class="mb-0 mt-2">Postres</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <a href="mas.html" class="text-decoration-none">
-                        <div class="category-card text-center p-3 rounded bg-white shadow-sm category-more">
-                            <div class="category-icon">
-                                <i class="ri-apps-fill"></i>
-                                <i class="ri-apps-line"></i>
-                            </div>
-                            <p class="mb-0 mt-2">Más</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- CATEGORÍAS -->
+  <section class="categories-section py-4">
+    <div class="section-header text-center">
+      <h2 class="section-title">Categorías</h2>
+      <p class="section-subtitle">Explora nuestra selección de sabores cuidadosamente organizados</p>
+    </div>
+
+    <!-- Scroll horizontal en móviles -->
+    <div class="container px-3">
+      <div class="d-flex flex-row flex-nowrap overflow-auto gap-2" id="categoryButtons">
+
+        <!-- Pollo a la brasa -->
+        <button class="category-card text-center p-3 rounded bg-white shadow-sm category-chicken" data-category="Pollo">
+          <div class="category-icon text-danger">
+            <i class="ri-restaurant-fill"></i>
+            <i class="ri-restaurant-line"></i>
+          </div>
+          <p class="mb-0 mt-2 fw-semibold">Pollo a la brasa</p>
+        </button>
+
+        <!-- Pizza -->
+        <button class="category-card text-center p-3 rounded bg-white shadow-sm category-pizza" data-category="pizza">
+          <div class="category-icon">
+            <i class="ri-pie-chart-fill"></i>
+            <i class="ri-pie-chart-line"></i>
+          </div>
+          <p class="mb-0 mt-2 fw-semibold">Pizza</p>
+        </button>
+
+        <!-- Hamburguesas -->
+        <button class="category-card text-center p-3 rounded bg-white shadow-sm category-burger" data-category="hamburguesa">
+          <div class="category-icon text-warning">
+            <i class="ri-restaurant-2-fill"></i>
+            <i class="ri-restaurant-2-line"></i>
+          </div>
+          <p class="mb-0 mt-2 fw-semibold">Hamburguesas</p>
+        </button>
+
+        <!-- Sushi -->
+        <button class="category-card text-center p-3 rounded bg-white shadow-sm category-sushi" data-category="sushi">
+          <div class="category-icon text-danger">
+            <i class="ri-restaurant-2-fill"></i>
+            <i class="ri-restaurant-2-line"></i>
+          </div>
+          <p class="mb-0 mt-2 fw-semibold">Sushi</p>
+        </button>
+
+        <!-- Postres -->
+        <button class="category-card text-center p-3 rounded bg-white shadow-sm category-dessert" data-category="Postres">
+          <div class="category-icon text-pink">
+            <i class="ri-cake-3-fill"></i>
+            <i class="ri-cake-3-line"></i>
+          </div>
+          <p class="mb-0 mt-2 fw-semibold">Postres</p>
+        </button>
+
+        <!-- Mexicana -->
+        <button class="category-card text-center p-3 rounded bg-white shadow-sm category-mexican" data-category="mexican">
+          <div class="category-icon text-success">
+            <i class="ri-restaurant-2-fill"></i>
+            <i class="ri-restaurant-2-line"></i>
+          </div>
+          <p class="mb-0 mt-2 fw-semibold">Mexicana</p>
+        </button>
+
+        <!-- Italiana -->
+        <button class="category-card text-center p-3 rounded bg-white shadow-sm category-italian" data-category="italian">
+          <div class="category-icon">
+            <i class="ri-restaurant-fill"></i>
+            <i class="ri-restaurant-line"></i>
+          </div>
+          <p class="mb-0 mt-2 fw-semibold">Italiana</p>
+        </button>
+
+        <!-- China -->
+        <button class="category-card text-center p-3 rounded bg-white shadow-sm category-chinese" data-category="chinese">
+          <div class="category-icon text-secondary">
+            <i class="ri-restaurant-fill"></i>
+            <i class="ri-restaurant-line"></i>
+          </div>
+          <p class="mb-0 mt-2 fw-semibold">China</p>
+        </button>
+
+        <!-- Más -->
+        <button class="category-card text-center p-3 rounded bg-white shadow-sm category-more" data-category="otros">
+          <div class="category-icon">
+            <i class="ri-apps-fill"></i>
+            <i class="ri-apps-line"></i>
+          </div>
+          <p class="mb-0 mt-2 fw-semibold">Más</p>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Contenedor de resultados -->
+    <div class="container mt-4 section-body">
+      <div class="row" id="resultsContainer">
+        <!-- Aquí se mostrarán los resultados del buscador y filtros -->
+      </div>
+    </div>
+  </section>
+</main>
 
     <!-- Restaurantes Populares -->
     <section class="restaurants-section py-5">
